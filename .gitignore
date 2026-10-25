@@ -1,0 +1,10 @@
+# Python cache & temporary staging files
+__pycache__/
+*.py[cod]
+*.staging.json
+*.staging.html
+.DS_Store
+
+# Optional: 若後續匯入數百 MB 的全國 CSV 原始檔，避免超過 GitHub 100MB 單檔限制
+*.csv
+*.zip

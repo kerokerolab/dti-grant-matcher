@@ -1,0 +1,14 @@
+{
+  "executedAt": "2026-10-25 22:03:21",
+  "totalGrantsCount": 48,
+  "centralMinistriesGrantsCount": 26,
+  "local22CountiesGrantsCount": 22,
+  "elapsedSeconds": 0.0,
+  "auditStatus": "PASSED_ZERO_ERRORS",
+  "sourcesVerified": [
+    "https://sbir.org.tw/localcity (115年度全台各縣市地方型SBIR官方總表)",
+    "https://assist.nat.gov.tw/wSite/lp?ctNode=150&mp=2 (經濟部產業競爭力發展中心輔導資源總表)",
+    "https://startup.sme.gov.tw/home/modules/funding/ (新創圓夢網政府資金快搜總庫)",
+    "https://0800280280.sme.gov.tw/ebook/html/page.php?id=528&gid=72&bgid=40 (經濟部中小及新創企業署政府輔導資源手冊)"
+  ]
+}
