@@ -14,13 +14,13 @@
       background-color: #f1f5f9;
       color: #0f172a;
       font-size: 16px;
-      line-height: 1.6;
+      line-height: 1.55;
     }
     .pill-active {
       border-color: #1d4ed8 !important;
       background-color: #1d4ed8 !important;
       color: #ffffff !important;
-      box-shadow: 0 4px 12px rgba(29, 78, 216, 0.22);
+      box-shadow: 0 3px 10px rgba(29, 78, 216, 0.22);
     }
     .emp-active {
       border-color: #1d4ed8 !important;
@@ -50,272 +50,270 @@
     .progress-sweep-bar {
       animation: progressSweep 3.4s cubic-bezier(0.4, 0, 0.2, 1) forwards;
     }
+    .no-scrollbar::-webkit-scrollbar {
+      display: none;
+    }
+    .no-scrollbar {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
   </style>
 </head>
 <body class="min-h-screen flex flex-col">
 
-  <!-- 頂部極簡導覽列 -->
+  <!-- 頂部極簡緊湊導覽列 -->
   <header class="bg-slate-900 text-white border-b border-slate-800 sticky top-0 z-30 shadow-md">
-    <div class="max-w-5xl mx-auto px-4 sm:px-6 py-4 flex flex-wrap items-center justify-between gap-3">
-      <div class="flex items-center gap-3.5">
-        <div class="w-11 h-11 rounded-xl bg-gradient-to-tr from-blue-600 to-teal-400 flex items-center justify-center font-extrabold text-lg shadow-md">
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 py-2.5 flex flex-wrap items-center justify-between gap-2">
+      <div class="flex items-center gap-3">
+        <div class="w-9 h-9 rounded-xl bg-gradient-to-tr from-blue-600 to-teal-400 flex items-center justify-center font-extrabold text-base shadow-md">
           DX
         </div>
         <div>
-          <h1 class="text-xl sm:text-2xl font-extrabold tracking-tight">數位轉型學院｜政府補助統編一鍵快選</h1>
-          <p class="text-sm text-slate-300">支援輸入企業名稱或 8 碼統編智慧檢索 · 涵蓋中央跨部會 ＋ 全台 22 縣市共 48 案</p>
+          <h1 class="text-lg sm:text-xl font-extrabold tracking-tight">數位轉型學院｜政府補助統編一鍵快選</h1>
+          <p class="text-xs sm:text-sm text-slate-300">輸入 8 碼統編即時檢索 · 涵蓋中央跨部會 ＋ 全台 22 縣市共 48 案</p>
         </div>
       </div>
       <div class="flex items-center gap-2">
-        <button id="btnResetAll" class="px-4 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 text-sm font-semibold border border-slate-700 transition">
+        <button id="btnResetAll" class="px-3.5 py-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 text-sm font-semibold border border-slate-700 transition">
           ↺ 重設條件
         </button>
       </div>
     </div>
   </header>
 
-  <!-- 主內容單欄聚焦容器 -->
-  <main class="flex-1 max-w-5xl w-full mx-auto px-4 sm:px-6 py-8 space-y-8">
+  <!-- 主內容單欄聚焦容器（緊湊間距讓第一屏直接看到符合資格區塊） -->
+  <main class="flex-1 max-w-5xl w-full mx-auto px-4 sm:px-6 py-4 space-y-4">
 
-    <!-- ==================== 區塊 1：統編／企業名稱模糊搜尋 ＆ 兩題直覺篩選 ==================== -->
-    <section class="bg-white rounded-3xl border border-slate-200/90 p-6 sm:p-8 shadow-sm space-y-6">
+    <!-- ==================== 區塊 1：STEP 1 統編輸入 ＋ 收合式工商/人數/進階條件 ＋ 單行轉型方向過濾 ==================== -->
+    <section class="bg-white rounded-3xl border border-slate-200/90 p-4 sm:p-5 shadow-sm space-y-3.5">
 
-      <!-- 1A. 統編或企業名稱複合式智慧輸入框（含 Autocomplete 邊打邊選下拉選單） -->
-      <div class="space-y-3">
+      <!-- 1A. 純 8 碼統一編號輸入框 -->
+      <div class="space-y-2">
         <div class="flex flex-wrap items-center justify-between gap-2">
-          <label for="ubnInput" class="text-lg sm:text-xl font-extrabold text-slate-900 flex items-center gap-2">
-            <span class="px-3 py-1 rounded-lg bg-blue-600 text-white text-sm font-bold">STEP 1</span>
-            輸入企業名稱關鍵字或 8 碼統一編號
+          <label for="ubnInput" class="text-base sm:text-lg font-extrabold text-slate-900 flex items-center gap-2">
+            <span class="px-2.5 py-0.5 rounded-lg bg-blue-600 text-white text-xs sm:text-sm font-bold">STEP 1</span>
+            請輸入公司或商號 8 碼統一編號
           </label>
-          <span id="ubnChecksumTag" class="text-sm px-3 py-1 rounded-full bg-emerald-50 text-emerald-700 font-semibold border border-emerald-200">
-            ✓ 支援公司名稱模糊搜尋與統編檢核
+          <span id="ubnChecksumTag" class="text-xs sm:text-sm px-3 py-0.5 rounded-full bg-emerald-50 text-emerald-700 font-semibold border border-emerald-200">
+            ✓ 統編邏輯檢核通過
           </span>
         </div>
 
-        <div class="flex flex-col sm:flex-row gap-3 relative">
-          <div class="relative flex-1">
-            <input
-              id="ubnInput"
-              type="text"
-              autocomplete="off"
-              value="28458491"
-              placeholder="請輸入企業名稱關鍵字（如：哇寶、威鴻）或 8 碼統編"
-              class="w-full px-5 py-3.5 rounded-2xl border-2 border-slate-300 focus:border-blue-600 focus:ring-4 focus:ring-blue-100 outline-none text-lg sm:text-xl font-bold tracking-wide text-slate-900"
-            />
-            <!-- Autocomplete 邊打邊選下拉選單 -->
-            <div
-              id="autocompleteDropdown"
-              class="hidden absolute left-0 right-0 top-full mt-2 bg-white rounded-2xl shadow-2xl border-2 border-blue-200 z-50 max-h-80 overflow-y-auto divide-y divide-slate-100"
-            >
-              <!-- 由 JS 即時渲染建議企業清單 -->
-            </div>
-          </div>
+        <div class="flex flex-col sm:flex-row gap-2.5">
+          <input
+            id="ubnInput"
+            type="text"
+            inputmode="numeric"
+            maxlength="8"
+            autocomplete="off"
+            value="28458491"
+            placeholder="請輸入 8 碼統一編號（例如：28458491）"
+            class="flex-1 px-4 py-2.5 rounded-2xl border-2 border-slate-300 focus:border-blue-600 focus:ring-4 focus:ring-blue-100 outline-none text-lg sm:text-xl font-mono font-bold tracking-wider text-slate-900"
+          />
           <button
             id="btnLookupUbn"
-            class="px-8 py-3.5 rounded-2xl bg-blue-600 hover:bg-blue-700 text-white font-bold text-lg whitespace-nowrap transition shadow-md"
+            class="px-7 py-2.5 rounded-2xl bg-blue-600 hover:bg-blue-700 text-white font-bold text-base sm:text-lg whitespace-nowrap transition shadow-md"
           >
             🔍 立即查詢補助
           </button>
         </div>
       </div>
 
-      <!-- 1B. 一行式工商底稿膠囊摘要列（點選才展開完整資料與微調） -->
-      <div class="rounded-2xl bg-slate-100 border border-slate-200/90 p-4">
-        <div class="flex flex-wrap items-center justify-between gap-3">
-          <div id="companySummaryPills" class="flex flex-wrap items-center gap-2 text-base">
-            <!-- 由 JS 填入一行式膠囊摘要 -->
+      <!-- 1B. 一行式工商與人數膠囊摘要列（初始採收合狀態，點擊展開：工商條件 ➔ 公司人數 ➔ 進階篩選） -->
+      <div class="rounded-2xl bg-slate-100 border border-slate-200/90 px-3.5 py-2.5">
+        <div class="flex flex-wrap items-center justify-between gap-2">
+          <div id="companySummaryPills" class="flex flex-wrap items-center gap-1.5 text-sm sm:text-base">
+            <!-- 由 JS 填入一行式膠囊摘要（含公司名稱、縣市、資本額、業別、人數區間） -->
           </div>
           <button
             id="btnToggleCompanyDrawer"
-            class="text-sm sm:text-base font-semibold text-blue-700 hover:text-blue-900 whitespace-nowrap flex items-center gap-1 px-3 py-1.5 rounded-xl bg-white border border-slate-200 shadow-sm transition"
+            class="text-sm font-semibold text-blue-700 hover:text-blue-900 whitespace-nowrap flex items-center gap-1 px-3 py-1 rounded-xl bg-white border border-slate-200 shadow-sm transition"
           >
-            <span id="companyDrawerBtnText">⚙️ 檢視或修改工商條件 ▾</span>
+            <span id="companyDrawerBtnText">⚙️ 檢視或修改工商與人數條件 ▾</span>
           </button>
         </div>
 
-        <!-- 點擊展開的工商詳情與規則映射調整手風琴（支援全台 22 縣市） -->
-        <div id="companyDetailDrawer" class="hidden mt-4 pt-4 border-t border-slate-200/80 space-y-4">
-          <div id="companyFullMeta" class="text-sm sm:text-base text-slate-700 bg-white p-4 rounded-xl border border-slate-200">
-            <!-- 正式商工資訊 -->
+        <!-- 初始收合抽屜（#companyDetailDrawer）：依序收納「工商條件 ➔ 公司人數 ➔ 進階篩選」 -->
+        <div id="companyDetailDrawer" class="hidden mt-3.5 pt-3.5 border-t border-slate-200/80 space-y-4">
+          <!-- (1) 工商登記基本條件 -->
+          <div class="space-y-2.5">
+            <div class="text-sm font-extrabold text-slate-800 flex items-center gap-1.5">
+              <span>🏛️</span> 1. 工商登記基本條件（可手動調整模擬）
+            </div>
+            <div id="companyFullMeta" class="text-sm text-slate-700 bg-white p-3.5 rounded-xl border border-slate-200">
+              <!-- 正式商工資訊 -->
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-3 text-sm sm:text-base bg-white p-3.5 rounded-xl border border-slate-200">
+              <div>
+                <label class="block text-xs sm:text-sm font-bold text-slate-700 mb-1">登記縣市（全台 22 縣市）</label>
+                <select id="simCounty" class="w-full p-2 rounded-xl border border-slate-300 bg-slate-50 font-medium">
+                  <option value="臺北市">臺北市</option>
+                  <option value="新北市">新北市</option>
+                  <option value="桃園市">桃園市</option>
+                  <option value="臺中市">臺中市</option>
+                  <option value="臺南市">臺南市</option>
+                  <option value="高雄市">高雄市</option>
+                  <option value="基隆市">基隆市</option>
+                  <option value="新竹市">新竹市</option>
+                  <option value="新竹縣">新竹縣</option>
+                  <option value="苗栗縣">苗栗縣</option>
+                  <option value="彰化縣">彰化縣</option>
+                  <option value="南投縣">南投縣</option>
+                  <option value="雲林縣">雲林縣</option>
+                  <option value="嘉義市">嘉義市</option>
+                  <option value="嘉義縣">嘉義縣</option>
+                  <option value="屏東縣">屏東縣</option>
+                  <option value="宜蘭縣">宜蘭縣</option>
+                  <option value="花蓮縣">花蓮縣</option>
+                  <option value="臺東縣">臺東縣</option>
+                  <option value="澎湖縣">澎湖縣</option>
+                  <option value="金門縣">金門縣</option>
+                  <option value="連江縣">連江縣</option>
+                </select>
+              </div>
+              <div>
+                <label class="block text-xs sm:text-sm font-bold text-slate-700 mb-1">實收資本額 (萬元)</label>
+                <input id="simCapital" type="number" value="1200" class="w-full p-2 rounded-xl border border-slate-300 bg-slate-50 font-mono font-bold" />
+              </div>
+              <div>
+                <label class="block text-xs sm:text-sm font-bold text-slate-700 mb-1">營業項目代碼／業別映射</label>
+                <select id="simSector" class="w-full p-2 rounded-xl border border-slate-300 bg-slate-50 font-medium">
+                  <option value="service">服務業（E/F/G/I/J/M 類）</option>
+                  <option value="manufacturing">製造業（C 類製造業）</option>
+                </select>
+              </div>
+              <div>
+                <label class="block text-xs sm:text-sm font-bold text-slate-700 mb-1">工廠登記狀態</label>
+                <select id="simFactory" class="w-full p-2 rounded-xl border border-slate-300 bg-slate-50 font-medium">
+                  <option value="false">無工廠登記（純公司／門市）</option>
+                  <option value="true">具備合法工廠登記（或特登）</option>
+                </select>
+              </div>
+            </div>
           </div>
-          <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-3 text-base bg-white p-4 rounded-xl border border-slate-200">
-            <div>
-              <label class="block text-sm font-bold text-slate-700 mb-1">登記縣市（全台 22 縣市）</label>
-              <select id="simCounty" class="w-full p-2.5 rounded-xl border border-slate-300 bg-slate-50 font-medium">
-                <option value="臺北市">臺北市</option>
-                <option value="新北市">新北市</option>
-                <option value="桃園市">桃園市</option>
-                <option value="臺中市">臺中市</option>
-                <option value="臺南市">臺南市</option>
-                <option value="高雄市">高雄市</option>
-                <option value="基隆市">基隆市</option>
-                <option value="新竹市">新竹市</option>
-                <option value="新竹縣">新竹縣</option>
-                <option value="苗栗縣">苗栗縣</option>
-                <option value="彰化縣">彰化縣</option>
-                <option value="南投縣">南投縣</option>
-                <option value="雲林縣">雲林縣</option>
-                <option value="嘉義市">嘉義市</option>
-                <option value="嘉義縣">嘉義縣</option>
-                <option value="屏東縣">屏東縣</option>
-                <option value="宜蘭縣">宜蘭縣</option>
-                <option value="花蓮縣">花蓮縣</option>
-                <option value="臺東縣">臺東縣</option>
-                <option value="澎湖縣">澎湖縣</option>
-                <option value="金門縣">金門縣</option>
-                <option value="連江縣">連江縣</option>
-              </select>
+
+          <!-- (2) 公司員工人數區塊（放在工商條件正下方） -->
+          <div class="space-y-2 pt-2 border-t border-slate-200/80">
+            <div class="text-sm font-extrabold text-slate-800 flex items-center gap-1.5">
+              <span>👥</span> 2. 貴公司目前勞保投保員工人數區間
             </div>
-            <div>
-              <label class="block text-sm font-bold text-slate-700 mb-1">實收資本額 (萬元)</label>
-              <input id="simCapital" type="number" value="1200" class="w-full p-2.5 rounded-xl border border-slate-300 bg-slate-50 font-mono font-bold" />
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-2.5">
+              <button data-emp="under30" class="emp-btn py-2.5 px-3.5 rounded-xl border-2 border-slate-200 bg-white text-left hover:border-blue-400 transition">
+                <div class="font-extrabold text-sm sm:text-base text-slate-900">👤 30 人以下（含微型）</div>
+                <div class="text-xs text-slate-500 mt-0.5">可申請最高 10 萬數位培力實報實銷</div>
+              </button>
+              <button data-emp="31to199" class="emp-btn emp-active py-2.5 px-3.5 rounded-xl border-2 border-slate-200 bg-white text-left hover:border-blue-400 transition">
+                <div class="font-extrabold text-sm sm:text-base text-slate-900">👥 31 ～ 199 人</div>
+                <div class="text-xs text-slate-500 mt-0.5">符合中小企業主力研發與轉型補助</div>
+              </button>
+              <button data-emp="over200" class="emp-btn py-2.5 px-3.5 rounded-xl border-2 border-slate-200 bg-white text-left hover:border-blue-400 transition">
+                <div class="font-extrabold text-sm sm:text-base text-slate-900">🏢 200 人以上</div>
+                <div class="text-xs text-slate-500 mt-0.5">適用大型企業產創平台與人培計畫</div>
+              </button>
             </div>
-            <div>
-              <label class="block text-sm font-bold text-slate-700 mb-1">營業項目代碼／業別映射</label>
-              <select id="simSector" class="w-full p-2.5 rounded-xl border border-slate-300 bg-slate-50 font-medium">
-                <option value="service">服務業（E/F/G/I/J/M 類）</option>
-                <option value="manufacturing">製造業（C 類製造業）</option>
-              </select>
+          </div>
+
+          <!-- (3) 進階篩選條件（緊接在公司人數下方） -->
+          <div id="advancedFilterDrawer" class="p-3.5 rounded-xl bg-white border border-slate-200 space-y-2.5 text-sm sm:text-base">
+            <div class="flex flex-wrap items-center justify-between gap-2">
+              <div class="text-sm font-extrabold text-slate-800 flex items-center gap-1.5">
+                <span>🛡️</span> 3. 進階篩選條件（精確人數／同年度互斥與截止過濾）
+              </div>
+              <div class="flex items-center gap-2">
+                <label for="exactEmpCount" class="text-sm font-bold text-slate-700">精確勞保人數：</label>
+                <input id="exactEmpCount" type="number" min="1" max="5000" value="55" class="w-20 px-2.5 py-1 text-sm rounded-lg border border-slate-300 font-mono font-bold bg-slate-50" />
+                <span class="text-sm text-slate-600">人</span>
+              </div>
             </div>
-            <div>
-              <label class="block text-sm font-bold text-slate-700 mb-1">工廠登記狀態</label>
-              <select id="simFactory" class="w-full p-2.5 rounded-xl border border-slate-300 bg-slate-50 font-medium">
-                <option value="false">無工廠登記（純公司／門市）</option>
-                <option value="true">具備合法工廠登記（或特登）</option>
-              </select>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-2.5 pt-2 border-t border-slate-100">
+              <label class="flex items-start gap-2 cursor-pointer p-2 rounded-lg bg-slate-50 border border-slate-200">
+                <input id="chkPriorUpgrade" type="checkbox" class="mt-1 w-4 h-4 rounded text-blue-600" />
+                <span class="text-xs sm:text-sm text-slate-700">
+                  <strong>今年度已領過</strong>「經濟部低碳化／智慧化升級轉型」或「接班傳承」補助（自動排除互斥計畫）
+                </span>
+              </label>
+              <label class="flex items-start gap-2 cursor-pointer p-2 rounded-lg bg-slate-50 border border-slate-200">
+                <input id="chkHideExpired" type="checkbox" checked class="mt-1 w-4 h-4 rounded text-blue-600" />
+                <span class="text-xs sm:text-sm text-slate-700">
+                  <strong>自動隱藏已截止梯次</strong>（將已截止計畫收進底部過濾區，只顯示目前可申請計畫）
+                </span>
+              </label>
             </div>
           </div>
         </div>
       </div>
 
-      <div class="border-t border-slate-200"></div>
-
-      <!-- 1C. STEP 2：兩排直覺大按鈕微問診 -->
-      <div class="space-y-5">
-        <div class="flex flex-wrap items-center justify-between gap-2">
-          <div class="text-lg sm:text-xl font-extrabold text-slate-900 flex items-center gap-2">
-            <span class="px-3 py-1 rounded-lg bg-teal-600 text-white text-sm font-bold">STEP 2</span>
-            點選員工人數與轉型需求（點選立即重新篩選）
-          </div>
-          <button id="btnToggleAdvancedFilter" class="text-sm sm:text-base font-semibold text-slate-600 hover:text-blue-700 flex items-center gap-1">
-            <span id="advFilterBtnText">⚙️ 進階篩選（精確人數／同年度互斥檢查）▾</span>
-          </button>
-        </div>
-
-        <!-- 第一排：員工人數區間 -->
-        <div class="space-y-2">
-          <div class="text-base font-bold text-slate-700">1. 貴公司目前勞保投保員工人數：</div>
-          <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
-            <button data-emp="under30" class="emp-btn py-3.5 px-4 rounded-2xl border-2 border-slate-200 bg-white text-left hover:border-blue-400 transition">
-              <div class="font-extrabold text-base sm:text-lg text-slate-900">👤 30 人以下（含微型）</div>
-              <div class="text-sm text-slate-500 mt-0.5">可申請最高 10 萬數位培力實報實銷</div>
-            </button>
-            <button data-emp="31to199" class="emp-btn emp-active py-3.5 px-4 rounded-2xl border-2 border-slate-200 bg-white text-left hover:border-blue-400 transition">
-              <div class="font-extrabold text-base sm:text-lg text-slate-900">👥 31 ～ 199 人</div>
-              <div class="text-sm text-slate-500 mt-0.5">符合中小企業主力研發與轉型補助</div>
-            </button>
-            <button data-emp="over200" class="emp-btn py-3.5 px-4 rounded-2xl border-2 border-slate-200 bg-white text-left hover:border-blue-400 transition">
-              <div class="font-extrabold text-base sm:text-lg text-slate-900">🏢 200 人以上</div>
-              <div class="text-sm text-slate-500 mt-0.5">適用大型企業產創平台與人培計畫</div>
-            </button>
-          </div>
-        </div>
-
-        <!-- 第二排：6 大數位轉型需求分類 -->
-        <div class="space-y-2">
-          <div class="text-base font-bold text-slate-700">2. 本次最想強化的數位轉型方向（可切換）：</div>
-          <div class="flex flex-wrap gap-2.5" id="goalGroup">
-            <button data-goal="all" class="goal-btn pill-active text-base px-4 py-2.5 rounded-xl border border-slate-300 bg-white font-semibold transition">
-              全部轉型需求
-            </button>
-            <button data-goal="cloud_ai" class="goal-btn text-base px-4 py-2.5 rounded-xl border border-slate-300 bg-white text-slate-700 hover:bg-slate-50 font-semibold transition">
-              01 AI 與雲端工具導入
-            </button>
-            <button data-goal="rd_innov" class="goal-btn text-base px-4 py-2.5 rounded-xl border border-slate-300 bg-white text-slate-700 hover:bg-slate-50 font-semibold transition">
-              02 企業研發與創新 (SBIR/SIIR/TIIP)
-            </button>
-            <button data-goal="training" class="goal-btn text-base px-4 py-2.5 rounded-xl border border-slate-300 bg-white text-slate-700 hover:bg-slate-50 font-semibold transition">
-              03 員工數位培訓與人才
-            </button>
-            <button data-goal="smart_mfg" class="goal-btn text-base px-4 py-2.5 rounded-xl border border-slate-300 bg-white text-slate-700 hover:bg-slate-50 font-semibold transition">
-              04 智慧製造與產線升級
-            </button>
-            <button data-goal="carbon" class="goal-btn text-base px-4 py-2.5 rounded-xl border border-slate-300 bg-white text-slate-700 hover:bg-slate-50 font-semibold transition">
-              05 淨零與智慧節能轉型
-            </button>
-            <button data-goal="export_mkt" class="goal-btn text-base px-4 py-2.5 rounded-xl border border-slate-300 bg-white text-slate-700 hover:bg-slate-50 font-semibold transition">
-              06 數位行銷及海外拓展
-            </button>
-          </div>
-        </div>
-
-        <!-- 點選才展開的「進階篩選條件」手風琴 -->
-        <div id="advancedFilterDrawer" class="hidden p-4 rounded-2xl bg-slate-50 border border-slate-200 space-y-3 text-base">
-          <div class="flex flex-wrap items-center gap-3">
-            <label for="exactEmpCount" class="font-bold text-slate-800">精確勞保人數（用於計算按人頭補助上限）：</label>
-            <input id="exactEmpCount" type="number" min="1" max="5000" value="55" class="w-24 px-3 py-1.5 text-base rounded-xl border border-slate-300 font-mono font-bold bg-white" />
-            <span class="text-slate-600">人</span>
-          </div>
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-3 pt-2 border-t border-slate-200">
-            <label class="flex items-start gap-2.5 cursor-pointer p-2.5 rounded-xl bg-white border border-slate-200">
-              <input id="chkPriorUpgrade" type="checkbox" class="mt-1 w-4 h-4 rounded text-blue-600" />
-              <span class="text-sm sm:text-base text-slate-700">
-                <strong>今年度已領過</strong>「經濟部低碳化／智慧化升級轉型」或「接班傳承數位轉型」補助（勾選後自動排除雲市集工業館等互斥計畫）
-              </span>
-            </label>
-            <label class="flex items-start gap-2.5 cursor-pointer p-2.5 rounded-xl bg-white border border-slate-200">
-              <input id="chkHideExpired" type="checkbox" checked class="mt-1 w-4 h-4 rounded text-blue-600" />
-              <span class="text-sm sm:text-base text-slate-700">
-                <strong>自動隱藏已截止梯次</strong>（將已截止計畫收進底部過濾區，只顯示目前可申請計畫）
-              </span>
-            </label>
-          </div>
-        </div>
+      <!-- 1C. 單行轉型方向過濾鈕（緊接在工商條件摘要列下方，單行水平排列） -->
+      <div class="flex items-center gap-2 overflow-x-auto no-scrollbar pt-0.5" id="goalGroup">
+        <span class="text-sm font-extrabold text-slate-700 whitespace-nowrap shrink-0 flex items-center gap-1">
+          🎯 轉型方向：
+        </span>
+        <button data-goal="all" class="goal-btn pill-active text-sm px-3 py-1.5 rounded-xl border border-slate-300 bg-white font-bold whitespace-nowrap shrink-0 transition">
+          全部需求
+        </button>
+        <button data-goal="cloud_ai" class="goal-btn text-sm px-3 py-1.5 rounded-xl border border-slate-300 bg-white text-slate-700 hover:bg-slate-50 font-semibold whitespace-nowrap shrink-0 transition">
+          01 AI 與雲端
+        </button>
+        <button data-goal="rd_innov" class="goal-btn text-sm px-3 py-1.5 rounded-xl border border-slate-300 bg-white text-slate-700 hover:bg-slate-50 font-semibold whitespace-nowrap shrink-0 transition">
+          02 研發創新
+        </button>
+        <button data-goal="training" class="goal-btn text-sm px-3 py-1.5 rounded-xl border border-slate-300 bg-white text-slate-700 hover:bg-slate-50 font-semibold whitespace-nowrap shrink-0 transition">
+          03 人才培訓
+        </button>
+        <button data-goal="smart_mfg" class="goal-btn text-sm px-3 py-1.5 rounded-xl border border-slate-300 bg-white text-slate-700 hover:bg-slate-50 font-semibold whitespace-nowrap shrink-0 transition">
+          04 智慧製造
+        </button>
+        <button data-goal="carbon" class="goal-btn text-sm px-3 py-1.5 rounded-xl border border-slate-300 bg-white text-slate-700 hover:bg-slate-50 font-semibold whitespace-nowrap shrink-0 transition">
+          05 淨零節能
+        </button>
+        <button data-goal="export_mkt" class="goal-btn text-sm px-3 py-1.5 rounded-xl border border-slate-300 bg-white text-slate-700 hover:bg-slate-50 font-semibold whitespace-nowrap shrink-0 transition">
+          06 行銷海外
+        </button>
       </div>
 
     </section>
 
-    <!-- ==================== 區塊 2：方案 B 核心——年度最佳補助組合包（預先呈現累計跳動數字） ==================== -->
-    <section class="bg-gradient-to-br from-slate-900 via-blue-950 to-indigo-950 text-white rounded-3xl p-6 sm:p-8 shadow-lg space-y-6">
+    <!-- ==================== 區塊 2：第一屏立即可見——符合資格總覽（Count-Up 累計跳動）＆ 黃金 3 步組合包 ==================== -->
+    <section class="bg-gradient-to-br from-slate-900 via-blue-950 to-indigo-950 text-white rounded-3xl p-4 sm:p-6 shadow-lg space-y-4">
 
       <!-- 頂部總額統計（內建 Count-Up 累計跳動效果）與下載按鈕 -->
-      <div class="flex flex-wrap items-center justify-between gap-4 border-b border-white/15 pb-5">
-        <div class="space-y-1">
-          <div class="inline-flex items-center gap-2 text-sm font-bold px-3 py-1 rounded-full bg-teal-400/20 text-teal-300 border border-teal-400/30">
+      <div class="flex flex-wrap items-center justify-between gap-3 border-b border-white/15 pb-3.5">
+        <div class="space-y-0.5">
+          <div class="inline-flex items-center gap-1.5 text-xs font-bold px-2.5 py-0.5 rounded-full bg-teal-400/20 text-teal-300 border border-teal-400/30">
             ✨ 規則引擎精算 ＆ 年度最佳補助組合包
           </div>
-          <h2 id="portfolioHeadline" class="text-2xl sm:text-3xl font-extrabold tracking-tight mt-1">
+          <h2 id="portfolioHeadline" class="text-xl sm:text-2xl md:text-3xl font-extrabold tracking-tight">
             符合資格共 <span id="countUpCases" class="text-amber-300 underline font-mono">0</span> 案｜最高可申請總額 NT$ <span id="countUpMaxMan" class="text-emerald-300 font-mono">0</span> 萬元
           </h2>
-          <p id="portfolioSubheadline" class="text-base text-blue-200">
+          <p id="portfolioSubheadline" class="text-xs sm:text-sm text-blue-200">
             依固定權重計算之總期望值約 <strong id="countUpExpectedMan" class="font-mono text-white">0</strong> 萬元。系統推薦最優先申請的「黃金 3 步組合包」如下：
           </p>
         </div>
 
         <button
           id="btnExportChecklist"
-          class="px-5 py-3.5 rounded-2xl bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-extrabold text-base transition shadow-md flex items-center gap-2 whitespace-nowrap"
+          class="px-4 py-2.5 rounded-2xl bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-extrabold text-sm sm:text-base transition shadow-md flex items-center gap-1.5 whitespace-nowrap"
         >
           <span>📥</span> 下載專屬補助攻略與檢核表 (.txt)
         </button>
       </div>
 
       <!-- 黃金 3 步推薦卡（點擊可跳轉展開下方對應卡片） -->
-      <div id="portfolioStepsGrid" class="grid grid-cols-1 md:grid-cols-3 gap-4">
+      <div id="portfolioStepsGrid" class="grid grid-cols-1 md:grid-cols-3 gap-3">
         <!-- 由 JS 動態填入 Top 3 -->
       </div>
 
       <!-- 點選才展開的期望值與權重分析圖 -->
-      <div class="pt-1">
+      <div>
         <button
           id="btnToggleChartDrawer"
-          class="text-sm sm:text-base font-semibold text-blue-200 hover:text-white flex items-center gap-1.5 transition"
+          class="text-xs sm:text-sm font-semibold text-blue-200 hover:text-white flex items-center gap-1.5 transition"
         >
           <span id="chartDrawerBtnText">📊 點此展開「各計畫最高上限 vs. 權重期望值」對比圖 ▾</span>
         </button>
 
-        <div id="chartDrawerContent" class="hidden mt-4 p-5 rounded-2xl bg-slate-900/90 border border-white/15 space-y-3">
-          <div class="flex flex-wrap items-center justify-between gap-2 text-sm text-slate-300">
+        <div id="chartDrawerContent" class="hidden mt-3 p-4 rounded-2xl bg-slate-900/90 border border-white/15 space-y-3">
+          <div class="flex flex-wrap items-center justify-between gap-2 text-xs sm:text-sm text-slate-300">
             <span class="font-bold text-white">前 5 大符合計畫：最高補助上限 vs. 權重期望值（單位：萬元）</span>
             <div class="flex items-center gap-4">
               <span class="flex items-center gap-1.5"><span class="w-3 h-3 rounded-sm bg-blue-500 inline-block"></span> 最高補助上限</span>
@@ -329,70 +327,70 @@
     </section>
 
     <!-- ==================== 區塊 3：符合資格推薦清單（3~5秒篩選等待 ＋ 瀑布流漸進式呈現） ==================== -->
-    <section class="space-y-4">
+    <section class="space-y-3">
       <div class="flex flex-wrap items-center justify-between gap-2 px-1">
-        <div class="flex items-center gap-3">
-          <h2 class="text-xl sm:text-2xl font-extrabold text-slate-900">✅ 符合貴公司資格的補助清單</h2>
-          <span id="eligibleCountBadge" class="px-3 py-1 rounded-full text-base font-extrabold bg-emerald-100 text-emerald-800">
+        <div class="flex items-center gap-2.5">
+          <h2 class="text-lg sm:text-xl font-extrabold text-slate-900">✅ 符合貴公司資格的補助清單</h2>
+          <span id="eligibleCountBadge" class="px-2.5 py-0.5 rounded-full text-sm sm:text-base font-extrabold bg-emerald-100 text-emerald-800">
             0 案
           </span>
         </div>
         <div class="flex items-center gap-3">
-          <button id="btnExpandAllCards" class="text-sm sm:text-base font-semibold text-blue-700 hover:underline">
+          <button id="btnExpandAllCards" class="text-sm font-semibold text-blue-700 hover:underline">
             展開全部細節
           </button>
           <span class="text-slate-300">|</span>
-          <button id="btnCollapseAllCards" class="text-sm sm:text-base font-semibold text-slate-600 hover:underline">
+          <button id="btnCollapseAllCards" class="text-sm font-semibold text-slate-600 hover:underline">
             全部收合
           </button>
         </div>
       </div>
 
       <!-- 3~5 秒篩選等待期間顯示之動態掃描提示框 -->
-      <div id="screeningLoaderBox" class="hidden bg-white rounded-3xl border-2 border-blue-200 p-10 text-center space-y-5 shadow-sm">
-        <div class="w-14 h-14 rounded-2xl bg-blue-50 border border-blue-200 text-blue-600 mx-auto flex items-center justify-center">
-          <svg class="w-8 h-8 animate-spin" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+      <div id="screeningLoaderBox" class="hidden bg-white rounded-3xl border-2 border-blue-200 p-8 text-center space-y-4 shadow-sm">
+        <div class="w-12 h-12 rounded-2xl bg-blue-50 border border-blue-200 text-blue-600 mx-auto flex items-center justify-center">
+          <svg class="w-7 h-7 animate-spin" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
             <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
             <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"></path>
           </svg>
         </div>
-        <div class="space-y-2">
-          <h3 class="text-xl sm:text-2xl font-extrabold text-slate-900">正在為您篩選適合申請案件...</h3>
-          <p id="screeningStepSubtext" class="text-base text-slate-600 font-medium">
+        <div class="space-y-1.5">
+          <h3 class="text-lg sm:text-xl font-extrabold text-slate-900">正在為您篩選適合申請案件...</h3>
+          <p id="screeningStepSubtext" class="text-sm sm:text-base text-slate-600 font-medium">
             正在核對企業設籍縣市、實收資本額與營業項目代碼...
           </p>
         </div>
-        <div class="max-w-md mx-auto bg-slate-100 h-3 rounded-full overflow-hidden p-0.5 border border-slate-200">
+        <div class="max-w-md mx-auto bg-slate-100 h-2.5 rounded-full overflow-hidden p-0.5 border border-slate-200">
           <div id="screeningProgressBar" class="bg-gradient-to-r from-blue-600 to-teal-400 h-full rounded-full progress-sweep-bar"></div>
         </div>
       </div>
 
       <!-- 單欄寬卡手風琴列表（瀑布流漸進式浮現） -->
-      <div id="eligibleGrantsContainer" class="space-y-4">
+      <div id="eligibleGrantsContainer" class="space-y-3.5">
         <!-- 由 JS 渲染手風琴卡片 -->
       </div>
     </section>
 
     <!-- ==================== 區塊 4：底部收合抽屜（已攔截的不符資格／外縣市／已截止補助案） ==================== -->
-    <section class="space-y-4 pt-4 border-t border-slate-200">
+    <section class="space-y-3 pt-2 border-t border-slate-200">
       <div class="bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-sm">
         <button
           id="btnToggleExcludedDrawer"
-          class="w-full p-5 text-left flex flex-wrap items-center justify-between gap-3 hover:bg-slate-50 transition"
+          class="w-full p-4 text-left flex flex-wrap items-center justify-between gap-3 hover:bg-slate-50 transition"
         >
-          <div class="flex items-center gap-3">
-            <span class="px-3 py-1 rounded-lg bg-rose-100 text-rose-800 font-bold text-sm">自動防雷攔截</span>
-            <span class="text-base sm:text-lg font-bold text-slate-800">
+          <div class="flex items-center gap-2.5">
+            <span class="px-2.5 py-0.5 rounded-lg bg-rose-100 text-rose-800 font-bold text-xs sm:text-sm">自動防雷攔截</span>
+            <span class="text-sm sm:text-base font-bold text-slate-800">
               🛡️ 系統已自動為您過濾 <span id="excludedCountText" class="text-rose-600 underline">0</span> 個不符資格、外縣市、互斥或已截止的補助案
             </span>
           </div>
-          <span id="excludedDrawerArrow" class="text-base font-semibold text-blue-600">
+          <span id="excludedDrawerArrow" class="text-sm font-semibold text-blue-600">
             點此展開查看剔除原因 ▾
           </span>
         </button>
 
-        <div id="excludedDrawerContent" class="hidden p-5 pt-0 border-t border-slate-100 bg-slate-50">
-          <p class="text-sm text-slate-600 py-3">
+        <div id="excludedDrawerContent" class="hidden p-4 pt-0 border-t border-slate-100 bg-slate-50">
+          <p class="text-xs sm:text-sm text-slate-600 py-2.5">
             以下計畫因設籍縣市（如其他 21 縣市地方型 SBIR）、實收資本額、工廠登記、員工人數或同年度互斥條款不符，系統已透過確定性規則預先剔除：
           </p>
           <div id="excludedGrantsContainer" class="grid grid-cols-1 md:grid-cols-2 gap-3">
@@ -405,9 +403,9 @@
   </main>
 
   <!-- 頁尾 -->
-  <footer class="bg-white border-t border-slate-200 mt-12 py-6">
-    <div class="max-w-5xl mx-auto px-4 sm:px-6 text-center text-sm text-slate-500">
-      © 2026 數位轉型學院 Digital Transformation Academy · 支援全國企業名稱模糊搜尋與統編檢索 · 收錄中央與 22 縣市共 48 筆補助規則
+  <footer class="bg-white border-t border-slate-200 mt-8 py-5">
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 text-center text-xs sm:text-sm text-slate-500">
+      © 2026 數位轉型學院 Digital Transformation Academy · 支援全國 8 碼統編即時檢索 · 收錄中央與 22 縣市共 48 筆補助規則
     </div>
   </footer>
 
@@ -842,8 +840,7 @@
             }
       }
 };
-
-    // ==================== 2. 預抓取全國 48 大政府補助規則庫與專案直達入口 (由 update_portal_data.py 自動注入同步) ====================
+    // ==================== 2. 預抓取全國 48 筆補助規則庫 (由 update_portal_data.py 自動注入同步) ====================
     const DEFAULT_GRANTS_DB = [
       {
             "id": "MOEA-IDA-CLOUD-AI",
@@ -888,7 +885,7 @@
                   "於雲市集工業館挑選「AI 工具庫」上架方案並完成線上點數折抵合約",
                   "切結同年度未重複領取低碳化／智慧化升級轉型等互斥補助"
             ],
-            "lastVerifiedAt": "2026-10-27 00:19:39"
+            "lastVerifiedAt": "2026-10-27 00:56:41"
       },
       {
             "id": "MOEA-SMESA-CLOUDSME",
@@ -932,7 +929,7 @@
                   "公司登記、商業登記或稅籍登記證明文件",
                   "數位轉型需求盤點表與預計導入之雲端工具類別勾選"
             ],
-            "lastVerifiedAt": "2026-10-27 00:19:39"
+            "lastVerifiedAt": "2026-10-27 00:56:41"
       },
       {
             "id": "MOEA-DOC-SMART-SERV",
@@ -976,7 +973,7 @@
                   "數位轉型與 AI 應用導入計畫書",
                   "資訊服務供應商報價單與系統架構說明"
             ],
-            "lastVerifiedAt": "2026-10-27 00:19:39"
+            "lastVerifiedAt": "2026-10-27 00:56:41"
       },
       {
             "id": "MOEA-DOC-OP-RESILIENCE",
@@ -1020,7 +1017,7 @@
                   "提升營運效能數位系統導入計畫書與前後績效對照表",
                   "最近一期營業稅申報書與無欠稅證明"
             ],
-            "lastVerifiedAt": "2026-10-27 00:19:39"
+            "lastVerifiedAt": "2026-10-27 00:56:41"
       },
       {
             "id": "MOEA-DOC-ROBOT-DATA",
@@ -1063,7 +1060,7 @@
                   "營業場域證明與公司／商業登記文件",
                   "服務型機器人或數據平台導入規劃書與減少人力工時估算表"
             ],
-            "lastVerifiedAt": "2026-10-27 00:19:39"
+            "lastVerifiedAt": "2026-10-27 00:56:41"
       },
       {
             "id": "MODA-ADI-DIGIPLUS",
@@ -1107,7 +1104,7 @@
                   "AI 或數位創新服務商業化驗證（PoC/PoB）計畫書",
                   "資安防護與個資保護聲明書"
             ],
-            "lastVerifiedAt": "2026-10-27 00:19:39"
+            "lastVerifiedAt": "2026-10-27 00:56:41"
       },
       {
             "id": "MOEA-IDA-CLOUD-SOL-EXPIRED",
@@ -1149,7 +1146,7 @@
             "checklist": [
                   "本梯次已截止，請勿送件"
             ],
-            "lastVerifiedAt": "2026-10-27 00:19:39"
+            "lastVerifiedAt": "2026-10-27 00:56:41"
       },
       {
             "id": "MOEA-SMESA-SBIR-CENTRAL",
@@ -1195,7 +1192,7 @@
                   "SBIR 計畫申請表與研發計畫書（技術／服務創新性說明、研發團隊學經歷、經費編列）",
                   "最近一期勞保局投保單位被保險人名冊"
             ],
-            "lastVerifiedAt": "2026-10-27 00:19:39"
+            "lastVerifiedAt": "2026-10-27 00:56:41"
       },
       {
             "id": "MOEA-SMESA-SBIR-CROSS",
@@ -1239,7 +1236,7 @@
                   "跨域研發合作協議書與深科技應用計畫書",
                   "最近一期勞保局投保人數名冊"
             ],
-            "lastVerifiedAt": "2026-10-27 00:19:39"
+            "lastVerifiedAt": "2026-10-27 00:56:41"
       },
       {
             "id": "MOEA-DOC-SIIR",
@@ -1283,7 +1280,7 @@
                   "SIIR 服務業創新研發計畫書（聚焦智慧化 AI 應用或低碳商業模式）",
                   "最近一年營所稅申報書與最近一期營業稅 401 表、無欠稅證明"
             ],
-            "lastVerifiedAt": "2026-10-27 00:19:39"
+            "lastVerifiedAt": "2026-10-27 00:56:41"
       },
       {
             "id": "MOEA-IDA-TIIP",
@@ -1328,7 +1325,7 @@
                   "TIIP 計畫書（主題式研發／產業高值／服務創新研發計畫書）",
                   "簡報審查文件與財務健全切結書"
             ],
-            "lastVerifiedAt": "2026-10-27 00:19:39"
+            "lastVerifiedAt": "2026-10-27 00:56:41"
       },
       {
             "id": "MOEA-IDA-COMP-SUPPORT",
@@ -1371,7 +1368,7 @@
                   "提升產業競爭力研發轉型支持計畫書",
                   "近三年財務報表與無欠稅證明"
             ],
-            "lastVerifiedAt": "2026-10-27 00:19:39"
+            "lastVerifiedAt": "2026-10-27 00:56:41"
       },
       {
             "id": "MOEA-DOC-30SERV",
@@ -1417,7 +1414,7 @@
                   "培訓月份之勞保局核發投保單位被保險人名冊",
                   "申請事業指定匯款之金融機構存摺封面影本"
             ],
-            "lastVerifiedAt": "2026-10-27 00:19:39"
+            "lastVerifiedAt": "2026-10-27 00:56:41"
       },
       {
             "id": "MOEA-SMESA-30MFG",
@@ -1462,7 +1459,7 @@
                   "課程及搭配軟體之統一發票／收據（須於補助期間內開立）",
                   "培訓月份勞保投保名冊與撥款存摺影本"
             ],
-            "lastVerifiedAt": "2026-10-27 00:19:39"
+            "lastVerifiedAt": "2026-10-27 00:56:41"
       },
       {
             "id": "MOL-WDA-HR-UPGRADE",
@@ -1507,7 +1504,7 @@
                   "年度員工數位 AI 工具應用與專業職能訓練計畫表",
                   "無欠繳勞保費或滯納金證明"
             ],
-            "lastVerifiedAt": "2026-10-27 00:19:39"
+            "lastVerifiedAt": "2026-10-27 00:56:41"
       },
       {
             "id": "MOEA-DOC-TALENT-RESILIENCE",
@@ -1550,7 +1547,7 @@
                   "公司或商業登記統編與派訓員工名單",
                   "數位轉型職能需求自評表"
             ],
-            "lastVerifiedAt": "2026-10-27 00:19:39"
+            "lastVerifiedAt": "2026-10-27 00:56:41"
       },
       {
             "id": "MOEA-IDA-MFG-LEAP",
@@ -1594,7 +1591,7 @@
                   "近三年會計師簽證或營所稅申報核定通知書",
                   "合作資服業者或生態系成員之共同執行意向書"
             ],
-            "lastVerifiedAt": "2026-10-27 00:19:39"
+            "lastVerifiedAt": "2026-10-27 00:56:41"
       },
       {
             "id": "MOEA-IDA-SUCCESSION-AI",
@@ -1637,7 +1634,7 @@
                   "接班傳承團隊說明與 AI 數位轉型應用計畫書",
                   "最近一期無欠稅證明與勞保投保清單"
             ],
-            "lastVerifiedAt": "2026-10-27 00:19:39"
+            "lastVerifiedAt": "2026-10-27 00:56:41"
       },
       {
             "id": "MOEA-IDA-DATA-MFG",
@@ -1679,7 +1676,7 @@
                   "公司登記與工廠登記證明文件",
                   "產線數據收集現況與 AI 製造導入需求申請表"
             ],
-            "lastVerifiedAt": "2026-10-27 00:19:39"
+            "lastVerifiedAt": "2026-10-27 00:56:41"
       },
       {
             "id": "MOEA-DOC-SMART-CARBON",
@@ -1724,7 +1721,7 @@
                   "最近一期營業稅申報書（401/403表）與無欠稅證明",
                   "資訊服務廠商報價單與規格書"
             ],
-            "lastVerifiedAt": "2026-10-27 00:19:39"
+            "lastVerifiedAt": "2026-10-27 00:56:41"
       },
       {
             "id": "MOEA-EA-ENERGY",
@@ -1768,7 +1765,7 @@
                   "台電公司最近一期電費單影本（核對用電地址）",
                   "一級能效空調／冷凍冷藏設備購買發票與回收證明，或 BEMS 能源管理系統建置計畫"
             ],
-            "lastVerifiedAt": "2026-10-27 00:19:39"
+            "lastVerifiedAt": "2026-10-27 00:56:41"
       },
       {
             "id": "MOEA-EA-MOTOR-EQUIP",
@@ -1812,7 +1809,7 @@
                   "能源署高效率動力設備登錄型號證明與統一發票影本",
                   "設備安裝現場照片與撥款帳戶存摺影本"
             ],
-            "lastVerifiedAt": "2026-10-27 00:19:39"
+            "lastVerifiedAt": "2026-10-27 00:56:41"
       },
       {
             "id": "MOEA-IDA-LOWCARBON-ICT",
@@ -1855,7 +1852,7 @@
                   "公司或商業登記證明與合法工廠登記證（或免辦工廠登記證明）",
                   "115年度中小型製造業低碳輔導計畫申請表"
             ],
-            "lastVerifiedAt": "2026-10-27 00:19:39"
+            "lastVerifiedAt": "2026-10-27 00:56:41"
       },
       {
             "id": "MOENV-RECA-CIRCULAR",
@@ -1898,7 +1895,7 @@
                   "資源循環創新或製程減廢示範計畫書（含數位物料流追蹤架構）",
                   "過去三年環保合規無重大裁罰切結書"
             ],
-            "lastVerifiedAt": "2026-10-27 00:19:39"
+            "lastVerifiedAt": "2026-10-27 00:56:41"
       },
       {
             "id": "MOEA-TITA-EXPORT",
@@ -1942,7 +1939,7 @@
                   "國際市場開發與數位精準行銷計畫書",
                   "無欠稅證明與過去執行貿易署計畫未遭停權切結"
             ],
-            "lastVerifiedAt": "2026-10-27 00:19:39"
+            "lastVerifiedAt": "2026-10-27 00:56:41"
       },
       {
             "id": "MOEA-DOC-BRAND-DIST",
@@ -1986,7 +1983,7 @@
                   "公司或商業登記證明文件",
                   "品牌數位行銷與通路拓展申請計畫書"
             ],
-            "lastVerifiedAt": "2026-10-27 00:19:39"
+            "lastVerifiedAt": "2026-10-27 00:56:41"
       },
       {
             "id": "LOCAL-TAIPEI-SITI",
@@ -2031,7 +2028,7 @@
                   "臺北市地方產業創新研發計畫書（符合選定特色產業或數位轉型方向）",
                   "最近一期國稅與地方稅無欠稅證明、勞保投保人數資料表"
             ],
-            "lastVerifiedAt": "2026-10-27 00:19:39"
+            "lastVerifiedAt": "2026-10-27 00:56:41"
       },
       {
             "id": "LOCAL-NEW-TAIPEI-INNOV",
@@ -2076,7 +2073,7 @@
                   "新北市地方產業創新研發計畫書（符合選定特色產業或數位轉型方向）",
                   "最近一期國稅與地方稅無欠稅證明、勞保投保人數資料表"
             ],
-            "lastVerifiedAt": "2026-10-27 00:19:39"
+            "lastVerifiedAt": "2026-10-27 00:56:41"
       },
       {
             "id": "LOCAL-KEELUNG-SBIR",
@@ -2121,7 +2118,7 @@
                   "基隆市地方產業創新研發計畫書（符合選定特色產業或數位轉型方向）",
                   "最近一期國稅與地方稅無欠稅證明、勞保投保人數資料表"
             ],
-            "lastVerifiedAt": "2026-10-27 00:19:39"
+            "lastVerifiedAt": "2026-10-27 00:56:41"
       },
       {
             "id": "LOCAL-TAOYUAN-SBIR",
@@ -2166,7 +2163,7 @@
                   "桃園市地方產業創新研發計畫書（符合選定特色產業或數位轉型方向）",
                   "最近一期國稅與地方稅無欠稅證明、勞保投保人數資料表"
             ],
-            "lastVerifiedAt": "2026-10-27 00:19:39"
+            "lastVerifiedAt": "2026-10-27 00:56:41"
       },
       {
             "id": "LOCAL-HSINCHU-CITY-SBIR",
@@ -2211,7 +2208,7 @@
                   "新竹市地方產業創新研發計畫書（符合選定特色產業或數位轉型方向）",
                   "最近一期國稅與地方稅無欠稅證明、勞保投保人數資料表"
             ],
-            "lastVerifiedAt": "2026-10-27 00:19:39"
+            "lastVerifiedAt": "2026-10-27 00:56:41"
       },
       {
             "id": "LOCAL-HSINCHU-COUNTY-SBIR",
@@ -2256,7 +2253,7 @@
                   "新竹縣地方產業創新研發計畫書（符合選定特色產業或數位轉型方向）",
                   "最近一期國稅與地方稅無欠稅證明、勞保投保人數資料表"
             ],
-            "lastVerifiedAt": "2026-10-27 00:19:39"
+            "lastVerifiedAt": "2026-10-27 00:56:41"
       },
       {
             "id": "LOCAL-MIAOLI-SBIR",
@@ -2301,7 +2298,7 @@
                   "苗栗縣地方產業創新研發計畫書（符合選定特色產業或數位轉型方向）",
                   "最近一期國稅與地方稅無欠稅證明、勞保投保人數資料表"
             ],
-            "lastVerifiedAt": "2026-10-27 00:19:39"
+            "lastVerifiedAt": "2026-10-27 00:56:41"
       },
       {
             "id": "LOCAL-TAICHUNG-SBIR",
@@ -2346,7 +2343,7 @@
                   "臺中市地方產業創新研發計畫書（符合選定特色產業或數位轉型方向）",
                   "最近一期國稅與地方稅無欠稅證明、勞保投保人數資料表"
             ],
-            "lastVerifiedAt": "2026-10-27 00:19:39"
+            "lastVerifiedAt": "2026-10-27 00:56:41"
       },
       {
             "id": "LOCAL-CHANGHUA-SBIR",
@@ -2391,7 +2388,7 @@
                   "彰化縣地方產業創新研發計畫書（符合選定特色產業或數位轉型方向）",
                   "最近一期國稅與地方稅無欠稅證明、勞保投保人數資料表"
             ],
-            "lastVerifiedAt": "2026-10-27 00:19:39"
+            "lastVerifiedAt": "2026-10-27 00:56:41"
       },
       {
             "id": "LOCAL-NANTOU-SBIR",
@@ -2436,7 +2433,7 @@
                   "南投縣地方產業創新研發計畫書（符合選定特色產業或數位轉型方向）",
                   "最近一期國稅與地方稅無欠稅證明、勞保投保人數資料表"
             ],
-            "lastVerifiedAt": "2026-10-27 00:19:39"
+            "lastVerifiedAt": "2026-10-27 00:56:41"
       },
       {
             "id": "LOCAL-YUNLIN-SBIR",
@@ -2481,7 +2478,7 @@
                   "雲林縣地方產業創新研發計畫書（符合選定特色產業或數位轉型方向）",
                   "最近一期國稅與地方稅無欠稅證明、勞保投保人數資料表"
             ],
-            "lastVerifiedAt": "2026-10-27 00:19:39"
+            "lastVerifiedAt": "2026-10-27 00:56:41"
       },
       {
             "id": "LOCAL-CHIAYI-COUNTY-SBIR",
@@ -2526,7 +2523,7 @@
                   "嘉義縣地方產業創新研發計畫書（符合選定特色產業或數位轉型方向）",
                   "最近一期國稅與地方稅無欠稅證明、勞保投保人數資料表"
             ],
-            "lastVerifiedAt": "2026-10-27 00:19:39"
+            "lastVerifiedAt": "2026-10-27 00:56:41"
       },
       {
             "id": "LOCAL-CHIAYI-CITY-SBIR",
@@ -2571,7 +2568,7 @@
                   "嘉義市地方產業創新研發計畫書（符合選定特色產業或數位轉型方向）",
                   "最近一期國稅與地方稅無欠稅證明、勞保投保人數資料表"
             ],
-            "lastVerifiedAt": "2026-10-27 00:19:39"
+            "lastVerifiedAt": "2026-10-27 00:56:41"
       },
       {
             "id": "LOCAL-TAINAN-SBIR",
@@ -2616,7 +2613,7 @@
                   "臺南市地方產業創新研發計畫書（符合選定特色產業或數位轉型方向）",
                   "最近一期國稅與地方稅無欠稅證明、勞保投保人數資料表"
             ],
-            "lastVerifiedAt": "2026-10-27 00:19:39"
+            "lastVerifiedAt": "2026-10-27 00:56:41"
       },
       {
             "id": "LOCAL-KAOHSIUNG-SBIR",
@@ -2661,7 +2658,7 @@
                   "高雄市地方產業創新研發計畫書（符合選定特色產業或數位轉型方向）",
                   "最近一期國稅與地方稅無欠稅證明、勞保投保人數資料表"
             ],
-            "lastVerifiedAt": "2026-10-27 00:19:39"
+            "lastVerifiedAt": "2026-10-27 00:56:41"
       },
       {
             "id": "LOCAL-PINGTUNG-SBIR",
@@ -2706,7 +2703,7 @@
                   "屏東縣地方產業創新研發計畫書（符合選定特色產業或數位轉型方向）",
                   "最近一期國稅與地方稅無欠稅證明、勞保投保人數資料表"
             ],
-            "lastVerifiedAt": "2026-10-27 00:19:39"
+            "lastVerifiedAt": "2026-10-27 00:56:41"
       },
       {
             "id": "LOCAL-YILAN-SBIR",
@@ -2751,7 +2748,7 @@
                   "宜蘭縣地方產業創新研發計畫書（符合選定特色產業或數位轉型方向）",
                   "最近一期國稅與地方稅無欠稅證明、勞保投保人數資料表"
             ],
-            "lastVerifiedAt": "2026-10-27 00:19:39"
+            "lastVerifiedAt": "2026-10-27 00:56:41"
       },
       {
             "id": "LOCAL-HUALIEN-SBIR",
@@ -2796,7 +2793,7 @@
                   "花蓮縣地方產業創新研發計畫書（符合選定特色產業或數位轉型方向）",
                   "最近一期國稅與地方稅無欠稅證明、勞保投保人數資料表"
             ],
-            "lastVerifiedAt": "2026-10-27 00:19:39"
+            "lastVerifiedAt": "2026-10-27 00:56:41"
       },
       {
             "id": "LOCAL-TAITUNG-SBIR",
@@ -2841,7 +2838,7 @@
                   "臺東縣地方產業創新研發計畫書（符合選定特色產業或數位轉型方向）",
                   "最近一期國稅與地方稅無欠稅證明、勞保投保人數資料表"
             ],
-            "lastVerifiedAt": "2026-10-27 00:19:39"
+            "lastVerifiedAt": "2026-10-27 00:56:41"
       },
       {
             "id": "LOCAL-PENGHU-SBIR",
@@ -2886,7 +2883,7 @@
                   "澎湖縣地方產業創新研發計畫書（符合選定特色產業或數位轉型方向）",
                   "最近一期國稅與地方稅無欠稅證明、勞保投保人數資料表"
             ],
-            "lastVerifiedAt": "2026-10-27 00:19:39"
+            "lastVerifiedAt": "2026-10-27 00:56:41"
       },
       {
             "id": "LOCAL-KINMEN-SBIR",
@@ -2931,7 +2928,7 @@
                   "金門縣地方產業創新研發計畫書（符合選定特色產業或數位轉型方向）",
                   "最近一期國稅與地方稅無欠稅證明、勞保投保人數資料表"
             ],
-            "lastVerifiedAt": "2026-10-27 00:19:39"
+            "lastVerifiedAt": "2026-10-27 00:56:41"
       },
       {
             "id": "LOCAL-LIENCHIANG-SBIR",
@@ -2976,1137 +2973,880 @@
                   "連江縣地方產業創新研發計畫書（符合選定特色產業或數位轉型方向）",
                   "最近一期國稅與地方稅無欠稅證明、勞保投保人數資料表"
             ],
-            "lastVerifiedAt": "2026-10-27 00:19:39"
+            "lastVerifiedAt": "2026-10-27 00:56:41"
       }
 ];
 
-    let COMPANIES_DB = DEFAULT_COMPANIES_DB.companies;
+    let COMPANIES_DB = DEFAULT_COMPANIES_DB.companies || {};
+    let INDUSTRY_PREFIX_MAP = DEFAULT_COMPANIES_DB.industryCodePrefixMapping || {};
     let GRANTS_DB = DEFAULT_GRANTS_DB;
 
-    const ALL_22_COUNTIES = [
+    const TODAY_STR = "2026-10-27";
+    const SCREENING_DELAY_MS = 3500; // 無條件等待 3.5 秒（3~5 秒區間）
+
+    const TAIWAN_22_COUNTIES = [
       "臺北市", "新北市", "桃園市", "臺中市", "臺南市", "高雄市",
       "基隆市", "新竹市", "新竹縣", "苗栗縣", "彰化縣", "南投縣",
       "雲林縣", "嘉義市", "嘉義縣", "屏東縣", "宜蘭縣", "花蓮縣",
       "臺東縣", "澎湖縣", "金門縣", "連江縣"
     ];
 
-    // ==================== 3. 狀態管理（Default 一律走遠端公開 API，隱藏切換面板） ====================
-    let state = {
-      currentCompany: { ...COMPANIES_DB["28458491"] },
+    const state = {
+      ubn: "28458491",
+      companyName: "哇寶國際資訊股份有限公司",
+      orgType: "company",
+      orgTypeLabel: "公司法人（g0v 開放資料同步）",
+      county: "臺北市",
+      address: "臺北市南港區南港路3段50巷22號4樓",
+      paidInCapitalMan: 1200,
+      estDate: "2006-12-21",
+      industryCode: "E605010",
+      sector: "service",
+      sectorLabel: "商業／資訊軟體服務業",
+      hasFactoryReg: false,
+      findbizUrl: "https://findbiz.nat.gov.tw/fts/company/28458491",
       empRange: "31to199",
       exactEmpCount: 55,
-      selectedGoal: "all",
-      priorUpgradeConflict: false,
+      goal: "all",
+      hasPriorUpgradeSubsidy: false,
       hideExpired: true,
-      expandedCardIds: new Set(),
-      companyDrawerOpen: false,
-      advFilterOpen: false,
-      chartDrawerOpen: false,
-      excludedDrawerOpen: false,
-      autocompleteItems: [],
-      autocompleteActiveIndex: -1
+      expandedCards: new Set(),
+      lastEvaluation: null,
+      screeningTimer: null,
+      subtextInterval: null,
+      countUpFrameIds: {}
     };
 
-    // ==================== 4. 統編檢核與地址/行業解析工具 ====================
+    // ==================== 3. 財政部 8 碼統編檢核碼演算法 ====================
     function validateTaiwanUBN(ubn) {
-      if (!/^\d{8}$/.test(ubn)) return { valid: false, msg: "✓ 支援公司名稱模糊搜尋與統編檢核" };
-      const weights = [1, 2, 1, 2, 1, 2, 4, 1];
+      if (!/^\d{8}$/.test(ubn)) return false;
+      const weights = [1, 2, 1, 2, 4, 1, 4, 1];
       let sum = 0;
       for (let i = 0; i < 8; i++) {
-        let p = parseInt(ubn[i], 10) * weights[i];
+        const p = parseInt(ubn[i], 10) * weights[i];
         sum += Math.floor(p / 10) + (p % 10);
       }
-      const isDigit7Seven = ubn[6] === "7";
-      const pass = (sum % 5 === 0) || (isDigit7Seven && ((sum + 1) % 5 === 0));
-      return {
-        valid: pass,
-        msg: pass ? "✓ 統編邏輯檢核通過" : "⚠ 非標準統編檢核碼（仍可模擬）"
-      };
+      if (sum % 5 === 0) return true;
+      if (ubn[6] === "7" && (sum + 1) % 5 === 0) return true;
+      return false;
     }
 
-    function extractCounty22(addr) {
-      if (!addr) return "臺北市";
-      const norm = String(addr).replace(/台/g, "臺");
-      for (const c of ALL_22_COUNTIES) {
-        if (norm.includes(c)) return c;
+    function normalizeCountyName(text) {
+      if (!text) return "臺北市";
+      const normalized = String(text).replace(/台/g, "臺");
+      for (const c of TAIWAN_22_COUNTIES) {
+        if (normalized.includes(c)) return c;
       }
       return "臺北市";
     }
 
-    function mapIndustryToSectorJS(indCode, companyName) {
-      const mapping = DEFAULT_COMPANIES_DB.industryCodePrefixMapping || {};
-      if (/機械|精密|工業|製造|金屬|食品|電子|半導體|塑膠|光電|化工/.test(companyName || "")) {
-        return { sector: "manufacturing", sectorLabel: "製造業" };
-      }
-      if (indCode && typeof indCode === "string" && indCode.trim().length > 0) {
-        const prefix = indCode.trim()[0].toUpperCase();
-        if (mapping[prefix]) {
-          return {
-            sector: mapping[prefix].sector,
-            sectorLabel: `${mapping[prefix].label} (${indCode.trim()})`
-          };
-        }
-      }
-      return { sector: "service", sectorLabel: "商業服務業" };
-    }
-
-    function parseG0vCompanyObject(ubn, d) {
+    // ==================== 4. 遠端統編 API 即時查詢（預設一律走 API + 本地快取備援） ====================
+    async function fetchFromRemoteG0vApi(ubn) {
+      const resp = await fetch(`https://company.g0v.ronny.tw/api/show/${ubn}`);
+      if (!resp.ok) return null;
+      const json = await resp.json();
+      const d = json && json.data;
       if (!d) return null;
-      let name = d["公司名稱"] || d["商業名稱"] || d["名稱"] || "";
-      if (Array.isArray(name)) name = name[0];
-      name = String(name).trim();
+
+      const name = d["公司名稱"] || d["商業名稱"] || d["名稱"] || "";
       if (!name) return null;
 
-      const addr = String(d["公司所在地"] || d["地址"] || "").trim();
-      const rawCap = String(d["實收資本額(元)"] || d["資本總額(元)"] || d["資本額(元)"] || "0");
-      const cap = parseInt(rawCap.replace(/[^\d]/g, ""), 10) || 0;
-      const isBiz = ("商業名稱" in d) && !("公司名稱" in d);
-      const orgType = isBiz ? "business" : "company";
-      const orgTypeLabel = isBiz ? "獨資／合夥商號" : "公司法人（公司法登記）";
+      const isBusiness = Boolean(d["商業名稱"] && !d["公司名稱"]);
+      const addr = d["公司所在地"] || d["地址"] || "臺北市";
+      const county = normalizeCountyName(addr);
 
-      const items = d["所營事業資料"] || [];
-      let indCode = "";
-      if (Array.isArray(items) && items.length > 0 && Array.isArray(items[0]) && items[0].length > 0) {
-        indCode = String(items[0][0]).trim();
-      }
-      const { sector, sectorLabel } = mapIndustryToSectorJS(indCode, name);
-      const hasFac = (COMPANIES_DB[ubn] && typeof COMPANIES_DB[ubn].hasFactoryReg === "boolean")
-        ? COMPANIES_DB[ubn].hasFactoryReg
-        : (sector === "manufacturing" && cap >= 5000000);
+      const capRaw = String(d["實收資本額(元)"] || d["資本額(元)"] || "5000000").replace(/,/g, "");
+      const paidInCapital = parseInt(capRaw, 10) || 5000000;
 
-      let estDate = "依商工登記";
-      if (d["核准設立日期"] && typeof d["核准設立日期"] === "object") {
-        const y = d["核准設立日期"].year || 2020;
-        const m = String(d["核准設立日期"].month || 1).padStart(2, "0");
-        const day = String(d["核准設立日期"].day || 1).padStart(2, "0");
-        estDate = `${y}-${m}-${day}`;
+      const bizItems = d["所營事業資料"] || [];
+      let primaryCode = "I301010";
+      let hasMfg = false;
+      if (Array.isArray(bizItems) && bizItems.length > 0) {
+        if (Array.isArray(bizItems[0]) && bizItems[0][0]) {
+          primaryCode = String(bizItems[0][0]).trim();
+        }
+        for (const row of bizItems.slice(0, 3)) {
+          if (Array.isArray(row) && String(row[0] || "").startsWith("C")) {
+            hasMfg = true;
+            primaryCode = String(row[0]).trim();
+            break;
+          }
+        }
       }
 
-      const empRange = cap < 10000000 ? "under30" : (cap <= 100000000 ? "31to199" : "over200");
-      const exactEmp = cap < 10000000 ? 15 : (cap <= 100000000 ? 50 : 250);
+      const prefix = primaryCode ? primaryCode[0].toUpperCase() : "DEFAULT";
+      const sector = (prefix === "C" || prefix === "D" || hasMfg) ? "manufacturing" : "service";
+      const sectorLabel = sector === "manufacturing" ? "製造業（C 類所營事業映射）" : "商業／資訊與專業服務業";
+
+      let estDate = "2018-01-01";
+      const estObj = d["核准設立日期"];
+      if (estObj && typeof estObj === "object" && estObj.year) {
+        estDate = `${estObj.year}-${String(estObj.month || 1).padStart(2, "0")}-${String(estObj.day || 1).padStart(2, "0")}`;
+      }
 
       return {
-        ubn: String(ubn).padStart(8, "0"),
-        name,
-        orgType,
-        orgTypeLabel,
-        county: extractCounty22(addr),
-        address: addr || "全國商工登記公示地址",
-        paidInCapital: cap,
+        ubn,
+        name: Array.isArray(name) ? name[0] : String(name),
+        orgType: isBusiness ? "business" : "company",
+        orgTypeLabel: isBusiness ? "獨資／合夥商號（遠端 API 即時連線）" : "公司法人（遠端 API 即時連線）",
+        county,
+        address: addr,
+        paidInCapital,
         estDate,
-        industryCode: indCode,
+        industryCode: primaryCode,
         sector,
         sectorLabel,
-        hasFactoryReg: hasFac,
-        defaultEmpRange: empRange,
-        defaultExactEmp: exactEmp,
-        findbizUrl: `https://findbiz.nat.gov.tw/fts/company/${String(ubn).padStart(8, "0")}`
+        hasFactoryReg: sector === "manufacturing",
+        defaultEmpRange: paidInCapital >= 100000000 ? "over200" : (paidInCapital >= 10000000 ? "31to199" : "under30"),
+        defaultExactEmp: paidInCapital >= 100000000 ? 250 : (paidInCapital >= 10000000 ? 50 : 15),
+        findbizUrl: `https://findbiz.nat.gov.tw/fts/company/${ubn}`
       };
     }
 
-    // ==================== 5. 遠端公開 API 即時查詢（單一統編 ＋ 企業名稱模糊搜尋 Autocomplete） ====================
-    async function fetchFromRemoteG0vApi(ubn) {
-      const controller = new AbortController();
-      const timer = setTimeout(() => controller.abort(), 4500);
-      try {
-        const res = await fetch(`https://company.g0v.ronny.tw/api/show/${ubn}`, {
-          signal: controller.signal
-        });
-        clearTimeout(timer);
-        if (!res.ok) return null;
-        const payload = await res.json();
-        if (!payload || !payload.data) return null;
-        return parseG0vCompanyObject(ubn, payload.data);
-      } catch (_) {
-        clearTimeout(timer);
-        return null;
-      }
+    // ==================== 5. 確定性補助規則引擎 ====================
+    function daysUntil(deadlineStr) {
+      const t = new Date(TODAY_STR + "T00:00:00");
+      const d = new Date(deadlineStr + "T00:00:00");
+      return Math.ceil((d - t) / (1000 * 60 * 60 * 24));
     }
 
-    let searchAbortController = null;
-    async function searchRemoteCompaniesByName(keyword) {
-      if (searchAbortController) {
-        searchAbortController.abort();
+    function evaluateGrant(grant) {
+      const reasons = [];
+      const r = grant.rules;
+      const dLeft = daysUntil(grant.deadline);
+      const isExpired = dLeft < 0;
+
+      if (isExpired && state.hideExpired) {
+        reasons.push(`本梯次已於 ${grant.deadline} 截止（已為您隱藏過期梯次）`);
       }
-      searchAbortController = new AbortController();
-      const timer = setTimeout(() => searchAbortController.abort(), 4000);
-      try {
-        const url = `https://company.g0v.ronny.tw/api/search?q=${encodeURIComponent(keyword)}`;
-        const res = await fetch(url, { signal: searchAbortController.signal });
-        clearTimeout(timer);
-        if (!res.ok) return [];
-        const payload = await res.json();
-        if (!payload || !Array.isArray(payload.data)) return [];
-        const results = [];
-        for (const item of payload.data) {
-          const rawNo = item["統一編號"] || item["商業統一編號"] || item["id"] || "";
-          const ubn = String(rawNo).trim().padStart(8, "0");
-          if (!/^\d{8}$/.test(ubn)) continue;
-          const statusStr = String(item["公司狀況"] || item["現況"] || "");
-          if (/解散|撤銷|廢止|歇業/.test(statusStr)) continue;
-          const parsed = parseG0vCompanyObject(ubn, item);
-          if (parsed) {
-            COMPANIES_DB[ubn] = parsed;
-            results.push(parsed);
-          }
-          if (results.length >= 8) break;
+      if (!r.allowedOrgTypes.includes(state.orgType)) {
+        reasons.push("組織型態不符：本計畫僅限依公司法設立之「公司法人」，獨資／合夥商號不適用");
+      }
+      if (!r.allowedCounties.includes("ALL") && !r.allowedCounties.includes(state.county)) {
+        reasons.push(`設籍縣市不符：本案限設籍「${r.allowedCounties.join("、")}」，貴公司登記於「${state.county}」`);
+      }
+      if (!r.allowedSectors.includes(state.sector)) {
+        const sectorName = state.sector === "manufacturing" ? "製造業" : "商業服務業";
+        reasons.push(`業別屬性不符：貴公司映射為「${sectorName}」，不在本計畫補助範疇內`);
+      }
+      if (r.requiresFactoryReg && !state.hasFactoryReg) {
+        reasons.push("工廠登記限制：本案須具備合法工廠登記（或特定工廠登記）");
+      }
+      if (r.requiresSME) {
+        const isSMEByCap = state.paidInCapitalMan <= (r.maxCapitalMan || 10000);
+        const isSMEByEmp = state.empRange !== "over200" && state.exactEmpCount < 200;
+        if (!isSMEByCap && !isSMEByEmp) {
+          reasons.push(`中小企業認定不符：實收資本額 (${state.paidInCapitalMan.toLocaleString()} 萬) 超過 1 億元且經常僱用員工滿 200 人`);
         }
-        return results;
-      } catch (_) {
-        clearTimeout(timer);
-        return [];
       }
+      if (r.maxEmployees !== null && state.exactEmpCount > r.maxEmployees) {
+        reasons.push(`員工人數上限不符：本案限勞保投保 ${r.maxEmployees} 人以下之製造業，貴公司目前設定為 ${state.exactEmpCount} 人`);
+      }
+      if (r.minEmployees !== null && state.exactEmpCount < r.minEmployees) {
+        reasons.push(`員工人數門檻不符：本案需至少 ${r.minEmployees} 人以上`);
+      }
+      if (r.excludesPriorUpgradeSubsidy && state.hasPriorUpgradeSubsidy) {
+        reasons.push("同年度互斥條款：貴公司已勾選曾獲經濟部升級轉型或接班傳承補助，依簡章規定不得重複申請");
+      }
+
+      const goalMatches = state.goal === "all" || (grant.goals && grant.goals.includes(state.goal));
+
+      let dynamicMaxMan = grant.maxSubsidyMan;
+      if (grant.perEmployeeCapMan) {
+        dynamicMaxMan = Math.min(grant.maxSubsidyMan, Math.max(1, state.exactEmpCount) * grant.perEmployeeCapMan);
+      }
+
+      const w = grant.weights;
+      const expectedValueMan = Math.round(dynamicMaxMan * w.historicalApprovalRate * w.budgetAllocationFactor * 10) / 10;
+
+      return {
+        grant,
+        eligible: reasons.length === 0,
+        goalMatches,
+        reasons,
+        isExpired,
+        dLeft,
+        dynamicMaxMan: Math.round(dynamicMaxMan * 10) / 10,
+        expectedValueMan
+      };
     }
 
-    function searchLocalCachedCompanies(keyword) {
-      const q = keyword.trim().toLowerCase();
-      if (!q) return [];
-      const matches = [];
-      for (const ubn of Object.keys(COMPANIES_DB)) {
-        const c = COMPANIES_DB[ubn];
-        if (
-          c.name.toLowerCase().includes(q) ||
-          c.ubn.includes(q) ||
-          (c.county && c.county.includes(q)) ||
-          (c.sectorLabel && c.sectorLabel.toLowerCase().includes(q))
-        ) {
-          matches.push(c);
-        }
-      }
-      return matches.slice(0, 8);
-    }
-
-    function renderAutocompleteDropdown(items, queryText, isLoadingRemote = false) {
-      const dropdown = document.getElementById("autocompleteDropdown");
-      state.autocompleteItems = items;
-      if (items.length === 0 && !isLoadingRemote) {
-        dropdown.classList.add("hidden");
-        dropdown.innerHTML = "";
-        return;
-      }
-
-      let html = items.map((c, idx) => {
-        const capMan = Math.round((c.paidInCapital || 0) / 10000).toLocaleString();
-        const isActive = idx === state.autocompleteActiveIndex;
-        return `
-          <button
-            type="button"
-            data-select-ubn="${c.ubn}"
-            class="autocomplete-item w-full text-left px-5 py-3.5 hover:bg-blue-50 transition flex flex-wrap items-center justify-between gap-2 ${isActive ? 'bg-blue-50' : ''}"
-          >
-            <div>
-              <div class="text-base font-extrabold text-slate-900 flex items-center gap-2">
-                <span>🏢 ${c.name}</span>
-                <span class="font-mono text-sm px-2 py-0.5 rounded bg-slate-100 text-blue-700 border border-slate-200">統編 ${c.ubn}</span>
-              </div>
-              <div class="text-sm text-slate-500 mt-0.5">
-                📍 ${c.county} ｜ 💰 資本額 ${capMan} 萬元 ｜ 💼 ${c.sectorLabel}
-              </div>
-            </div>
-            <span class="text-sm font-bold text-blue-600">點選帶入 ↵</span>
-          </button>
-        `;
-      }).join("");
-
-      if (isLoadingRemote) {
-        html += `
-          <div class="px-5 py-3 text-sm text-slate-500 bg-slate-50 flex items-center gap-2">
-            <span class="inline-block w-3.5 h-3.5 border-2 border-blue-600 border-t-transparent rounded-full animate-spin"></span>
-            正在從全國商工開放資料庫搜尋「${queryText}」...
-          </div>
-        `;
-      }
-
-      dropdown.innerHTML = html;
-      dropdown.classList.remove("hidden");
-
-      dropdown.querySelectorAll(".autocomplete-item").forEach((btn) => {
-        btn.addEventListener("mousedown", (e) => {
-          e.preventDefault();
-          const ubn = btn.getAttribute("data-select-ubn");
-          selectAutocompleteCompany(ubn);
-        });
-      });
-    }
-
-    function selectAutocompleteCompany(ubn) {
-      const dropdown = document.getElementById("autocompleteDropdown");
-      dropdown.classList.add("hidden");
-      state.autocompleteActiveIndex = -1;
-      const comp = COMPANIES_DB[ubn];
-      const ubnInput = document.getElementById("ubnInput");
-      if (comp) {
-        ubnInput.value = `${comp.name} (${comp.ubn})`;
-      } else {
-        ubnInput.value = ubn;
-      }
-      applyUbnLookup(ubn);
-    }
-
-    // ==================== 6. 核心 Rule-Based Mapping 演算法 ====================
-    function evaluateGrantsForCompany() {
-      const comp = state.currentCompany;
-      const isSME = (comp.paidInCapital <= 100000000) || (state.empRange !== "over200" && state.exactEmpCount < 200);
-      const isUnder30 = state.empRange === "under30" && state.exactEmpCount <= 30;
-
-      const eligible = [];
-      const excluded = [];
-
-      GRANTS_DB.forEach((grant) => {
-        const reasons = [];
-
-        if (grant.isExpired && state.hideExpired) {
-          reasons.push("本梯次已截止受理（" + grant.deadline + "）");
-        }
-        if (grant.rules.smeOnly && !isSME) {
-          reasons.push("不符中小企業認定標準（實收資本額逾 1 億元且經常僱用員工達 200 人以上）");
-        }
-        if (grant.rules.maxEmployees !== null && !isUnder30) {
-          reasons.push(`超過員工人數上限（限 ${grant.rules.maxEmployees} 人以下，目前設定為 ${state.exactEmpCount} 人）`);
-        }
-        if (!grant.rules.allowedOrgTypes.includes(comp.orgType)) {
-          reasons.push("組織型態不符（限依『公司法』設立之公司，獨資／合夥商號不適用）");
-        }
-        if (!grant.rules.allowedSectors.includes(comp.sector)) {
-          const reqSectorName = grant.rules.allowedSectors.includes("manufacturing") ? "製造業" : "商業服務業";
-          reasons.push(`產業別不符（限「${reqSectorName}」，貴公司為「${comp.sectorLabel}」）`);
-        }
-        if (grant.rules.requireFactoryReg && !comp.hasFactoryReg) {
-          reasons.push("缺少工廠登記（要求具備合法工廠登記或特定工廠登記證）");
-        }
-        if (!grant.rules.allowedCounties.includes("ALL") && !grant.rules.allowedCounties.includes(comp.county)) {
-          reasons.push(`設籍縣市不符（限設籍「${grant.rules.allowedCounties.join("／")}」，貴公司登記於「${comp.county}」）`);
-        }
-        if (grant.rules.mutexGroup === "MOEA_UPGRADE_2026" && state.priorUpgradeConflict) {
-          reasons.push("觸發同年度互斥條款（今年已獲低碳化／智慧化升級轉型或接班傳承補助）");
-        }
-
-        const goalFilteredOut = (state.selectedGoal !== "all" && grant.category !== state.selectedGoal);
-
-        let effectiveMaxMan = grant.maxSubsidyMan;
-        if (grant.perEmployeeCapMan) {
-          effectiveMaxMan = Math.min(grant.maxSubsidyMan, Math.max(1, state.exactEmpCount) * grant.perEmployeeCapMan);
-        }
-
-        const weight = grant.easeWeight || 0.6;
-        const urgency = grant.urgencyWeight || 5;
-        const expectedValueMan = Math.round(effectiveMaxMan * weight * 10) / 10;
-        const rankScore = expectedValueMan * (1 + urgency * 0.05);
-
-        const enriched = {
-          ...grant,
-          effectiveMaxMan,
-          expectedValueMan,
-          rankScore,
-          reasons
-        };
-
-        if (reasons.length === 0 && !goalFilteredOut) {
-          eligible.push(enriched);
-        } else {
-          if (goalFilteredOut && reasons.length === 0) {
-            enriched.reasons = ["目前已篩選特定轉型方向（切換為「全部轉型需求」即可顯示）"];
-          }
-          excluded.push(enriched);
-        }
-      });
-
-      eligible.sort((a, b) => b.rankScore - a.rankScore);
-      return { eligible, excluded, isSME, isUnder30 };
-    }
-
-    // ==================== 7. 數字累計跳動 (Count-Up) 與 3~5 秒等待 ＋ 瀑布流漸進式呈現 ====================
-    function animateCountUp(elId, targetVal, durationMs = 1200) {
+    // ==================== 6. 數字累計跳動動畫 (Count-Up Animation) ====================
+    function animateCountUp(elId, targetVal, durationMs = 1200, isFloat = false) {
       const el = document.getElementById(elId);
       if (!el) return;
+
+      if (state.countUpFrameIds[elId]) {
+        cancelAnimationFrame(state.countUpFrameIds[elId]);
+      }
+
       const startTime = performance.now();
-      const target = Math.max(0, Math.round(targetVal));
+      const startVal = 0;
 
       function step(now) {
-        const elapsed = now - startTime;
-        const progress = Math.min(1, elapsed / durationMs);
-        // Cubic ease-out
-        const eased = 1 - Math.pow(1 - progress, 3);
-        const current = Math.round(target * eased);
-        el.textContent = current.toLocaleString();
-        if (progress < 1) {
-          requestAnimationFrame(step);
+        const progress = Math.min((now - startTime) / durationMs, 1);
+        const eased = 1 - Math.pow(1 - progress, 3); // Cubic Ease-Out
+        const current = startVal + (targetVal - startVal) * eased;
+
+        if (isFloat) {
+          el.textContent = (Math.round(current * 10) / 10).toLocaleString();
         } else {
-          el.textContent = target.toLocaleString();
+          el.textContent = Math.round(current).toLocaleString();
+        }
+
+        if (progress < 1) {
+          state.countUpFrameIds[elId] = requestAnimationFrame(step);
+        } else {
+          el.textContent = isFloat
+            ? (Math.round(targetVal * 10) / 10).toLocaleString()
+            : Math.round(targetVal).toLocaleString();
         }
       }
-      requestAnimationFrame(step);
+
+      state.countUpFrameIds[elId] = requestAnimationFrame(step);
     }
 
-    function showToast(msg) {
-      const box = document.getElementById("toastBox");
-      const text = document.getElementById("toastText");
-      text.textContent = msg;
-      box.classList.remove("hidden");
-      clearTimeout(window._toastTimer);
-      window._toastTimer = setTimeout(() => {
-        box.classList.add("hidden");
-      }, 2800);
+    // ==================== 7. 介面渲染（含 3.5 秒篩選等待 ＋ 瀑布流漸進出現） ====================
+    function getEmpRangeShortLabel() {
+      if (state.empRange === "under30") return `30人以下 (${state.exactEmpCount}人)`;
+      if (state.empRange === "over200") return `200人以上 (${state.exactEmpCount}人)`;
+      return `31～199人 (${state.exactEmpCount}人)`;
     }
 
     function renderCompanySummaryBar() {
-      const comp = state.currentCompany;
-      const capMan = Math.round(comp.paidInCapital / 10000).toLocaleString();
-      const isSME = (comp.paidInCapital <= 100000000) || (state.empRange !== "over200" && state.exactEmpCount < 200);
+      const pillsEl = document.getElementById("companySummaryPills");
+      const metaEl = document.getElementById("companyFullMeta");
 
-      document.getElementById("companySummaryPills").innerHTML = `
-        <span class="px-3.5 py-1.5 rounded-xl bg-slate-900 text-white font-bold">
-          🏢 ${comp.name}（統編 ${comp.ubn}）
-        </span>
-        <span class="px-3 py-1.5 rounded-xl bg-white border border-slate-200 font-semibold text-slate-800">
-          📍 ${comp.county}
-        </span>
-        <span class="px-3 py-1.5 rounded-xl bg-white border border-slate-200 font-semibold text-slate-800">
-          💰 資本額 ${capMan} 萬
-        </span>
-        <span class="px-3 py-1.5 rounded-xl bg-white border border-slate-200 font-semibold text-slate-800">
-          💼 ${comp.sectorLabel}（${comp.hasFactoryReg ? '具工廠登記' : '無工廠登記'}）
-        </span>
-        <span class="px-3 py-1.5 rounded-xl font-bold ${isSME ? 'bg-emerald-100 text-emerald-800' : 'bg-rose-100 text-rose-800'}">
-          ${isSME ? '✓ 符合中小企業認定' : '⚠ 大型企業'}
-        </span>
+      const sectorBadge = state.sector === "manufacturing"
+        ? `<span class="px-2.5 py-0.5 rounded-lg bg-indigo-100 text-indigo-800 font-bold text-xs sm:text-sm">🏭 製造業 (${state.hasFactoryReg ? "有工廠登記" : "無廠登"})</span>`
+        : `<span class="px-2.5 py-0.5 rounded-lg bg-amber-100 text-amber-800 font-bold text-xs sm:text-sm">💼 商業服務業</span>`;
+
+      pillsEl.innerHTML = `
+        <span class="font-extrabold text-slate-900 text-sm sm:text-base">🏢 ${state.companyName}</span>
+        <span class="px-2 py-0.5 rounded-md bg-white border border-slate-200 text-slate-700 font-mono text-xs sm:text-sm">統編 ${state.ubn}</span>
+        <span class="px-2.5 py-0.5 rounded-lg bg-blue-100 text-blue-800 font-bold text-xs sm:text-sm">📍 ${state.county}</span>
+        <span class="px-2.5 py-0.5 rounded-lg bg-emerald-100 text-emerald-800 font-bold text-xs sm:text-sm">💰 資本額 ${state.paidInCapitalMan.toLocaleString()} 萬</span>
+        ${sectorBadge}
+        <span class="px-2.5 py-0.5 rounded-lg bg-teal-100 text-teal-800 font-bold text-xs sm:text-sm">👥 ${getEmpRangeShortLabel()}</span>
       `;
 
-      document.getElementById("companyFullMeta").innerHTML = `
-        <div class="flex flex-wrap items-center justify-between gap-2 mb-2">
-          <div class="font-bold text-slate-900 text-base">
-            商工登記完整資料（統一編號：<span class="font-mono text-blue-700">${comp.ubn}</span>）
+      metaEl.innerHTML = `
+        <div class="flex flex-wrap items-center justify-between gap-2">
+          <div>
+            <span class="font-bold text-slate-900">${state.companyName}</span>
+            <span class="text-slate-500 ml-2">（${state.orgTypeLabel} · 設立日期：${state.estDate} · 主要營業代碼：${state.industryCode}）</span>
+            <div class="text-slate-600 mt-1">登記地址：${state.address}</div>
           </div>
-          <a href="${comp.findbizUrl}" target="_blank" rel="noopener noreferrer" class="text-blue-600 font-semibold hover:underline">
-            🔗 前往經濟部商工登記公示系統查驗 ↗
+          <a href="${state.findbizUrl}" target="_blank" rel="noopener noreferrer" class="text-blue-600 hover:underline font-semibold text-sm">
+            開啟經濟部商工公示資料 ↗
           </a>
         </div>
-        <div class="grid grid-cols-1 sm:grid-cols-3 gap-2 text-slate-600">
-          <div><strong>組織型態：</strong>${comp.orgTypeLabel}</div>
-          <div><strong>核准設立日：</strong>${comp.estDate}</div>
-          <div><strong>登記地址：</strong>${comp.address}</div>
-        </div>
       `;
     }
 
-    function renderPortfolioStepsAndChart(eligible) {
-      const top3 = eligible.slice(0, 3);
-      const stepLabels = ["第一步：優先保底快領", "第二步：核心轉型主力", "第三步：高金額研發衝刺"];
-      const grid = document.getElementById("portfolioStepsGrid");
+    function renderPortfolioSummary(shownEligible, animateNumbers = true) {
+      const stepsEl = document.getElementById("portfolioStepsGrid");
+      const chartEl = document.getElementById("grantSvgChart");
+
+      const top3 = shownEligible.slice(0, 3);
+      const totalMaxMan = Math.round(shownEligible.reduce((acc, x) => acc + x.dynamicMaxMan, 0) * 10) / 10;
+      const totalExpectedMan = Math.round(shownEligible.reduce((acc, x) => acc + x.expectedValueMan, 0) * 10) / 10;
+
+      if (animateNumbers) {
+        animateCountUp("countUpCases", shownEligible.length, 1100, false);
+        animateCountUp("countUpMaxMan", totalMaxMan, 1300, true);
+        animateCountUp("countUpExpectedMan", totalExpectedMan, 1300, true);
+      } else {
+        document.getElementById("countUpCases").textContent = shownEligible.length.toLocaleString();
+        document.getElementById("countUpMaxMan").textContent = totalMaxMan.toLocaleString();
+        document.getElementById("countUpExpectedMan").textContent = totalExpectedMan.toLocaleString();
+      }
 
       if (top3.length === 0) {
-        grid.innerHTML = `
-          <div class="col-span-3 p-5 rounded-2xl bg-white/10 text-center text-base text-blue-100">
-            目前篩選條件下無符合補助案，請點選上方「全部轉型需求」查看所有可申請計畫。
+        stepsEl.innerHTML = `
+          <div class="col-span-3 p-4 rounded-2xl bg-white/10 border border-white/15 text-center text-blue-100 text-sm">
+            目前篩選條件下無符合計畫，請上方切換「全部需求」或調整工商與人數條件。
           </div>
         `;
-      } else {
-        grid.innerHTML = top3.map((g, i) => `
-          <button
-            data-focus-grant="${g.id}"
-            style="animation-delay: ${i * 100}ms"
-            class="waterfall-card focus-grant-btn text-left p-5 rounded-2xl bg-white/10 hover:bg-white/15 border border-white/15 transition flex flex-col justify-between space-y-3 group"
-          >
-            <div class="space-y-2">
-              <div class="flex items-center justify-between gap-2">
-                <span class="text-sm font-bold px-2.5 py-0.5 rounded-md bg-blue-500/40 text-blue-200">
-                  ${stepLabels[i] || `推薦 ${i + 1}`}
-                </span>
-                <span class="text-sm font-semibold text-emerald-300">
-                  權重係數 ${Math.round((g.easeWeight || 0.6) * 100)}%
-                </span>
-              </div>
-              <div class="text-lg font-extrabold text-white group-hover:text-amber-300 transition leading-snug">
-                ${g.title}
-              </div>
-            </div>
-            <div class="pt-2 border-t border-white/10 flex items-center justify-between">
-              <span class="text-xl font-extrabold text-amber-300">最高 ${g.effectiveMaxMan.toLocaleString()} 萬</span>
-              <span class="text-sm text-blue-200 group-hover:translate-x-1 transition">點此展開細節 ↓</span>
-            </div>
-          </button>
-        `).join("");
+        chartEl.innerHTML = `<div class="text-slate-400 text-sm">無符合資料可繪製圖表</div>`;
+        return;
       }
 
-      const svgBox = document.getElementById("grantSvgChart");
-      const slice = eligible.slice(0, 5);
-      if (slice.length === 0) {
-        svgBox.innerHTML = '<div class="text-base text-slate-400 text-center py-4">無符合計畫資料</div>';
-      } else {
-        const maxVal = Math.max(...slice.map(g => g.effectiveMaxMan), 10);
-        svgBox.innerHTML = slice.map(g => {
-          const maxPct = Math.min(100, Math.max(6, Math.round((g.effectiveMaxMan / maxVal) * 100)));
-          const expPct = Math.min(100, Math.max(4, Math.round((g.expectedValueMan / maxVal) * 100)));
-          return `
-            <div class="space-y-1.5 text-sm sm:text-base">
-              <div class="flex flex-wrap items-center justify-between gap-2">
-                <span class="font-bold text-slate-100">${g.title}</span>
-                <span class="font-mono text-slate-300">
-                  最高上限 <strong class="text-white">${g.effectiveMaxMan} 萬</strong> ／ 權重期望值 <strong class="text-emerald-300">${g.expectedValueMan} 萬</strong>
-                </span>
-              </div>
-              <div class="w-full bg-slate-800 h-3 rounded-full overflow-hidden">
-                <div class="bg-blue-500 h-3 rounded-full" style="width:${maxPct}%"></div>
-              </div>
-              <div class="w-full bg-slate-800/70 h-2.5 rounded-full overflow-hidden">
-                <div class="bg-emerald-400 h-2.5 rounded-full" style="width:${expPct}%"></div>
-              </div>
-            </div>
-          `;
-        }).join("");
-      }
+      const stepTitles = [
+        "STEP 1｜最快拿錢・保底首選",
+        "STEP 2｜主力研發／數位升級",
+        "STEP 3｜人才培訓／行銷疊加"
+      ];
 
-      document.querySelectorAll(".focus-grant-btn").forEach((btn) => {
-        btn.addEventListener("click", () => {
-          const grantId = btn.getAttribute("data-focus-grant");
-          state.expandedCardIds.add(grantId);
-          renderEligibleCards(eligible, false);
-          const cardEl = document.getElementById(`grant-card-${grantId}`);
-          if (cardEl) {
-            cardEl.scrollIntoView({ behavior: "smooth", block: "center" });
-          }
-        });
-      });
+      stepsEl.innerHTML = top3.map((item, idx) => `
+        <div
+          onclick="scrollToAndExpandCard('${item.grant.id}')"
+          class="cursor-pointer p-3.5 rounded-2xl bg-white/10 hover:bg-white/15 border border-white/15 transition flex flex-col justify-between gap-2"
+        >
+          <div class="space-y-1">
+            <div class="text-xs font-extrabold text-teal-300 tracking-wide">${stepTitles[idx] || "推薦組合"}</div>
+            <div class="text-base font-extrabold text-white leading-snug">${item.grant.name}</div>
+            <div class="text-xs text-blue-200">${item.grant.agency}</div>
+          </div>
+          <div class="pt-2 border-t border-white/10 flex items-baseline justify-between">
+            <div>
+              <span class="text-xs text-blue-200">最高補助</span>
+              <span class="text-lg sm:text-xl font-extrabold text-amber-300 font-mono ml-1">${item.dynamicMaxMan.toLocaleString()} 萬</span>
+            </div>
+            <span class="text-xs font-semibold text-emerald-300">期望值 ${item.expectedValueMan} 萬 ➔</span>
+          </div>
+        </div>
+      `).join("");
+
+      const top5 = shownEligible.slice(0, 5);
+      const maxCap = Math.max(...top5.map(x => x.dynamicMaxMan), 10);
+
+      chartEl.innerHTML = top5.map(item => {
+        const capPct = Math.max(6, Math.round((item.dynamicMaxMan / maxCap) * 100));
+        const expPct = Math.max(4, Math.round((item.expectedValueMan / maxCap) * 100));
+        return `
+          <div class="space-y-1">
+            <div class="flex justify-between text-xs sm:text-sm">
+              <span class="font-semibold text-white truncate max-w-md">${item.grant.name}</span>
+              <span class="font-mono text-slate-300">上限 <strong class="text-blue-300">${item.dynamicMaxMan}萬</strong> / 期望值 <strong class="text-emerald-300">${item.expectedValueMan}萬</strong></span>
+            </div>
+            <div class="w-full bg-slate-800 h-3 rounded-lg overflow-hidden flex flex-col justify-center p-0.5 gap-0.5">
+              <div class="bg-blue-500 h-1 rounded" style="width: ${capPct}%"></div>
+              <div class="bg-emerald-400 h-1 rounded" style="width: ${expPct}%"></div>
+            </div>
+          </div>
+        `;
+      }).join("");
     }
 
-    function renderEligibleCards(eligible, useWaterfallAnimation = true) {
-      document.getElementById("eligibleCountBadge").textContent = `${eligible.length} 案`;
-      const container = document.getElementById("eligibleGrantsContainer");
+    function renderEligibleCardsHTML(shownEligible, useWaterfall = true) {
+      const eligibleEl = document.getElementById("eligibleGrantsContainer");
 
-      if (eligible.length === 0) {
-        container.innerHTML = `
-          <div class="bg-white rounded-3xl border border-slate-200 p-10 text-center space-y-3">
-            <div class="text-3xl">🧐</div>
-            <div class="text-xl font-bold text-slate-800">目前選擇的轉型方向下無符合補助案</div>
-            <p class="text-base text-slate-500">請點選 STEP 2 的「全部轉型需求」按鈕，查看所有符合貴公司統編資格的補助計畫。</p>
+      if (shownEligible.length === 0) {
+        eligibleEl.innerHTML = `
+          <div class="bg-white rounded-3xl border border-slate-200 p-6 text-center space-y-2">
+            <div class="text-lg font-bold text-slate-800">目前轉型方向無完全匹配的開放中計畫</div>
+            <p class="text-sm text-slate-600">建議點選上方「全部需求」，或展開底部「自動防雷攔截」抽屜查看原因。</p>
           </div>
         `;
         return;
       }
 
-      container.innerHTML = eligible.map((g, index) => {
-        const isOpen = state.expandedCardIds.has(g.id);
-        const waterfallClass = useWaterfallAnimation ? "waterfall-card" : "";
-        const waterfallStyle = useWaterfallAnimation ? `style="animation-delay: ${index * 120}ms"` : "";
-        const secondaryLinkHtml = g.secondaryUrl ? `
-          <a
-            href="${g.secondaryUrl}"
-            target="_blank"
-            rel="noopener noreferrer"
-            class="px-4 py-2.5 rounded-xl border border-slate-300 bg-white hover:bg-slate-50 text-slate-700 font-semibold text-sm sm:text-base transition"
-          >
-            📄 查看官方作業要點／公告專頁 ↗
-          </a>
-        ` : "";
+      eligibleEl.innerHTML = shownEligible.map((item, idx) => {
+        const g = item.grant;
+        const isExpanded = state.expandedCards.has(g.id);
+        const urgencyBadge = item.dLeft <= 45
+          ? `<span class="px-2.5 py-0.5 rounded-full text-xs font-bold bg-amber-100 text-amber-800 border border-amber-300">⏳ 剩 ${item.dLeft} 天截止 (${g.deadlineText})</span>`
+          : `<span class="px-2.5 py-0.5 rounded-full text-xs font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200">🟢 受理中 (${g.deadlineText})</span>`;
+
+        const animClass = useWaterfall ? "waterfall-card" : "";
+        const animStyle = useWaterfall ? `style="animation-delay: ${idx * 120}ms;"` : "";
 
         return `
-          <div id="grant-card-${g.id}" ${waterfallStyle} class="${waterfallClass} bg-white rounded-3xl border-2 ${isOpen ? 'border-blue-500 shadow-md' : 'border-slate-200/90 hover:border-blue-300 shadow-sm'} transition overflow-hidden">
-            <div class="p-6 sm:p-7 space-y-4">
-              <div class="flex flex-wrap items-center justify-between gap-2">
+          <article id="card-${g.id}" ${animStyle} class="${animClass} bg-white rounded-3xl border-2 ${isExpanded ? 'border-blue-500 shadow-md' : 'border-slate-200/90 hover:border-blue-300'} p-5 sm:p-6 transition">
+            <!-- 卡片主視覺區（大字高對比） -->
+            <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+              <div class="space-y-1.5 flex-1">
                 <div class="flex flex-wrap items-center gap-2">
-                  <span class="px-3 py-1 rounded-lg text-sm font-bold ${g.level === 'central' ? 'bg-blue-100 text-blue-800' : 'bg-teal-100 text-teal-800'}">
-                    ${g.levelLabel} · ${g.authority}
-                  </span>
-                  <span class="px-3 py-1 rounded-lg text-sm font-semibold bg-slate-100 text-slate-700">
-                    ${g.categoryLabel}
-                  </span>
-                  <span class="px-3 py-1 rounded-lg text-sm font-semibold bg-amber-50 text-amber-800 border border-amber-200">
-                    ${g.easyTag}
-                  </span>
+                  <span class="px-2.5 py-0.5 rounded-lg bg-slate-100 text-slate-700 font-bold text-xs sm:text-sm">${g.categoryTag}</span>
+                  <span class="text-xs sm:text-sm font-semibold text-slate-500">${g.agency}</span>
+                  ${urgencyBadge}
                 </div>
-
-                <div class="text-right">
-                  <span class="text-sm text-slate-500 mr-1">最高補助</span>
-                  <span class="text-2xl sm:text-3xl font-extrabold text-emerald-700">
-                    ${g.effectiveMaxMan.toLocaleString()} 萬元
-                  </span>
-                </div>
-              </div>
-
-              <div class="space-y-1.5">
-                <h3 class="text-xl sm:text-2xl font-extrabold text-slate-900 leading-snug">
-                  ${index + 1}. ${g.title}
+                <h3 class="text-lg sm:text-xl font-extrabold text-slate-900 leading-snug">
+                  ${g.name}
                 </h3>
-                <p class="text-base sm:text-lg text-slate-600 leading-relaxed">
-                  ${g.shortHighlight}
+                <p class="text-sm sm:text-base text-slate-700 font-medium">
+                  💡 ${g.summaryOneLine}
                 </p>
               </div>
 
-              <div class="pt-2 flex flex-wrap items-center justify-between gap-3 border-t border-slate-100">
-                <button
-                  data-toggle-card="${g.id}"
-                  class="toggle-card-btn px-4 py-2.5 rounded-xl font-bold text-base transition flex items-center gap-2 ${isOpen ? 'bg-blue-600 text-white' : 'bg-blue-50 hover:bg-blue-100 text-blue-700'}"
-                >
-                  <span>${isOpen ? '➖ 收合申請細節與檢核表 ▴' : '➕ 點選展開：申請條件、防雷提醒與應備文件 ▾'}</span>
-                </button>
-
-                <a
-                  href="${g.officialUrl}"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  class="px-4 py-2.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-white font-semibold text-base transition shadow-sm"
-                >
-                  🔗 前往計畫申辦入口 ↗
-                </a>
-              </div>
-            </div>
-
-            <div class="${isOpen ? 'block' : 'hidden'} bg-slate-50 border-t-2 border-slate-200 p-6 sm:p-7 space-y-5 text-base">
-              <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div class="bg-white p-4 rounded-2xl border border-slate-200 space-y-1.5">
-                  <div class="text-sm font-bold text-slate-500">💰 補助比例與額度計算</div>
-                  <div class="font-bold text-slate-900">${g.subsidyRatio}</div>
-                  <div class="text-sm text-blue-700 font-semibold pt-1">
-                    📊 規則引擎權重期望值：約 ${g.expectedValueMan} 萬元（簡易度權重 ${Math.round((g.easeWeight || 0.6) * 100)}%）
+              <!-- 右側金額與專案直連按鈕 -->
+              <div class="flex flex-row md:flex-col items-center md:items-end justify-between gap-3 pt-3 md:pt-0 border-t md:border-t-0 border-slate-100 shrink-0">
+                <div class="text-left md:text-right">
+                  <div class="text-xs font-bold text-slate-500">最高補助上限 (${g.subsidyRatioText})</div>
+                  <div class="text-xl sm:text-2xl font-extrabold text-blue-700 font-mono">
+                    NT$ ${item.dynamicMaxMan.toLocaleString()} 萬
                   </div>
+                  <div class="text-xs text-slate-500">權重期望值約 <strong class="text-emerald-700">${item.expectedValueMan} 萬</strong></div>
                 </div>
 
-                <div class="bg-white p-4 rounded-2xl border border-slate-200 space-y-1.5">
-                  <div class="text-sm font-bold text-slate-500">⏰ 申請期限與審查門檻</div>
-                  <div class="font-bold text-slate-900">${g.deadline}</div>
-                  <div class="text-sm text-slate-600 pt-1">審查門檻：${g.difficulty}</div>
-                </div>
-              </div>
-
-              <div class="p-4 rounded-2xl bg-rose-50 border border-rose-200 text-rose-900 space-y-1">
-                <div class="font-extrabold text-base flex items-center gap-1.5">
-                  ⚖️ 資格紅線與互斥條款提醒：
-                </div>
-                <p class="text-base leading-relaxed">${g.mutualExclusionNote}</p>
-              </div>
-
-              <div class="bg-white p-5 rounded-2xl border border-slate-200 space-y-3">
-                <div class="font-extrabold text-slate-900 text-base">
-                  📋 送件應備文件自我檢核表（可點擊打勾確認準備進度）：
-                </div>
-                <div class="space-y-2.5">
-                  ${g.checklist.map((item, idx) => `
-                    <label class="flex items-start gap-3 p-3 rounded-xl border border-slate-200 hover:bg-blue-50/40 cursor-pointer transition">
-                      <input type="checkbox" checked class="mt-1 w-5 h-5 rounded text-blue-600 shrink-0" />
-                      <span class="text-base text-slate-800 font-medium">${idx + 1}. ${item}</span>
-                    </label>
-                  `).join("")}
-                </div>
-              </div>
-
-              <div class="flex flex-wrap items-center gap-3 pt-1">
                 <a
                   href="${g.officialUrl}"
                   target="_blank"
                   rel="noopener noreferrer"
-                  class="px-5 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-bold text-sm sm:text-base transition shadow-sm"
+                  class="px-4 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-bold text-sm sm:text-base transition shadow-sm flex items-center gap-1.5 whitespace-nowrap"
                 >
-                  🔗 前往本案專屬申辦入口 ↗
+                  <span>前往「${g.officialUrlLabel}」</span>
+                  <span>↗</span>
                 </a>
-                ${secondaryLinkHtml}
               </div>
             </div>
-          </div>
+
+            <!-- 手風琴展開切換按鈕 -->
+            <div class="mt-3.5 pt-2.5 border-t border-slate-100 flex items-center justify-between">
+              <button
+                onclick="toggleCardDetail('${g.id}')"
+                class="text-sm font-bold text-blue-700 hover:text-blue-900 flex items-center gap-1.5"
+              >
+                <span>${isExpanded ? '➖ 收合申請條件與應備文件 ▴' : '➕ 點選展開：申請條件、防雷提醒與應備文件 ▾'}</span>
+              </button>
+              <span class="text-xs font-mono text-slate-400">過件率權重 ${(g.weights.historicalApprovalRate * 100).toFixed(0)}%</span>
+            </div>
+
+            <!-- 點選才展開的詳細資訊區 -->
+            <div class="${isExpanded ? 'block' : 'hidden'} mt-3.5 pt-3.5 border-t border-slate-200 grid grid-cols-1 md:grid-cols-3 gap-3.5 text-sm sm:text-base bg-slate-50 p-4 rounded-2xl">
+              <div class="space-y-1">
+                <div class="font-extrabold text-slate-900">📌 補助標的與適用情境</div>
+                <p class="text-slate-700 text-xs sm:text-sm leading-relaxed">${g.KeyPoints}</p>
+              </div>
+              <div class="space-y-1">
+                <div class="font-extrabold text-rose-700">⚠️ 資格防雷與審查重點</div>
+                <p class="text-slate-700 text-xs sm:text-sm leading-relaxed">${g.painPointWarning}</p>
+              </div>
+              <div class="space-y-1">
+                <div class="font-extrabold text-slate-900">📂 應備申請文件清單</div>
+                <ul class="list-disc list-inside text-slate-700 text-xs sm:text-sm space-y-1">
+                  ${g.prepDocs.map(doc => `<li>${doc}</li>`).join("")}
+                </ul>
+              </div>
+            </div>
+          </article>
         `;
       }).join("");
-
-      document.querySelectorAll(".toggle-card-btn").forEach((btn) => {
-        btn.addEventListener("click", () => {
-          const id = btn.getAttribute("data-toggle-card");
-          if (state.expandedCardIds.has(id)) {
-            state.expandedCardIds.delete(id);
-          } else {
-            state.expandedCardIds.add(id);
-          }
-          renderEligibleCards(eligible, false);
-        });
-      });
     }
 
-    function renderExcludedDrawer(excluded) {
+    function renderExcludedList(excluded) {
       document.getElementById("excludedCountText").textContent = excluded.length;
-      const container = document.getElementById("excludedGrantsContainer");
-      container.innerHTML = excluded.map((g) => `
-        <div class="bg-white rounded-2xl border border-rose-200 p-4 space-y-2 flex flex-col justify-between">
-          <div class="space-y-2">
-            <div class="flex items-center justify-between gap-2 text-sm">
-              <span class="px-2.5 py-0.5 rounded-md bg-rose-100 text-rose-800 font-bold">已過濾排除</span>
-              <span class="text-slate-500 font-medium">${g.authority}（上限 ${g.maxSubsidyMan} 萬）</span>
+      const excludedEl = document.getElementById("excludedGrantsContainer");
+      excludedEl.innerHTML = excluded.map(item => `
+        <div class="p-3.5 rounded-xl bg-white border border-slate-200 flex flex-col justify-between gap-2">
+          <div>
+            <div class="flex items-center justify-between gap-2">
+              <span class="font-bold text-slate-800 text-sm sm:text-base">${item.grant.name}</span>
+              <span class="text-xs font-mono px-2 py-0.5 rounded bg-slate-100 text-slate-600">上限 ${item.grant.maxSubsidyMan} 萬</span>
             </div>
-            <h4 class="text-base font-bold text-slate-900">${g.title}</h4>
-            <ul class="space-y-1 text-sm sm:text-base text-rose-700 font-medium">
-              ${g.reasons.map(r => `<li>❌ ${r}</li>`).join("")}
+            <div class="text-xs text-slate-500 mt-0.5">${item.grant.agency}</div>
+            <ul class="mt-2 space-y-1 text-xs sm:text-sm text-rose-700 font-medium">
+              ${item.reasons.map(r => `<li>❌ ${r}</li>`).join("")}
             </ul>
           </div>
           <div class="pt-2 border-t border-slate-100 flex justify-end">
-            <a href="${g.officialUrl}" target="_blank" rel="noopener noreferrer" class="text-sm font-semibold text-blue-600 hover:underline">
-              查看該案申辦入口 ↗
+            <a href="${item.grant.officialUrl}" target="_blank" rel="noopener noreferrer" class="text-xs font-semibold text-blue-600 hover:underline">
+              查看「${item.grant.officialUrlLabel}」簡章 ↗
             </a>
           </div>
         </div>
       `).join("");
     }
 
-    // 核心儀式感篩選流程：預先跳動數字 ➔ 無條件等待 3.5 秒顯示「正在為您篩選適合申請案件...」➔ 瀑布流漸進浮現
-    function triggerGrantScreeningWithAnimation() {
+    // 主渲染流程：支援「3.5 秒無條件篩選等待 + 累計跳動 + 瀑布流」與「即時切換手風琴」兩種模式
+    function renderAll(withScreeningDelay = true) {
       renderCompanySummaryBar();
-      const { eligible, excluded } = evaluateGrantsForCompany();
 
-      const totalMaxMan = eligible.reduce((acc, g) => acc + g.effectiveMaxMan, 0);
-      const totalExpectedMan = Math.round(eligible.reduce((acc, g) => acc + g.expectedValueMan, 0));
+      const evaluations = GRANTS_DB.map(evaluateGrant);
+      const shownEligible = evaluations
+        .filter(e => e.eligible && e.goalMatches)
+        .sort((a, b) => b.expectedValueMan - a.expectedValueMan);
+      const excluded = evaluations.filter(e => !e.eligible);
 
-      // 1. 立即預先呈現符合資格共 N 案、最高可申請 Y 萬元，並啟動數字累計跳動效果
-      document.getElementById("eligibleCountBadge").textContent = `${eligible.length} 案`;
-      animateCountUp("countUpCases", eligible.length, 1100);
-      animateCountUp("countUpMaxMan", totalMaxMan, 1400);
-      animateCountUp("countUpExpectedMan", totalExpectedMan, 1400);
+      state.lastEvaluation = { shownEligible, excluded };
 
-      // 2. 清除前次未完成之等待計時器，進入 3.5 秒篩選等待狀態
-      clearTimeout(window._screeningTimer);
-      clearInterval(window._stepTextTimer);
+      document.getElementById("eligibleCountBadge").textContent = `${shownEligible.length} 案`;
+      renderExcludedList(excluded);
+
+      if (!withScreeningDelay) {
+        renderPortfolioSummary(shownEligible, false);
+        renderEligibleCardsHTML(shownEligible, false);
+        return;
+      }
+
+      // 1. 立即預先呈現符合資格共 N 案、最高可申請 Y 萬元（啟動數字累計跳動）
+      renderPortfolioSummary(shownEligible, true);
+
+      // 2. 下方顯示「正在為您篩選適合申請案件...」並無條件等待 3.5 秒
+      if (state.screeningTimer) clearTimeout(state.screeningTimer);
+      if (state.subtextInterval) clearInterval(state.subtextInterval);
 
       const loaderBox = document.getElementById("screeningLoaderBox");
-      const subText = document.getElementById("screeningStepSubtext");
-      const progBar = document.getElementById("screeningProgressBar");
-      const eligContainer = document.getElementById("eligibleGrantsContainer");
-      const stepsGrid = document.getElementById("portfolioStepsGrid");
+      const eligibleEl = document.getElementById("eligibleGrantsContainer");
+      const subtextEl = document.getElementById("screeningStepSubtext");
+      const progressBar = document.getElementById("screeningProgressBar");
 
-      eligContainer.innerHTML = "";
-      stepsGrid.innerHTML = `
-        <div class="col-span-3 p-5 rounded-2xl bg-white/10 text-center text-base text-blue-200 animate-pulse">
-          ⏳ 正在為您排列「黃金 3 步最佳補助組合包」優先順序...
-        </div>
-      `;
-
-      // 重置進度條動畫
-      progBar.classList.remove("progress-sweep-bar");
-      void progBar.offsetWidth;
-      progBar.classList.add("progress-sweep-bar");
-
-      const stepMessages = [
-        `正在核對「${state.currentCompany.name}」設籍縣市（${state.currentCompany.county}）與實收資本額門檻...`,
-        `正在比對中央 8 大部會與全台 22 縣市共 ${GRANTS_DB.length} 筆補助法規條文...`,
-        `正在排除同年度重複請領互斥條款，並依權重排列最佳申請順序...`
-      ];
-      let msgIdx = 0;
-      subText.textContent = stepMessages[0];
+      eligibleEl.innerHTML = "";
       loaderBox.classList.remove("hidden");
 
-      window._stepTextTimer = setInterval(() => {
-        msgIdx = (msgIdx + 1) % stepMessages.length;
-        subText.textContent = stepMessages[msgIdx];
+      // 重置進度條動畫
+      if (progressBar) {
+        progressBar.classList.remove("progress-sweep-bar");
+        void progressBar.offsetWidth;
+        progressBar.classList.add("progress-sweep-bar");
+      }
+
+      const stepsText = [
+        `正在核對「${state.companyName}」設籍縣市（${state.county}）與實收資本額（${state.paidInCapitalMan.toLocaleString()} 萬元）...`,
+        `正在比對中央 8 大部會與 ${state.county} 地方型 SBIR 申請資格與互斥條款...`,
+        `已完成 ${shownEligible.length} 案符合資格精算，正在依權重期望值排序並生成瀑布流清單...`
+      ];
+      let stepIdx = 0;
+      subtextEl.textContent = stepsText[0];
+
+      state.subtextInterval = setInterval(() => {
+        stepIdx = (stepIdx + 1) % stepsText.length;
+        subtextEl.textContent = stepsText[stepIdx];
       }, 1150);
 
-      // 3. 無條件等待 3.5 秒（落在 3~5 秒區間）後，以瀑布流漸進式呈現符合案件
-      window._screeningTimer = setTimeout(() => {
-        clearInterval(window._stepTextTimer);
+      // 3. 3.5 秒後隱藏載入框，並以瀑布流漸進式浮現符合案件
+      state.screeningTimer = setTimeout(() => {
+        if (state.subtextInterval) clearInterval(state.subtextInterval);
         loaderBox.classList.add("hidden");
-        renderPortfolioStepsAndChart(eligible);
-        renderEligibleCards(eligible, true);
-        renderExcludedDrawer(excluded);
-      }, 3500);
+        renderEligibleCardsHTML(shownEligible, true);
+      }, SCREENING_DELAY_MS);
     }
 
-    // ==================== 8. 統編或企業名稱查詢入口 ====================
-    function applyCompanyRecordToUI(record) {
-      state.currentCompany = { ...record };
-      state.empRange = record.defaultEmpRange || "under30";
-      state.exactEmpCount = record.defaultExactEmp || 15;
-      state.expandedCardIds.clear();
+    // ==================== 8. 互動事件與統編查詢 ====================
+    window.toggleCardDetail = function(grantId) {
+      if (state.expandedCards.has(grantId)) {
+        state.expandedCards.delete(grantId);
+      } else {
+        state.expandedCards.add(grantId);
+      }
+      renderAll(false);
+    };
+
+    window.scrollToAndExpandCard = function(grantId) {
+      state.expandedCards.add(grantId);
+      renderAll(false);
+      const el = document.getElementById(`card-${grantId}`);
+      if (el) {
+        el.scrollIntoView({ behavior: "smooth", block: "center" });
+      }
+    };
+
+    function applyCompanyRecord(rec, toastMessage) {
+      state.ubn = rec.ubn;
+      state.companyName = rec.name;
+      state.orgType = rec.orgType;
+      state.orgTypeLabel = rec.orgTypeLabel;
+      state.county = rec.county;
+      state.address = rec.address;
+      state.paidInCapitalMan = Math.round((rec.paidInCapital || 5000000) / 10000);
+      state.estDate = rec.estDate || "2018-01-01";
+      state.industryCode = rec.industryCode || "I301010";
+      state.sector = rec.sector || "service";
+      state.sectorLabel = rec.sectorLabel || "商業服務業";
+      state.hasFactoryReg = Boolean(rec.hasFactoryReg);
+      state.findbizUrl = rec.findbizUrl || `https://findbiz.nat.gov.tw/fts/company/${rec.ubn}`;
+      state.empRange = rec.defaultEmpRange || "31to199";
+      state.exactEmpCount = rec.defaultExactEmp || 50;
+
+      document.getElementById("ubnInput").value = state.ubn;
+      document.getElementById("simCounty").value = state.county;
+      document.getElementById("simCapital").value = state.paidInCapitalMan;
+      document.getElementById("simSector").value = state.sector;
+      document.getElementById("simFactory").value = String(state.hasFactoryReg);
       document.getElementById("exactEmpCount").value = state.exactEmpCount;
-      document.getElementById("simCounty").value = ALL_22_COUNTIES.includes(record.county) ? record.county : "臺北市";
-      document.getElementById("simCapital").value = Math.round((record.paidInCapital || 1000000) / 10000);
-      document.getElementById("simSector").value = record.sector || "service";
-      document.getElementById("simFactory").value = String(Boolean(record.hasFactoryReg));
-      updateEmpButtonsUI();
-      triggerGrantScreeningWithAnimation();
+
+      document.querySelectorAll(".emp-btn").forEach(b => {
+        b.classList.toggle("emp-active", b.dataset.emp === state.empRange);
+      });
+
+      renderAll(true);
+      if (toastMessage) showToast(toastMessage);
     }
 
-    async function applyUbnLookup(rawInputValue) {
-      const raw = String(rawInputValue || "").trim();
-      document.getElementById("autocompleteDropdown").classList.add("hidden");
+    async function handleUbnLookup() {
+      const raw = document.getElementById("ubnInput").value.trim();
+      const tagEl = document.getElementById("ubnChecksumTag");
+      const btnEl = document.getElementById("btnLookupUbn");
 
-      // 若輸入格式為「公司名稱 (28458491)」或含有 8 碼統編，先萃取 8 碼統編
-      const ubnMatch = raw.match(/\b(\d{8})\b/);
-      const cleanUbn = ubnMatch ? ubnMatch[1] : (raw.match(/^\d{8}$/) ? raw : null);
+      if (!/^\d{8}$/.test(raw)) {
+        tagEl.textContent = "⚠️ 請輸入完整 8 碼數字統編";
+        tagEl.className = "text-xs sm:text-sm px-3 py-0.5 rounded-full bg-amber-50 text-amber-700 font-semibold border border-amber-300";
+        showToast("請輸入 8 碼數字統一編號");
+        return;
+      }
 
-      const btn = document.getElementById("btnLookupUbn");
-      const origText = btn.textContent;
-      btn.textContent = "⏳ 檢索中...";
-      btn.disabled = true;
+      const isValidChecksum = validateTaiwanUBN(raw);
+      if (!isValidChecksum) {
+        tagEl.textContent = "❌ 統編檢核碼不符（請確認是否輸入錯誤）";
+        tagEl.className = "text-xs sm:text-sm px-3 py-0.5 rounded-full bg-rose-50 text-rose-700 font-semibold border border-rose-300";
+        showToast("統編邏輯檢核未通過，請確認 8 碼統編是否正確");
+        return;
+      }
+
+      tagEl.textContent = "🔄 正在連線遠端公開 API 查詢商工登記...";
+      tagEl.className = "text-xs sm:text-sm px-3 py-0.5 rounded-full bg-blue-50 text-blue-700 font-semibold border border-blue-200";
+      btnEl.disabled = true;
+
+      let record = null;
+      let sourceLabel = "";
 
       try {
-        if (cleanUbn) {
-          const check = validateTaiwanUBN(cleanUbn);
-          const tag = document.getElementById("ubnChecksumTag");
-          tag.textContent = check.msg;
-
-          // 先看本地快取是否已有剛從 Autocomplete 抓回來的完整資料
-          if (COMPANIES_DB[cleanUbn]) {
-            applyCompanyRecordToUI(COMPANIES_DB[cleanUbn]);
-            showToast(`已帶入企業資料：${COMPANIES_DB[cleanUbn].name}`);
-            return;
-          }
-
-          // Default 遠端 API 即時查詢
-          const remoteRec = await fetchFromRemoteG0vApi(cleanUbn);
-          if (remoteRec) {
-            COMPANIES_DB[cleanUbn] = remoteRec;
-            applyCompanyRecordToUI(remoteRec);
-            showToast(`已從商工資料庫抓回：${remoteRec.name}`);
-            return;
-          }
-
-          // 若為尚未收錄之統編，自動展開手動條件設定
-          const capMan = parseInt(document.getElementById("simCapital").value, 10) || 500;
-          const county = document.getElementById("simCounty").value;
-          const sector = document.getElementById("simSector").value;
-          const hasFac = document.getElementById("simFactory").value === "true";
-          const customRec = {
-            ubn: cleanUbn,
-            name: `查詢企業（統編 ${cleanUbn}）`,
-            orgType: "company",
-            orgTypeLabel: "股份有限公司／有限公司（依商工條件映射）",
-            county,
-            address: `${county}（可於下方調整縣市與業別映射）`,
-            paidInCapital: capMan * 10000,
-            estDate: "依商工登記資料",
-            sector,
-            sectorLabel: sector === "manufacturing" ? "製造業（C 類）" : "商業／資訊服務業",
-            hasFactoryReg: hasFac,
-            defaultEmpRange: state.empRange,
-            defaultExactEmp: state.exactEmpCount,
-            findbizUrl: `https://findbiz.nat.gov.tw/fts/company/${cleanUbn}`
-          };
-          state.companyDrawerOpen = true;
-          document.getElementById("companyDetailDrawer").classList.remove("hidden");
-          document.getElementById("companyDrawerBtnText").textContent = "⚙️ 收合工商條件 ▴";
-          applyCompanyRecordToUI(customRec);
-          showToast(`統編 ${cleanUbn} 檢核完成，正在篩選適合補助案...`);
-          return;
+        record = await fetchFromRemoteG0vApi(raw);
+        if (record) {
+          sourceLabel = "遠端公開 API 即時連線";
+          COMPANIES_DB[raw] = record;
+        } else if (COMPANIES_DB[raw]) {
+          record = COMPANIES_DB[raw];
+          sourceLabel = "內建快取底稿";
         }
-
-        // 若使用者直接輸入公司名稱關鍵字並按下「立即查詢補助」
-        if (raw.length >= 2) {
-          const localMatches = searchLocalCachedCompanies(raw);
-          if (localMatches.length > 0) {
-            const picked = localMatches[0];
-            document.getElementById("ubnInput").value = `${picked.name} (${picked.ubn})`;
-            applyCompanyRecordToUI(picked);
-            showToast(`已自動匹配企業：${picked.name}`);
-            return;
-          }
-          const remoteMatches = await searchRemoteCompaniesByName(raw);
-          if (remoteMatches.length > 0) {
-            const picked = remoteMatches[0];
-            document.getElementById("ubnInput").value = `${picked.name} (${picked.ubn})`;
-            applyCompanyRecordToUI(picked);
-            showToast(`已從全國商工資料庫匹配：${picked.name}`);
-            return;
-          }
+      } catch (err) {
+        if (COMPANIES_DB[raw]) {
+          record = COMPANIES_DB[raw];
+          sourceLabel = "離線備援快取";
         }
-
-        showToast("請輸入至少 2 個字的公司名稱關鍵字，或完整 8 碼統一編號");
       } finally {
-        btn.textContent = origText;
-        btn.disabled = false;
+        btnEl.disabled = false;
+      }
+
+      if (record) {
+        tagEl.textContent = `✓ 檢核通過（資料源：${sourceLabel}）`;
+        tagEl.className = "text-xs sm:text-sm px-3 py-0.5 rounded-full bg-emerald-50 text-emerald-700 font-semibold border border-emerald-200";
+        applyCompanyRecord(record, `已載入「${record.name}」工商資料，正在篩選適合案件...`);
+      } else {
+        tagEl.textContent = "✓ 統編檢核通過（查無公開登記，請展開下方手動設定條件）";
+        tagEl.className = "text-xs sm:text-sm px-3 py-0.5 rounded-full bg-blue-50 text-blue-700 font-semibold border border-blue-200";
+        state.ubn = raw;
+        state.companyName = `統編 ${raw} 企業（自訂模擬）`;
+        state.findbizUrl = `https://findbiz.nat.gov.tw/fts/company/${raw}`;
+        document.getElementById("companyDetailDrawer").classList.remove("hidden");
+        document.getElementById("companyDrawerBtnText").textContent = "⚙️ 收合工商與人數條件 ▴";
+        renderAll(true);
+        showToast(`統編 ${raw} 檢核通過，已為您展開條件設定面板`);
       }
     }
 
-    function updateEmpButtonsUI() {
-      document.querySelectorAll(".emp-btn").forEach((btn) => {
-        if (btn.getAttribute("data-emp") === state.empRange) {
-          btn.classList.add("emp-active");
-        } else {
-          btn.classList.remove("emp-active");
-        }
-      });
+    function showToast(msg) {
+      const box = document.getElementById("toastBox");
+      document.getElementById("toastText").textContent = msg;
+      box.classList.remove("hidden");
+      clearTimeout(window.__toastTimer);
+      window.__toastTimer = setTimeout(() => box.classList.add("hidden"), 2800);
     }
 
     function exportChecklistTxt() {
-      const { eligible, excluded } = evaluateGrantsForCompany();
-      const comp = state.currentCompany;
-      let lines = [
-        "================================================================",
-        "《2026 數位轉型學院｜台灣企業政府補助一鍵媒合健檢報告》",
-        "================================================================",
-        `查詢企業：${comp.name}（統一編號：${comp.ubn}）`,
-        `登記縣市：${comp.county}｜實收資本額：NT$ ${(comp.paidInCapital / 10000).toLocaleString()} 萬元`,
-        `組織型態：${comp.orgTypeLabel}｜員工規模設定：${state.exactEmpCount} 人`,
-        `產出時間：2026-10-27`,
-        "",
-        `【一、符合資格推薦補助清單（共 ${eligible.length} 案，依規則引擎權重排序）】`
+      const ev = state.lastEvaluation;
+      if (!ev) return;
+      const lines = [
+        "====================================================================",
+        "  數位轉型學院｜2026 政府補助統編一鍵快選 — 專屬申辦攻略與應備文件檢核表",
+        "====================================================================",
+        `企業名稱：${state.companyName}（統編：${state.ubn}）`,
+        `登記縣市：${state.county}｜實收資本額：${state.paidInCapitalMan.toLocaleString()} 萬元｜業別：${state.sector === 'manufacturing' ? '製造業' : '商業服務業'}`,
+        `勞保人數：約 ${state.exactEmpCount} 人｜評估日期：${TODAY_STR}`,
+        "--------------------------------------------------------------------",
+        `【符合資格計畫共 ${ev.shownEligible.length} 案】`,
+        ""
       ];
 
-      eligible.forEach((g, idx) => {
-        lines.push(`\n${idx + 1}. ${g.title}`);
-        lines.push(`   - 主辦機關：${g.authority}`);
-        lines.push(`   - 預估可領上限：NT$ ${g.effectiveMaxMan} 萬元（權重期望值 ${g.expectedValueMan} 萬元）`);
-        lines.push(`   - 補助方式：${g.subsidyRatio}`);
-        lines.push(`   - 截止期限：${g.deadline}`);
-        lines.push(`   - 互斥與防雷提醒：${g.mutualExclusionNote}`);
-        lines.push(`   - 計畫申辦主要入口：${g.officialUrl}`);
-        if (g.secondaryUrl) {
-          lines.push(`   - 官方作業要點專頁：${g.secondaryUrl}`);
-        }
-        lines.push(`   - 應備文件檢核：`);
-        g.checklist.forEach(c => lines.push(`     [ ] ${c}`));
-      });
-
-      lines.push("\n----------------------------------------------------------------");
-      lines.push(`【二、已自動為您過濾排除之地雷案（共 ${excluded.length} 案）】`);
-      excluded.forEach((g, idx) => {
-        lines.push(`${idx + 1}. ${g.title} -> 排除原因：${g.reasons.join("；")}`);
+      ev.shownEligible.forEach((item, idx) => {
+        const g = item.grant;
+        lines.push(`${idx + 1}. ${g.name}（${g.agency}）`);
+        lines.push(`   - 最高補助上限：NT$ ${item.dynamicMaxMan} 萬元（${g.subsidyRatioText}）｜權重期望值：約 ${item.expectedValueMan} 萬元`);
+        lines.push(`   - 申請截止時間：${g.deadlineText}`);
+        lines.push(`   - 專案直連網址：${g.officialUrl}`);
+        lines.push(`   - 審查防雷重點：${g.painPointWarning}`);
+        lines.push(`   - 應備申請文件：${g.prepDocs.join("、")}`);
+        lines.push("");
       });
 
       const blob = new Blob([lines.join("\n")], { type: "text/plain;charset=utf-8" });
       const url = URL.createObjectURL(blob);
       const a = document.createElement("a");
       a.href = url;
-      a.download = `補助健檢報告_${comp.ubn}.txt`;
+      a.download = `2026政府補助攻略_${state.ubn}_${state.companyName}.txt`;
       document.body.appendChild(a);
       a.click();
       document.body.removeChild(a);
       URL.revokeObjectURL(url);
-      showToast("已下載貴公司專屬《補助攻略與應備文件檢核表 (.txt)》");
+      showToast("已下載專屬補助攻略與檢核表 (.txt)");
     }
 
-    // ==================== 9. 外部 JSON 自動載入與事件綁定 ====================
-    async function tryLoadExternalJsonDatabases() {
+    async function loadExternalJsonIfServed() {
       try {
-        const [grantsRes, compRes] = await Promise.all([
-          fetch("./grants_rules.json"),
-          fetch("./companies_db.json")
+        const [compResp, grantsResp] = await Promise.all([
+          fetch("./companies_db.json", { cache: "no-store" }),
+          fetch("./grants_rules.json", { cache: "no-store" })
         ]);
-        if (grantsRes.ok) {
-          const externalGrants = await grantsRes.json();
-          if (Array.isArray(externalGrants) && externalGrants.length > 0) {
-            GRANTS_DB = externalGrants;
+        if (compResp.ok) {
+          const compData = await compResp.json();
+          if (compData && compData.companies) {
+            COMPANIES_DB = compData.companies;
+            INDUSTRY_PREFIX_MAP = compData.industryCodePrefixMapping || INDUSTRY_PREFIX_MAP;
           }
         }
-        if (compRes.ok) {
-          const externalComp = await compRes.json();
-          if (externalComp && externalComp.companies) {
-            COMPANIES_DB = externalComp.companies;
+        if (grantsResp.ok) {
+          const grantsData = await grantsResp.json();
+          if (Array.isArray(grantsData) && grantsData.length > 0) {
+            GRANTS_DB = grantsData;
           }
         }
       } catch (_) {
-        // 於 file:// 本地雙擊環境自動使用內嵌 DEFAULT_GRANTS_DB 與 DEFAULT_COMPANIES_DB
+        // file:// 本地直接開啟時自動使用內嵌之最新同步常數
       }
     }
 
-    window.addEventListener("DOMContentLoaded", async () => {
-      await tryLoadExternalJsonDatabases();
+    document.addEventListener("DOMContentLoaded", async () => {
+      await loadExternalJsonIfServed();
 
-      const ubnInput = document.getElementById("ubnInput");
-      const dropdown = document.getElementById("autocompleteDropdown");
-      let debounceTimer = null;
+      // 統編查詢按鈕與即時 8 碼檢核
+      document.getElementById("btnLookupUbn").addEventListener("click", handleUbnLookup);
 
-      // 邊打邊選 Autocomplete 事件
-      ubnInput.addEventListener("input", () => {
-        const val = ubnInput.value.trim();
-        state.autocompleteActiveIndex = -1;
-
-        if (/^\d{8}$/.test(val)) {
-          const check = validateTaiwanUBN(val);
-          const tag = document.getElementById("ubnChecksumTag");
-          tag.textContent = check.msg;
-          tag.className = `text-sm px-3 py-1 rounded-full font-semibold border ${check.valid ? 'bg-emerald-50 text-emerald-700 border-emerald-200' : 'bg-amber-50 text-amber-800 border-amber-200'}`;
-        } else {
-          const tag = document.getElementById("ubnChecksumTag");
-          tag.textContent = "✓ 支援公司名稱模糊搜尋與統編檢核";
-          tag.className = "text-sm px-3 py-1 rounded-full bg-emerald-50 text-emerald-700 font-semibold border border-emerald-200";
+      const ubnInputEl = document.getElementById("ubnInput");
+      ubnInputEl.addEventListener("input", (e) => {
+        const digitsOnly = e.target.value.replace(/\D/g, "").slice(0, 8);
+        if (e.target.value !== digitsOnly) {
+          e.target.value = digitsOnly;
         }
-
-        clearTimeout(debounceTimer);
-        if (val.length === 0) {
-          dropdown.classList.add("hidden");
-          return;
-        }
-
-        // 1. 先立即顯示本地快取模糊匹配結果
-        const localHits = searchLocalCachedCompanies(val);
-        const shouldQueryRemote = val.length >= 2 && !/^\d{8}$/.test(val);
-        renderAutocompleteDropdown(localHits, val, shouldQueryRemote);
-
-        // 2. 防抖 300ms 查詢遠端全國商工關鍵字 API
-        if (shouldQueryRemote) {
-          debounceTimer = setTimeout(async () => {
-            const remoteHits = await searchRemoteCompaniesByName(val);
-            const mergedMap = new Map();
-            [...localHits, ...remoteHits].forEach(item => {
-              if (!mergedMap.has(item.ubn)) mergedMap.set(item.ubn, item);
-            });
-            renderAutocompleteDropdown(Array.from(mergedMap.values()).slice(0, 8), val, false);
-          }, 300);
-        }
-      });
-
-      // 鍵盤上下鍵選取 Autocomplete 項目
-      ubnInput.addEventListener("keydown", (e) => {
-        const isDropdownOpen = !dropdown.classList.contains("hidden") && state.autocompleteItems.length > 0;
-        if (e.key === "ArrowDown" && isDropdownOpen) {
-          e.preventDefault();
-          state.autocompleteActiveIndex = (state.autocompleteActiveIndex + 1) % state.autocompleteItems.length;
-          renderAutocompleteDropdown(state.autocompleteItems, ubnInput.value.trim(), false);
-        } else if (e.key === "ArrowUp" && isDropdownOpen) {
-          e.preventDefault();
-          state.autocompleteActiveIndex = (state.autocompleteActiveIndex - 1 + state.autocompleteItems.length) % state.autocompleteItems.length;
-          renderAutocompleteDropdown(state.autocompleteItems, ubnInput.value.trim(), false);
-        } else if (e.key === "Enter") {
-          e.preventDefault();
-          if (isDropdownOpen && state.autocompleteActiveIndex >= 0 && state.autocompleteItems[state.autocompleteActiveIndex]) {
-            selectAutocompleteCompany(state.autocompleteItems[state.autocompleteActiveIndex].ubn);
+        const tagEl = document.getElementById("ubnChecksumTag");
+        if (digitsOnly.length === 8) {
+          if (validateTaiwanUBN(digitsOnly)) {
+            tagEl.textContent = "✓ 8 碼統編邏輯檢核通過（請按立即查詢）";
+            tagEl.className = "text-xs sm:text-sm px-3 py-0.5 rounded-full bg-emerald-50 text-emerald-700 font-semibold border border-emerald-200";
           } else {
-            applyUbnLookup(ubnInput.value);
+            tagEl.textContent = "❌ 統編檢核碼不符";
+            tagEl.className = "text-xs sm:text-sm px-3 py-0.5 rounded-full bg-rose-50 text-rose-700 font-semibold border border-rose-300";
           }
-        } else if (e.key === "Escape") {
-          dropdown.classList.add("hidden");
+        } else {
+          tagEl.textContent = `請輸入 8 碼數字統編（目前 ${digitsOnly.length}/8 碼）`;
+          tagEl.className = "text-xs sm:text-sm px-3 py-0.5 rounded-full bg-slate-100 text-slate-600 font-semibold border border-slate-200";
         }
       });
 
-      // 點擊外部收合下拉選單
-      document.addEventListener("click", (e) => {
-        if (!ubnInput.contains(e.target) && !dropdown.contains(e.target)) {
-          dropdown.classList.add("hidden");
+      ubnInputEl.addEventListener("keydown", (e) => {
+        if (e.key === "Enter") {
+          e.preventDefault();
+          handleUbnLookup();
         }
       });
 
-      document.getElementById("btnLookupUbn").addEventListener("click", () => {
-        applyUbnLookup(ubnInput.value);
-      });
-
-      // 手風琴：工商詳情與模擬微調
+      // 工商、人數與進階條件手風琴切換（預設收合）
       document.getElementById("btnToggleCompanyDrawer").addEventListener("click", () => {
-        state.companyDrawerOpen = !state.companyDrawerOpen;
-        document.getElementById("companyDetailDrawer").classList.toggle("hidden", !state.companyDrawerOpen);
-        document.getElementById("companyDrawerBtnText").textContent = state.companyDrawerOpen
-          ? "⚙️ 收合工商條件 ▴"
-          : "⚙️ 檢視或修改工商條件 ▾";
+        const drawer = document.getElementById("companyDetailDrawer");
+        const isHidden = drawer.classList.toggle("hidden");
+        document.getElementById("companyDrawerBtnText").textContent = isHidden
+          ? "⚙️ 檢視或修改工商與人數條件 ▾"
+          : "⚙️ 收合工商與人數條件 ▴";
       });
 
-      // 手風琴：進階篩選條件
-      document.getElementById("btnToggleAdvancedFilter").addEventListener("click", () => {
-        state.advFilterOpen = !state.advFilterOpen;
-        document.getElementById("advancedFilterDrawer").classList.toggle("hidden", !state.advFilterOpen);
-        document.getElementById("advFilterBtnText").textContent = state.advFilterOpen
-          ? "⚙️ 收合進階篩選 ▴"
-          : "⚙️ 進階篩選（精確人數／同年度互斥檢查）▾";
+      // 工商模擬欄位變更
+      document.getElementById("simCounty").addEventListener("change", (e) => {
+        state.county = e.target.value;
+        renderAll(true);
+      });
+      document.getElementById("simCapital").addEventListener("input", (e) => {
+        state.paidInCapitalMan = Math.max(1, parseInt(e.target.value, 10) || 100);
+        renderAll(true);
+      });
+      document.getElementById("simSector").addEventListener("change", (e) => {
+        state.sector = e.target.value;
+        renderAll(true);
+      });
+      document.getElementById("simFactory").addEventListener("change", (e) => {
+        state.hasFactoryReg = e.target.value === "true";
+        renderAll(true);
       });
 
-      // 手風琴：期望值長條圖
-      document.getElementById("btnToggleChartDrawer").addEventListener("click", () => {
-        state.chartDrawerOpen = !state.chartDrawerOpen;
-        document.getElementById("chartDrawerContent").classList.toggle("hidden", !state.chartDrawerOpen);
-        document.getElementById("chartDrawerBtnText").textContent = state.chartDrawerOpen
-          ? "📊 收合最高上限與權重期望值對比圖 ▴"
-          : "📊 點此展開「各計畫最高上限 vs. 權重期望值」對比圖 ▾";
-      });
-
-      // 手風琴：底部已排除地雷案抽屜
-      document.getElementById("btnToggleExcludedDrawer").addEventListener("click", () => {
-        state.excludedDrawerOpen = !state.excludedDrawerOpen;
-        document.getElementById("excludedDrawerContent").classList.toggle("hidden", !state.excludedDrawerOpen);
-        document.getElementById("excludedDrawerArrow").textContent = state.excludedDrawerOpen
-          ? "收合清單 ▴"
-          : "點此展開查看剔除原因 ▾";
-      });
-
-      // 展開全部／收合全部補助卡片
-      document.getElementById("btnExpandAllCards").addEventListener("click", () => {
-        const { eligible } = evaluateGrantsForCompany();
-        eligible.forEach(g => state.expandedCardIds.add(g.id));
-        renderEligibleCards(eligible, false);
-      });
-
-      document.getElementById("btnCollapseAllCards").addEventListener("click", () => {
-        state.expandedCardIds.clear();
-        const { eligible } = evaluateGrantsForCompany();
-        renderEligibleCards(eligible, false);
-      });
-
-      // 模擬參數變更
-      ["simCounty", "simCapital", "simSector", "simFactory"].forEach((id) => {
-        document.getElementById(id).addEventListener("change", () => {
-          state.currentCompany.county = document.getElementById("simCounty").value;
-          state.currentCompany.paidInCapital = (parseInt(document.getElementById("simCapital").value, 10) || 100) * 10000;
-          state.currentCompany.sector = document.getElementById("simSector").value;
-          state.currentCompany.sectorLabel = state.currentCompany.sector === "manufacturing" ? "製造業（C 類）" : "商業／資訊服務業（E/F/G/I/J/M 類）";
-          state.currentCompany.hasFactoryReg = document.getElementById("simFactory").value === "true";
-          triggerGrantScreeningWithAnimation();
-        });
-      });
-
-      // 員工人數按鈕
-      document.querySelectorAll(".emp-btn").forEach((btn) => {
+      // 公司員工人數按鈕（位於工商條件抽屜內下方）
+      document.querySelectorAll(".emp-btn").forEach(btn => {
         btn.addEventListener("click", () => {
-          state.empRange = btn.getAttribute("data-emp");
-          if (state.empRange === "under30" && state.exactEmpCount > 30) {
-            state.exactEmpCount = 15;
-          } else if (state.empRange === "31to199" && (state.exactEmpCount <= 30 || state.exactEmpCount >= 200)) {
-            state.exactEmpCount = 55;
-          } else if (state.empRange === "over200" && state.exactEmpCount < 200) {
-            state.exactEmpCount = 250;
-          }
+          document.querySelectorAll(".emp-btn").forEach(b => b.classList.remove("emp-active"));
+          btn.classList.add("emp-active");
+          state.empRange = btn.dataset.emp;
+          if (state.empRange === "under30") state.exactEmpCount = 18;
+          else if (state.empRange === "31to199") state.exactEmpCount = 55;
+          else state.exactEmpCount = 260;
           document.getElementById("exactEmpCount").value = state.exactEmpCount;
-          updateEmpButtonsUI();
-          triggerGrantScreeningWithAnimation();
+          renderAll(true);
         });
       });
 
-      document.getElementById("exactEmpCount").addEventListener("change", (e) => {
-        const val = parseInt(e.target.value, 10) || 1;
-        state.exactEmpCount = val;
-        if (val <= 30) state.empRange = "under30";
-        else if (val < 200) state.empRange = "31to199";
-        else state.empRange = "over200";
-        updateEmpButtonsUI();
-        triggerGrantScreeningWithAnimation();
-      });
-
-      // 6 大轉型需求按鈕
-      document.querySelectorAll(".goal-btn").forEach((btn) => {
+      // 單行轉型方向過濾鈕
+      document.querySelectorAll(".goal-btn").forEach(btn => {
         btn.addEventListener("click", () => {
-          state.selectedGoal = btn.getAttribute("data-goal");
           document.querySelectorAll(".goal-btn").forEach(b => b.classList.remove("pill-active"));
           btn.classList.add("pill-active");
-          triggerGrantScreeningWithAnimation();
+          state.goal = btn.dataset.goal;
+          renderAll(true);
         });
       });
 
-      // 互斥與截止勾選
-      document.getElementById("chkPriorUpgrade").addEventListener("change", (e) => {
-        state.priorUpgradeConflict = e.target.checked;
-        triggerGrantScreeningWithAnimation();
-        if (state.priorUpgradeConflict) {
-          showToast("已啟用同年度互斥攔截：自動排除雲市集工業館與製造業躍升計畫");
-        }
+      // 進階篩選條件變更（位於工商條件抽屜內最下方）
+      document.getElementById("exactEmpCount").addEventListener("input", (e) => {
+        state.exactEmpCount = Math.max(1, parseInt(e.target.value, 10) || 1);
+        if (state.exactEmpCount <= 30) state.empRange = "under30";
+        else if (state.exactEmpCount < 200) state.empRange = "31to199";
+        else state.empRange = "over200";
+        document.querySelectorAll(".emp-btn").forEach(b => {
+          b.classList.toggle("emp-active", b.dataset.emp === state.empRange);
+        });
+        renderAll(true);
       });
-
+      document.getElementById("chkPriorUpgrade").addEventListener("change", (e) => {
+        state.hasPriorUpgradeSubsidy = e.target.checked;
+        renderAll(true);
+      });
       document.getElementById("chkHideExpired").addEventListener("change", (e) => {
         state.hideExpired = e.target.checked;
-        triggerGrantScreeningWithAnimation();
+        renderAll(true);
       });
 
-      // 重設所有條件
+      // 期望值圖表抽屜
+      document.getElementById("btnToggleChartDrawer").addEventListener("click", () => {
+        const content = document.getElementById("chartDrawerContent");
+        const isHidden = content.classList.toggle("hidden");
+        document.getElementById("chartDrawerBtnText").textContent = isHidden
+          ? "📊 點此展開「各計畫最高上限 vs. 權重期望值」對比圖 ▾"
+          : "📊 收合「各計畫最高上限 vs. 權重期望值」對比圖 ▴";
+      });
+
+      // 展開／收合全部卡片
+      document.getElementById("btnExpandAllCards").addEventListener("click", () => {
+        if (state.lastEvaluation) {
+          state.lastEvaluation.shownEligible.forEach(x => state.expandedCards.add(x.grant.id));
+          renderAll(false);
+        }
+      });
+      document.getElementById("btnCollapseAllCards").addEventListener("click", () => {
+        state.expandedCards.clear();
+        renderAll(false);
+      });
+
+      // 底部排除抽屜
+      document.getElementById("btnToggleExcludedDrawer").addEventListener("click", () => {
+        const el = document.getElementById("excludedDrawerContent");
+        const isHidden = el.classList.toggle("hidden");
+        document.getElementById("excludedDrawerArrow").textContent = isHidden
+          ? "點此展開查看剔除原因 ▾"
+          : "收合剔除清單 ▴";
+      });
+
+      // 匯出檢核表
+      document.getElementById("btnExportChecklist").addEventListener("click", exportChecklistTxt);
+
+      // 重設按鈕
       document.getElementById("btnResetAll").addEventListener("click", () => {
-        state.selectedGoal = "all";
-        state.priorUpgradeConflict = false;
+        state.goal = "all";
+        state.hasPriorUpgradeSubsidy = false;
         state.hideExpired = true;
-        state.expandedCardIds.clear();
         document.getElementById("chkPriorUpgrade").checked = false;
         document.getElementById("chkHideExpired").checked = true;
         document.querySelectorAll(".goal-btn").forEach(b => {
-          if (b.getAttribute("data-goal") === "all") b.classList.add("pill-active");
-          else b.classList.remove("pill-active");
+          b.classList.toggle("pill-active", b.dataset.goal === "all");
         });
-        ubnInput.value = "28458491";
-        applyUbnLookup("28458491");
-        showToast("已重設為預設條件");
+        if (COMPANIES_DB["28458491"]) {
+          applyCompanyRecord(COMPANIES_DB["28458491"], "已重設為預設統編與全部需求");
+        } else {
+          renderAll(true);
+        }
       });
 
-      document.getElementById("btnExportChecklist").addEventListener("click", exportChecklistTxt);
-
-      // 初次載入啟動篩選動畫
+      // 初始載入預設統編 28458491
       if (COMPANIES_DB["28458491"]) {
-        state.currentCompany = { ...COMPANIES_DB["28458491"] };
+        applyCompanyRecord(COMPANIES_DB["28458491"], "");
+      } else {
+        renderAll(true);
       }
-      triggerGrantScreeningWithAnimation();
     });
   </script>
 </body>

@@ -1,37 +1,44 @@
-# 2026 DTI 政府補助統編一鍵媒合儀表板 — Flash 模型專屬開發規格書 v2.0 (FLASH_DEV_SPEC.md)
+# 2026 DTI 政府補助統編一鍵媒合儀表板 — Flash 模型專屬開發規格書 v2.1 (FLASH_DEV_SPEC.md)
 
 > **給 Flash 開發模型的執行指令（System Instruction for Flash）**
-> 請嚴格依照本規格書 v2.0 更新 `/Users/alantsai/Documents/gemini/2026_DTI政府補助快選儀表板/taiwan_grant_matcher.html` 與 `update_portal_data.py`，並執行 `python3 update_portal_data.py` 將 48 筆全國補助規則與 22 家預抓取企業注入 `taiwan_grant_matcher.html` 與 `index.html`，最後執行第五節的自動化驗收腳本確認 100% 通過。
+> 請嚴格依照本規格書 v2.1 更新 `/Users/alantsai/Documents/gemini/2026_DTI政府補助快選儀表板/taiwan_grant_matcher.html`，並執行 `python3 update_portal_data.py` 將 48 筆全國補助規則與 22 家預抓取企業注入 `taiwan_grant_matcher.html` 與 `index.html`，最後執行第二節的自動化驗收腳本確認 100% 通過。
 
 ---
 
-## 一、本次三大核心升級需求（v2.0 必做規格）
+## 一、本次版面與互動調整核心規格（v2.1 必做規格）
 
-### 1. 統編 ＋ 企業名稱模糊搜尋配 Autocomplete（邊打邊選）
-- **輸入框改造**：
-  - 移除 `#ubnInput` 的 `maxlength="8"` 限制，加入 `autocomplete="off"`。
-  - `placeholder` 設為：`"請輸入企業名稱關鍵字（如：哇寶、威鴻）或 8 碼統編"`。
-  - 在 `#ubnInput` 外層建立 `relative flex-1` 容器，下方放置 `#autocompleteDropdown` 下拉選單容器。
-- **邊打邊選雙軌搜尋邏輯**：
-  - **本地快取 0 延遲模糊比對**：當使用者輸入文字時，立即比對 `COMPANIES_DB` 內所有企業之 `name`、`ubn` 與 `county`，即時顯示匹配建議。
-  - **遠端全國公司名稱搜尋 API（300ms Debounce）**：當輸入字數 `>= 2` 且非純 8 碼統編時，防抖 300ms 後透過 `fetch` 呼叫 `https://company.g0v.ronny.tw/api/search?q=${encodeURIComponent(query)}`，解析回傳之全國真實企業清單（提取 `統一編號`、`公司名稱`/`商業名稱`、`公司所在地`、`實收資本額(元)`、`所營事業資料`），寫入 `COMPANIES_DB` 快取並渲染至 `#autocompleteDropdown`。
-  - **互動支援**：支援滑鼠點擊建議項目，以及鍵盤 `ArrowDown`、`ArrowUp`、`Enter`、`Escape` 選取；選中後將統編填入 `#ubnInput`，關閉下拉選單，並立即啟動補助篩選。
+### 1. 還原純「8 碼統一編號」查詢（移除 Autocomplete 與名稱模糊搜尋）
+- **輸入框（`#ubnInput`）**：
+  - 設為 `type="text" inputmode="numeric" maxlength="8" autocomplete="off"`，`placeholder="請輸入 8 碼統一編號（例如：28458491）"`。
+  - 移除 `#autocompleteDropdown` 下拉選單容器與 `searchRemoteCompaniesByName` / `api/search?q=` 邏輯。
+  - 保留財政部 8 碼統編邏輯檢核碼驗證（`validateTaiwanUBN`）。
+- **隱藏連線模式切換器，預設一律走遠端 API**：
+  - 畫面不得出現 `.conn-btn` 或 `#sqliteConfigBar`。預設呼叫 `fetchFromRemoteG0vApi(ubn)`，若離線則自動無感退回本地 `COMPANIES_DB` 快取。
 
-### 2. 隱藏查詢連線模式切換器，Default 一律走遠端 API
-- **移除連線模式 UI**：
-  - 完全移除畫面上方的「🔌 企業統編查詢連線模式（遠端公開 API / 本地 SQLite / 離線快取）」切換區塊（不得出現 `.conn-btn` 或 `#sqliteConfigBar`）。
-- **底層預設邏輯**：
-  - 預設固定使用遠端 API 即時查詢（`fetchFromRemoteG0vApi` 與 `searchRemoteCompaniesByName`），若網路離線或查無資料時自動無感退回本地 `COMPANIES_DB` 快取。
+### 2. 省略 STEP 2，將「公司人數」與「進階篩選」收合進 STEP 1 工商條件下方
+- **省略 STEP 2 獨立區塊**：完全移除 `STEP 2` 標題列與獨立的進階篩選展開鈕。
+- **一行式工商與人數膠囊摘要列（`#companySummaryPills`）**：
+  - 常駐顯示一列精簡膠囊：`🏢 公司名稱`、`統編`、`📍 登記縣市`、`💰 資本額`、`🏭 製造業/💼 商業服務業`、`👥 員工人數區間`。
+  - 右側配置 `#btnToggleCompanyDrawer`（「`⚙️ 檢視或修改工商與人數條件 ▾`」）。
+- **初始採收合狀態的 `#companyDetailDrawer`（預設 `class="hidden ..."`）內部由上而下順序**：
+  1. **1. 工商登記基本條件**：正式商工登記資訊摘要 (`#companyFullMeta`) ＋ 4 欄模擬設定（登記縣市 `#simCounty`、實收資本額 `#simCapital`、業別映射 `#simSector`、工廠登記 `#simFactory`）。
+  2. **2. 貴公司目前勞保投保員工人數區間**（緊接在工商條件正下方）：`👤 30 人以下（含微型）`、`👥 31 ～ 199 人`、`🏢 200 人以上` 三顆 `.emp-btn` 按鈕。
+  3. **3. 進階篩選條件**（緊接在公司人數下方）：精確勞保人數輸入框 (`#exactEmpCount`)、今年度已領過升級轉型補助互斥排除 (`#chkPriorUpgrade`)、自動隱藏已截止梯次 (`#chkHideExpired`)。
+- **單行轉型方向過濾鈕（`#goalGroup`）接著放在收合區正下方**：
+  - 採用單行水平排列（`flex items-center gap-2 overflow-x-auto no-scrollbar`），左側為 `🎯 轉型方向：`，右側同行排列 7 顆精簡文字膠囊鈕：
+    - `全部需求` (`data-goal="all"`)
+    - `01 AI 與雲端` (`data-goal="cloud_ai"`)
+    - `02 研發創新` (`data-goal="rd_innov"`)
+    - `03 人才培訓` (`data-goal="training"`)
+    - `04 智慧製造` (`data-goal="smart_mfg"`)
+    - `05 淨零節能` (`data-goal="carbon"`)
+    - `06 行銷海外` (`data-goal="export_mkt"`)
 
-### 3. 無條件等待 3～5 秒 ＋ 數字累計跳動（Count-Up）＋ 瀑布流漸進式呈現符合案件
-- **階段一（0.0s 起）：預先呈現總案數與最高可申請金額，並啟動累計跳動（Count-Up Animation）**：
-  - 當觸發查詢或篩選條件變更時，先由 Rule-Based 引擎在背景算出符合資格案數 `N`（`#countUpCases`）與最高可申請總額 `Y` 萬元（`#countUpMaxMan`）。
-  - 使用 `requestAnimationFrame` 在 `1,200ms` 內將 `N` 與 `Y` 由 `0` 累計跳動至最終數值。
-- **階段二（0.0s ～ 3.5s）：無條件等待 3.5 秒並顯示動態篩選提示**：
-  - 在 `3,500ms`（落在 3～5 秒區間）等待期間，於 `#eligibleGrantsContainer` 顯示動態篩選卡片，主標題必須包含文字：**`正在為您篩選適合申請案件...`**，搭配進度光條與階段副標題。
-- **階段三（3.5s 後）：瀑布流漸進式（Staggered Waterfall Reveal）浮現符合卡片**：
-  - 等待時間結束後，移除載入提示，渲染符合資格的補助卡片，每張卡片套用 CSS Keyframes `@keyframes waterfallCardIn`（由 `opacity: 0; transform: translateY(24px)` 漸變至 `opacity: 1; transform: translateY(0)`），並依序設定 `animation-delay: ${index * 120}ms`，達成由上而下瀑布流漸進浮現效果。
-  - 注意：當使用者僅點擊卡片上的「➕ 點選展開：申請條件、防雷提醒與應備文件 ▾」手風琴按鈕時，直接展開該張卡片，**不得**重新觸發 3.5 秒等待動畫。
+### 3. 第一屏（Above the Fold）直接看到符合資格區塊 ＋ 3.5 秒篩選等待 ＋ 累計跳動 ＋ 瀑布流
+- **緊湊化垂直高度**：縮減導覽列與 STEP 1 卡片內外距（`py-4 space-y-4`），確保開啟網頁第一屏免捲動即可直接看到深藍色「**符合資格共 N 案｜最高可申請總額 NT$ Y 萬元**」區塊與下方的「**✅ 符合貴公司資格的補助清單**」。
+- **保留 3.5 秒篩選等待、Count-Up 累計跳動與瀑布流漸進浮現**：
+  - 觸發查詢或條件變更時，`#countUpCases` 與 `#countUpMaxMan` 立即以 `requestAnimationFrame` 進行累計跳動。
+  - 下方無條件等待 `3,500ms` 並顯示「`正在為您篩選適合申請案件...`」與動態進度光條，隨後以 `@keyframes waterfallCardIn`（每張延遲 `120ms`）由上而下漸進浮現符合卡片。
 
 ---
 
@@ -43,27 +50,37 @@
 python3 "/Users/alantsai/Documents/gemini/2026_DTI政府補助快選儀表板/update_portal_data.py" && python3 - << 'PY'
 import json
 html = open("/Users/alantsai/Documents/gemini/2026_DTI政府補助快選儀表板/taiwan_grant_matcher.html", encoding="utf-8").read()
+idx_html = open("/Users/alantsai/Documents/gemini/2026_DTI政府補助快選儀表板/index.html", encoding="utf-8").read()
 grants = json.load(open("/Users/alantsai/Documents/gemini/2026_DTI政府補助快選儀表板/grants_rules.json", encoding="utf-8"))
 
-# 1. 驗證連線模式切換器已隱藏、範例按鈕已移除
-assert "conn-btn" not in html, "ERROR: 連線模式切換按鈕 conn-btn 尚未移除！"
-assert "sqliteConfigBar" not in html, "ERROR: sqliteConfigBar 尚未移除！"
-assert "preset-btn" not in html, "ERROR: preset-btn 尚未移除！"
+assert html == idx_html, "ERROR: index.html 與 taiwan_grant_matcher.html 不一致！"
 
-# 2. 驗證企業名稱模糊搜尋與 Autocomplete 元件存在
-assert "autocompleteDropdown" in html, "ERROR: 缺少 autocompleteDropdown 自動完成下拉選單！"
-assert "company.g0v.ronny.tw/api/search" in html, "ERROR: 缺少企業名稱遠端模糊搜尋 API！"
+# 1. 驗證已還原為純統編查詢、無 Autocomplete、無連線模式切換器、無 STEP 2
+assert "autocompleteDropdown" not in html, "ERROR: autocompleteDropdown 尚未移除！"
+assert 'maxlength="8"' in html, "ERROR: ubnInput 缺少 maxlength=8 限制！"
+assert "conn-btn" not in html and "sqliteConfigBar" not in html, "ERROR: 連線模式切換器尚未移除！"
+assert ">STEP 2<" not in html, "ERROR: STEP 2 標題尚未移除！"
 
-# 3. 驗證 3~5 秒等待、累計跳動與瀑布流動畫存在
+# 2. 驗證 STEP 1 內部順序：工商條件 -> 公司人數 -> 進階篩選 -> 單行轉型方向過濾鈕
+pos_drawer = html.find('id="companyDetailDrawer"')
+pos_county = html.find('id="simCounty"')
+pos_emp = html.find('data-emp="under30"')
+pos_adv = html.find('id="exactEmpCount"')
+pos_goal = html.find('id="goalGroup"')
+assert -1 < pos_drawer < pos_county < pos_emp < pos_adv < pos_goal, (
+    f"ERROR: STEP 1 區塊順序不正確: drawer={pos_drawer}, county={pos_county}, emp={pos_emp}, adv={pos_adv}, goal={pos_goal}"
+)
+
+# 3. 驗證 3.5 秒等待、累計跳動與瀑布流動畫存在
 assert "正在為您篩選適合申請案件..." in html, "ERROR: 缺少『正在為您篩選適合申請案件...』提示文字！"
 assert "countUpCases" in html and "countUpMaxMan" in html, "ERROR: 缺少數字累計跳動元素！"
 assert "waterfallCardIn" in html, "ERROR: 缺少瀑布流漸進式動畫 waterfallCardIn！"
 
 # 4. 驗證 48 筆全國補助案皆已寫入
-assert len(grants) >= 46, f"ERROR: 補助案數量不足 ({len(grants)})"
+assert len(grants) >= 48, f"ERROR: 補助案數量不足 ({len(grants)})"
 for g in grants:
     assert g["officialUrl"] in html, f"ERROR: 缺少專案入口網址 {g['officialUrl']}"
 
-print("ALL FLASH DEV SPEC v2.0 CHECKS PASSED 100%!")
+print("ALL FLASH DEV SPEC v2.1 CHECKS PASSED 100%!")
 PY
 ```
