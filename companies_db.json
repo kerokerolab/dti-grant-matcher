@@ -1,7 +1,7 @@
 {
   "schemaVersion": "2026.10.3",
   "lastSyncedAt": "2026-10-25 21:38:15",
-  "totalCompanies": 22,
+  "totalCompanies": 23,
   "description": "預抓取之經濟部商工行政資料開放平臺 (GCIS) 統編快取表與營業項目代碼映射規則（供零 AI Rule-Based Mapping 使用）",
   "industryCodePrefixMapping": {
     "C": {
@@ -419,6 +419,23 @@
       "defaultEmpRange": "31to199",
       "defaultExactEmp": 160,
       "findbizUrl": "https://findbiz.nat.gov.tw/fts/factory/08/11094B00019"
+    },
+    "00651251": {
+      "ubn": "00651251",
+      "name": "社團法人台灣數位轉型協會",
+      "orgType": "company",
+      "orgTypeLabel": "社團法人／非營利協會（內政部／財政部稅籍登記）",
+      "county": "臺北市",
+      "address": "臺北市中正區羅斯福路2段9號10樓之一",
+      "paidInCapital": 1000000,
+      "estDate": "2019-01-01",
+      "industryCode": "I103060",
+      "sector": "service",
+      "sectorLabel": "專業技術、管理顧問及數位轉型輔導協會",
+      "hasFactoryReg": false,
+      "defaultEmpRange": "under30",
+      "defaultExactEmp": 15,
+      "findbizUrl": "https://www.etax.nat.gov.tw/etwmain/etw113w5/ban/query"
     }
   }
 }
