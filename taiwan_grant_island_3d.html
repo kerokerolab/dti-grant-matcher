@@ -14,17 +14,17 @@
   <style>
     body {
       font-family: 'Inter', 'Noto Sans TC', -apple-system, BlinkMacSystemFont, sans-serif;
-      background-color: #dbeafe;
+      background-color: #f1f5f9;
       color: #0f172a;
       font-size: 16px;
       line-height: 1.55;
       overflow-x: hidden;
     }
     .pill-active {
-      border-color: #1d4ed8 !important;
-      background-color: #1d4ed8 !important;
+      border-color: #ea580c !important;
+      background-color: #ea580c !important;
       color: #ffffff !important;
-      box-shadow: 0 3px 10px rgba(29, 78, 216, 0.25);
+      box-shadow: 0 3px 10px rgba(234, 88, 12, 0.28);
     }
     .emp-active {
       border-color: #1d4ed8 !important;
@@ -33,10 +33,10 @@
       box-shadow: 0 0 0 2px rgba(29, 78, 216, 0.25);
     }
     .mode-btn-active {
-      background-color: #2563eb !important;
+      background-color: #ea580c !important;
       color: #ffffff !important;
-      border-color: #3b82f6 !important;
-      box-shadow: 0 2px 8px rgba(37, 99, 235, 0.35);
+      border-color: #f97316 !important;
+      box-shadow: 0 2px 8px rgba(234, 88, 12, 0.35);
     }
     @keyframes waterfallCardIn {
       0% {
@@ -55,11 +55,11 @@
     @keyframes pinPopIn {
       0% {
         opacity: 0;
-        transform: translate(-50%, -80%) scale(0.4);
+        transform: translate(-50%, -75%) scale(0.45);
       }
       70% {
         opacity: 1;
-        transform: translate(-50%, -105%) scale(1.06);
+        transform: translate(-50%, -104%) scale(1.05);
       }
       100% {
         opacity: 1;
@@ -68,7 +68,7 @@
     }
     .island-pin-anim {
       opacity: 0;
-      animation: pinPopIn 0.48s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+      animation: pinPopIn 0.46s cubic-bezier(0.16, 1, 0.3, 1) forwards;
     }
     @keyframes progressSweep {
       0% { width: 8%; }
@@ -85,15 +85,16 @@
       -ms-overflow-style: none;
       scrollbar-width: none;
     }
+    /* 政策島風格藍綠海面舞台 */
     #island3dStage {
       position: relative;
       width: 100%;
-      height: 580px;
-      border-radius: 24px;
+      height: 620px;
+      border-radius: 26px;
       overflow: hidden;
-      background: linear-gradient(180deg, #bae6fd 0%, #e0f2fe 55%, #93c5fd 100%);
-      box-shadow: 0 12px 32px -8px rgba(15, 23, 42, 0.16);
-      border: 2px solid rgba(255, 255, 255, 0.85);
+      background: #5caab9;
+      box-shadow: 0 14px 36px -8px rgba(15, 23, 42, 0.22);
+      border: 3px solid #ffffff;
     }
     #threeCanvasContainer {
       width: 100%;
@@ -103,17 +104,18 @@
     #threeCanvasContainer:active {
       cursor: grabbing;
     }
-    .island-label-marker {
+    /* 政策島風格白色圓角膠囊標籤 */
+    .heart-island-pill {
       position: absolute;
       transform: translate(-50%, -100%);
       pointer-events: auto;
       user-select: none;
-      transition: transform 0.2s ease, box-shadow 0.2s ease;
-      z-index: 10;
+      z-index: 20;
+      transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.2s ease;
     }
-    .island-label-marker:hover {
-      transform: translate(-50%, -106%) scale(1.05);
-      z-index: 25;
+    .heart-island-pill:hover {
+      transform: translate(-50%, -108%) scale(1.07);
+      z-index: 35;
     }
     .grant-pin-marker {
       position: absolute;
@@ -124,8 +126,8 @@
       transition: transform 0.18s ease;
     }
     .grant-pin-marker:hover {
-      transform: translate(-50%, -108%) scale(1.08);
-      z-index: 30;
+      transform: translate(-50%, -110%) scale(1.08);
+      z-index: 32;
     }
   </style>
 </head>
@@ -135,15 +137,15 @@
   <header class="bg-slate-900 text-white border-b border-slate-800 sticky top-0 z-40 shadow-md">
     <div class="max-w-6xl mx-auto px-4 sm:px-6 py-2.5 flex flex-wrap items-center justify-between gap-2">
       <div class="flex items-center gap-3">
-        <div class="w-9 h-9 rounded-xl bg-gradient-to-tr from-blue-600 to-teal-400 flex items-center justify-center font-extrabold text-base shadow-md">
+        <div class="w-9 h-9 rounded-xl bg-gradient-to-tr from-orange-500 to-amber-400 flex items-center justify-center font-extrabold text-base shadow-md text-slate-950">
           DX
         </div>
         <div>
           <h1 class="text-lg sm:text-xl font-extrabold tracking-tight flex items-center gap-2">
             <span>數位轉型學院｜政府補助統編一鍵快選</span>
-            <span class="text-xs px-2 py-0.5 rounded-full bg-teal-500/20 text-teal-300 border border-teal-400/30 font-bold">3D 轉型群島版</span>
+            <span class="text-xs px-2.5 py-0.5 rounded-full bg-orange-500/20 text-orange-300 border border-orange-400/30 font-bold">3D 政策浮島版</span>
           </h1>
-          <p class="text-xs sm:text-sm text-slate-300">輸入 8 碼統編即時點亮 6 大轉型浮島 · 涵蓋中央跨部會 ＋ 全台 22 縣市共 48 案</p>
+          <p class="text-xs sm:text-sm text-slate-300">輸入 8 碼統編即時點亮 6 大相連轉型島嶼 · 涵蓋中央跨部會 ＋ 全台 22 縣市共 48 案</p>
         </div>
       </div>
 
@@ -166,7 +168,7 @@
 
         <a
           href="./taiwan_grant_matcher.html"
-          class="px-3 py-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-blue-300 text-xs sm:text-sm font-semibold border border-slate-700 transition"
+          class="px-3 py-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-amber-300 text-xs sm:text-sm font-semibold border border-slate-700 transition"
           title="開啟獨立 2D 清單版網頁"
         >
           ↗ 獨立 2D 版連結
@@ -189,7 +191,7 @@
       <div class="space-y-1.5">
         <div class="flex flex-wrap items-center justify-between gap-2">
           <label for="ubnInput" class="text-base sm:text-lg font-extrabold text-slate-900 flex items-center gap-2">
-            <span class="px-2.5 py-0.5 rounded-lg bg-blue-600 text-white text-xs sm:text-sm font-bold">STEP 1</span>
+            <span class="px-2.5 py-0.5 rounded-lg bg-orange-600 text-white text-xs sm:text-sm font-bold">STEP 1</span>
             請輸入公司、商號或法人協會 8 碼統一編號
           </label>
           <span id="ubnChecksumTag" class="text-xs sm:text-sm px-3 py-0.5 rounded-full bg-emerald-50 text-emerald-700 font-semibold border border-emerald-200">
@@ -206,11 +208,11 @@
             autocomplete="off"
             value="28458491"
             placeholder="請輸入 8 碼統一編號（例如：28458491、00651251）"
-            class="flex-1 px-4 py-2 rounded-2xl border-2 border-slate-300 focus:border-blue-600 focus:ring-4 focus:ring-blue-100 outline-none text-lg sm:text-xl font-mono font-bold tracking-wider text-slate-900"
+            class="flex-1 px-4 py-2 rounded-2xl border-2 border-slate-300 focus:border-orange-500 focus:ring-4 focus:ring-orange-100 outline-none text-lg sm:text-xl font-mono font-bold tracking-wider text-slate-900"
           />
           <button
             id="btnLookupUbn"
-            class="px-6 py-2 rounded-2xl bg-blue-600 hover:bg-blue-700 text-white font-bold text-base sm:text-lg whitespace-nowrap transition shadow-md"
+            class="px-6 py-2 rounded-2xl bg-orange-600 hover:bg-orange-700 text-white font-bold text-base sm:text-lg whitespace-nowrap transition shadow-md"
           >
             🔍 立即查詢補助
           </button>
@@ -348,38 +350,38 @@
           🗺️ 全部島嶼全景
         </button>
         <button data-goal="cloud_ai" class="goal-btn text-sm px-3 py-1.5 rounded-xl border border-slate-300 bg-white text-slate-700 hover:bg-slate-50 font-semibold whitespace-nowrap shrink-0 transition">
-          01 AI 與雲端島
+          01 AI 與雲端
         </button>
         <button data-goal="rd_innov" class="goal-btn text-sm px-3 py-1.5 rounded-xl border border-slate-300 bg-white text-slate-700 hover:bg-slate-50 font-semibold whitespace-nowrap shrink-0 transition">
-          02 研發創新島
+          02 研發創新
         </button>
         <button data-goal="training" class="goal-btn text-sm px-3 py-1.5 rounded-xl border border-slate-300 bg-white text-slate-700 hover:bg-slate-50 font-semibold whitespace-nowrap shrink-0 transition">
-          03 人才培訓島
+          03 人才培訓
         </button>
         <button data-goal="smart_mfg" class="goal-btn text-sm px-3 py-1.5 rounded-xl border border-slate-300 bg-white text-slate-700 hover:bg-slate-50 font-semibold whitespace-nowrap shrink-0 transition">
-          04 智慧製造島
+          04 智慧製造
         </button>
         <button data-goal="carbon" class="goal-btn text-sm px-3 py-1.5 rounded-xl border border-slate-300 bg-white text-slate-700 hover:bg-slate-50 font-semibold whitespace-nowrap shrink-0 transition">
-          05 淨零節能島
+          05 淨零節能
         </button>
         <button data-goal="export_mkt" class="goal-btn text-sm px-3 py-1.5 rounded-xl border border-slate-300 bg-white text-slate-700 hover:bg-slate-50 font-semibold whitespace-nowrap shrink-0 transition">
-          06 行銷海外島
+          06 行銷海外
         </button>
       </div>
 
     </section>
 
     <!-- ==================== 區塊 2：第一屏符合資格統計列（預先呈現累計跳動 Count-Up） ==================== -->
-    <section class="bg-gradient-to-r from-slate-900 via-blue-950 to-indigo-950 text-white rounded-3xl px-5 py-3.5 shadow-lg">
+    <section class="bg-gradient-to-r from-slate-900 via-slate-800 to-slate-900 text-white rounded-3xl px-5 py-3 shadow-lg">
       <div class="flex flex-wrap items-center justify-between gap-3">
         <div class="flex flex-wrap items-baseline gap-x-4 gap-y-1">
-          <span class="text-xs font-bold px-2.5 py-0.5 rounded-full bg-teal-400/20 text-teal-300 border border-teal-400/30">
-            ✨ 規則引擎即時精算
+          <span class="text-xs font-bold px-2.5 py-0.5 rounded-full bg-orange-500/20 text-orange-300 border border-orange-400/30">
+            ✨ 一格政見・一座相連的補助群島
           </span>
           <h2 id="portfolioHeadline" class="text-xl sm:text-2xl font-extrabold tracking-tight">
             符合資格共 <span id="countUpCases" class="text-amber-300 underline font-mono">0</span> 案｜最高可申請總額 NT$ <span id="countUpMaxMan" class="text-emerald-300 font-mono">0</span> 萬元
           </h2>
-          <span class="text-xs sm:text-sm text-blue-200">
+          <span class="text-xs sm:text-sm text-slate-300">
             （權重期望值約 <strong id="countUpExpectedMan" class="font-mono text-white">0</strong> 萬元）
           </span>
         </div>
@@ -387,13 +389,13 @@
         <div class="flex items-center gap-2">
           <button
             id="btnResetCamera"
-            class="px-3.5 py-2 rounded-xl bg-white/10 hover:bg-white/20 text-white font-bold text-xs sm:text-sm border border-white/20 transition"
+            class="px-3.5 py-1.5 rounded-xl bg-white/10 hover:bg-white/20 text-white font-bold text-xs sm:text-sm border border-white/20 transition"
           >
-            🧭 鏡頭回到群島全景
+            🧭 全景視角
           </button>
           <button
             id="btnExportChecklist"
-            class="px-4 py-2 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-extrabold text-xs sm:text-sm transition shadow-md flex items-center gap-1 whitespace-nowrap"
+            class="px-4 py-1.5 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-extrabold text-xs sm:text-sm transition shadow-md flex items-center gap-1 whitespace-nowrap"
           >
             <span>📥</span> 下載攻略檢核表 (.txt)
           </button>
@@ -409,8 +411,8 @@
 
         <!-- 左上角操作提示 HUD -->
         <div class="absolute top-3.5 left-3.5 z-20 pointer-events-none flex flex-col gap-1.5">
-          <div class="bg-slate-900/80 backdrop-blur-md text-white px-3.5 py-2 rounded-2xl border border-white/15 shadow-lg text-xs sm:text-sm flex items-center gap-2">
-            <span>🖱️ <strong>操作提示：</strong>左鍵拖曳旋轉 · 滾輪縮放 · 點擊「島嶼」或「💰 補助地標」平滑飛近查看細節</span>
+          <div class="bg-white/90 backdrop-blur-md text-slate-800 px-3.5 py-1.5 rounded-full border border-slate-200 shadow-md text-xs sm:text-sm font-semibold flex items-center gap-2">
+            <span>🖱️ 拖曳旋轉 · 滾輪縮放 · 點擊「白色島名牌」或「💰補助標記」平滑飛近</span>
           </div>
         </div>
 
@@ -418,9 +420,9 @@
         <div id="islandMarkersOverlay" class="absolute inset-0 pointer-events-none overflow-hidden"></div>
 
         <!-- 3.5 秒篩選等待期間顯示之 3D 雷達掃描中央浮動框 -->
-        <div id="screening3DOverlay" class="hidden absolute inset-0 z-30 bg-slate-900/35 backdrop-blur-[2px] flex items-center justify-center p-4">
-          <div class="bg-white/95 backdrop-blur-md rounded-3xl border-2 border-blue-300 p-6 sm:p-8 max-w-md w-full text-center space-y-4 shadow-2xl">
-            <div class="w-12 h-12 rounded-2xl bg-blue-50 border border-blue-200 text-blue-600 mx-auto flex items-center justify-center">
+        <div id="screening3DOverlay" class="hidden absolute inset-0 z-30 bg-slate-900/30 backdrop-blur-[2px] flex items-center justify-center p-4">
+          <div class="bg-white/95 backdrop-blur-md rounded-3xl border-2 border-orange-300 p-6 sm:p-8 max-w-md w-full text-center space-y-4 shadow-2xl">
+            <div class="w-12 h-12 rounded-2xl bg-orange-50 border border-orange-200 text-orange-600 mx-auto flex items-center justify-center">
               <svg class="w-7 h-7 animate-spin" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
                 <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
                 <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"></path>
@@ -433,7 +435,7 @@
               </p>
             </div>
             <div class="w-full bg-slate-100 h-2.5 rounded-full overflow-hidden p-0.5 border border-slate-200">
-              <div id="screening3DProgressBar" class="bg-gradient-to-r from-blue-600 to-teal-400 h-full rounded-full progress-sweep-bar"></div>
+              <div id="screening3DProgressBar" class="bg-gradient-to-r from-orange-500 to-amber-400 h-full rounded-full progress-sweep-bar"></div>
             </div>
           </div>
         </div>
@@ -441,11 +443,11 @@
         <!-- 右側滑出式詳情面板（當點擊某座島嶼或某個補助 Marker 時顯示） -->
         <aside
           id="islandSideDrawer"
-          class="hidden absolute top-3 right-3 bottom-3 w-full max-w-md bg-white/95 backdrop-blur-xl rounded-2xl border-2 border-blue-200 shadow-2xl z-30 flex flex-col overflow-hidden"
+          class="hidden absolute top-3 right-3 bottom-3 w-full max-w-md bg-white/95 backdrop-blur-xl rounded-2xl border-2 border-slate-200 shadow-2xl z-30 flex flex-col overflow-hidden"
         >
           <div class="p-4 bg-slate-900 text-white flex items-center justify-between gap-2">
             <div>
-              <div id="drawerIslandBadge" class="text-xs font-bold text-teal-300">01 AI 與雲端島</div>
+              <div id="drawerIslandBadge" class="text-xs font-bold text-orange-300">01 AI 與雲端</div>
               <h3 id="drawerTitle" class="text-base sm:text-lg font-extrabold leading-snug">島嶼符合資格補助清單</h3>
             </div>
             <button
@@ -464,9 +466,8 @@
 
     <!-- ==================== 區塊 3B：原版 2D 瀑布流清單視角（點擊上方「📋 2D 瀑布流清單」切換顯示） ==================== -->
     <section id="viewSection2D" class="hidden space-y-4">
-      <!-- 黃金 3 步推薦卡 -->
       <div class="bg-slate-900 text-white rounded-3xl p-5 space-y-3">
-        <div class="text-xs font-bold text-teal-300">✨ 系統推薦最優先申請的「黃金 3 步組合包」（點擊卡片可展開下方詳情）：</div>
+        <div class="text-xs font-bold text-orange-300">✨ 系統推薦最優先申請的「黃金 3 步組合包」（點擊卡片可展開下方詳情）：</div>
         <div id="portfolioStepsGrid" class="grid grid-cols-1 md:grid-cols-3 gap-3"></div>
         <div>
           <button id="btnToggleChartDrawer" class="text-xs sm:text-sm font-semibold text-blue-200 hover:text-white flex items-center gap-1.5 transition">
@@ -492,7 +493,6 @@
         </div>
       </div>
 
-      <!-- 2D 篩選等待框 -->
       <div id="screeningLoaderBox" class="hidden bg-white rounded-3xl border-2 border-blue-200 p-8 text-center space-y-4 shadow-sm">
         <div class="w-12 h-12 rounded-2xl bg-blue-50 border border-blue-200 text-blue-600 mx-auto flex items-center justify-center">
           <svg class="w-7 h-7 animate-spin" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
@@ -509,7 +509,6 @@
         </div>
       </div>
 
-      <!-- 2D 瀑布流卡片容器 -->
       <div id="eligibleGrantsContainer" class="space-y-3.5"></div>
     </section>
 
@@ -1042,7 +1041,7 @@
                   "於雲市集工業館挑選「AI 工具庫」上架方案並完成線上點數折抵合約",
                   "切結同年度未重複領取低碳化／智慧化升級轉型等互斥補助"
             ],
-            "lastVerifiedAt": "2026-10-28 23:28:53"
+            "lastVerifiedAt": "2026-10-28 23:47:36"
       },
       {
             "id": "MOEA-SMESA-CLOUDSME",
@@ -1086,7 +1085,7 @@
                   "公司登記、商業登記或稅籍登記證明文件",
                   "數位轉型需求盤點表與預計導入之雲端工具類別勾選"
             ],
-            "lastVerifiedAt": "2026-10-28 23:28:53"
+            "lastVerifiedAt": "2026-10-28 23:47:36"
       },
       {
             "id": "MOEA-DOC-SMART-SERV",
@@ -1130,7 +1129,7 @@
                   "數位轉型與 AI 應用導入計畫書",
                   "資訊服務供應商報價單與系統架構說明"
             ],
-            "lastVerifiedAt": "2026-10-28 23:28:53"
+            "lastVerifiedAt": "2026-10-28 23:47:36"
       },
       {
             "id": "MOEA-DOC-OP-RESILIENCE",
@@ -1174,7 +1173,7 @@
                   "提升營運效能數位系統導入計畫書與前後績效對照表",
                   "最近一期營業稅申報書與無欠稅證明"
             ],
-            "lastVerifiedAt": "2026-10-28 23:28:53"
+            "lastVerifiedAt": "2026-10-28 23:47:36"
       },
       {
             "id": "MOEA-DOC-ROBOT-DATA",
@@ -1217,7 +1216,7 @@
                   "營業場域證明與公司／商業登記文件",
                   "服務型機器人或數據平台導入規劃書與減少人力工時估算表"
             ],
-            "lastVerifiedAt": "2026-10-28 23:28:53"
+            "lastVerifiedAt": "2026-10-28 23:47:36"
       },
       {
             "id": "MODA-ADI-DIGIPLUS",
@@ -1261,7 +1260,7 @@
                   "AI 或數位創新服務商業化驗證（PoC/PoB）計畫書",
                   "資安防護與個資保護聲明書"
             ],
-            "lastVerifiedAt": "2026-10-28 23:28:53"
+            "lastVerifiedAt": "2026-10-28 23:47:36"
       },
       {
             "id": "MOEA-IDA-CLOUD-SOL-EXPIRED",
@@ -1303,7 +1302,7 @@
             "checklist": [
                   "本梯次已截止，請勿送件"
             ],
-            "lastVerifiedAt": "2026-10-28 23:28:53"
+            "lastVerifiedAt": "2026-10-28 23:47:36"
       },
       {
             "id": "MOEA-SMESA-SBIR-CENTRAL",
@@ -1349,7 +1348,7 @@
                   "SBIR 計畫申請表與研發計畫書（技術／服務創新性說明、研發團隊學經歷、經費編列）",
                   "最近一期勞保局投保單位被保險人名冊"
             ],
-            "lastVerifiedAt": "2026-10-28 23:28:53"
+            "lastVerifiedAt": "2026-10-28 23:47:36"
       },
       {
             "id": "MOEA-SMESA-SBIR-CROSS",
@@ -1393,7 +1392,7 @@
                   "跨域研發合作協議書與深科技應用計畫書",
                   "最近一期勞保局投保人數名冊"
             ],
-            "lastVerifiedAt": "2026-10-28 23:28:53"
+            "lastVerifiedAt": "2026-10-28 23:47:36"
       },
       {
             "id": "MOEA-DOC-SIIR",
@@ -1437,7 +1436,7 @@
                   "SIIR 服務業創新研發計畫書（聚焦智慧化 AI 應用或低碳商業模式）",
                   "最近一年營所稅申報書與最近一期營業稅 401 表、無欠稅證明"
             ],
-            "lastVerifiedAt": "2026-10-28 23:28:53"
+            "lastVerifiedAt": "2026-10-28 23:47:36"
       },
       {
             "id": "MOEA-IDA-TIIP",
@@ -1482,7 +1481,7 @@
                   "TIIP 計畫書（主題式研發／產業高值／服務創新研發計畫書）",
                   "簡報審查文件與財務健全切結書"
             ],
-            "lastVerifiedAt": "2026-10-28 23:28:53"
+            "lastVerifiedAt": "2026-10-28 23:47:36"
       },
       {
             "id": "MOEA-IDA-COMP-SUPPORT",
@@ -1525,7 +1524,7 @@
                   "提升產業競爭力研發轉型支持計畫書",
                   "近三年財務報表與無欠稅證明"
             ],
-            "lastVerifiedAt": "2026-10-28 23:28:53"
+            "lastVerifiedAt": "2026-10-28 23:47:36"
       },
       {
             "id": "MOEA-DOC-30SERV",
@@ -1571,7 +1570,7 @@
                   "培訓月份之勞保局核發投保單位被保險人名冊",
                   "申請事業指定匯款之金融機構存摺封面影本"
             ],
-            "lastVerifiedAt": "2026-10-28 23:28:53"
+            "lastVerifiedAt": "2026-10-28 23:47:36"
       },
       {
             "id": "MOEA-SMESA-30MFG",
@@ -1616,7 +1615,7 @@
                   "課程及搭配軟體之統一發票／收據（須於補助期間內開立）",
                   "培訓月份勞保投保名冊與撥款存摺影本"
             ],
-            "lastVerifiedAt": "2026-10-28 23:28:53"
+            "lastVerifiedAt": "2026-10-28 23:47:36"
       },
       {
             "id": "MOL-WDA-HR-UPGRADE",
@@ -1661,7 +1660,7 @@
                   "年度員工數位 AI 工具應用與專業職能訓練計畫表",
                   "無欠繳勞保費或滯納金證明"
             ],
-            "lastVerifiedAt": "2026-10-28 23:28:53"
+            "lastVerifiedAt": "2026-10-28 23:47:36"
       },
       {
             "id": "MOEA-DOC-TALENT-RESILIENCE",
@@ -1704,7 +1703,7 @@
                   "公司或商業登記統編與派訓員工名單",
                   "數位轉型職能需求自評表"
             ],
-            "lastVerifiedAt": "2026-10-28 23:28:53"
+            "lastVerifiedAt": "2026-10-28 23:47:36"
       },
       {
             "id": "MOEA-IDA-MFG-LEAP",
@@ -1748,7 +1747,7 @@
                   "近三年會計師簽證或營所稅申報核定通知書",
                   "合作資服業者或生態系成員之共同執行意向書"
             ],
-            "lastVerifiedAt": "2026-10-28 23:28:53"
+            "lastVerifiedAt": "2026-10-28 23:47:36"
       },
       {
             "id": "MOEA-IDA-SUCCESSION-AI",
@@ -1791,7 +1790,7 @@
                   "接班傳承團隊說明與 AI 數位轉型應用計畫書",
                   "最近一期無欠稅證明與勞保投保清單"
             ],
-            "lastVerifiedAt": "2026-10-28 23:28:53"
+            "lastVerifiedAt": "2026-10-28 23:47:36"
       },
       {
             "id": "MOEA-IDA-DATA-MFG",
@@ -1833,7 +1832,7 @@
                   "公司登記與工廠登記證明文件",
                   "產線數據收集現況與 AI 製造導入需求申請表"
             ],
-            "lastVerifiedAt": "2026-10-28 23:28:53"
+            "lastVerifiedAt": "2026-10-28 23:47:36"
       },
       {
             "id": "MOEA-DOC-SMART-CARBON",
@@ -1878,7 +1877,7 @@
                   "最近一期營業稅申報書（401/403表）與無欠稅證明",
                   "資訊服務廠商報價單與規格書"
             ],
-            "lastVerifiedAt": "2026-10-28 23:28:53"
+            "lastVerifiedAt": "2026-10-28 23:47:36"
       },
       {
             "id": "MOEA-EA-ENERGY",
@@ -1922,7 +1921,7 @@
                   "台電公司最近一期電費單影本（核對用電地址）",
                   "一級能效空調／冷凍冷藏設備購買發票與回收證明，或 BEMS 能源管理系統建置計畫"
             ],
-            "lastVerifiedAt": "2026-10-28 23:28:53"
+            "lastVerifiedAt": "2026-10-28 23:47:36"
       },
       {
             "id": "MOEA-EA-MOTOR-EQUIP",
@@ -1966,7 +1965,7 @@
                   "能源署高效率動力設備登錄型號證明與統一發票影本",
                   "設備安裝現場照片與撥款帳戶存摺影本"
             ],
-            "lastVerifiedAt": "2026-10-28 23:28:53"
+            "lastVerifiedAt": "2026-10-28 23:47:36"
       },
       {
             "id": "MOEA-IDA-LOWCARBON-ICT",
@@ -2009,7 +2008,7 @@
                   "公司或商業登記證明與合法工廠登記證（或免辦工廠登記證明）",
                   "115年度中小型製造業低碳輔導計畫申請表"
             ],
-            "lastVerifiedAt": "2026-10-28 23:28:53"
+            "lastVerifiedAt": "2026-10-28 23:47:36"
       },
       {
             "id": "MOENV-RECA-CIRCULAR",
@@ -2052,7 +2051,7 @@
                   "資源循環創新或製程減廢示範計畫書（含數位物料流追蹤架構）",
                   "過去三年環保合規無重大裁罰切結書"
             ],
-            "lastVerifiedAt": "2026-10-28 23:28:53"
+            "lastVerifiedAt": "2026-10-28 23:47:36"
       },
       {
             "id": "MOEA-TITA-EXPORT",
@@ -2096,7 +2095,7 @@
                   "國際市場開發與數位精準行銷計畫書",
                   "無欠稅證明與過去執行貿易署計畫未遭停權切結"
             ],
-            "lastVerifiedAt": "2026-10-28 23:28:53"
+            "lastVerifiedAt": "2026-10-28 23:47:36"
       },
       {
             "id": "MOEA-DOC-BRAND-DIST",
@@ -2140,7 +2139,7 @@
                   "公司或商業登記證明文件",
                   "品牌數位行銷與通路拓展申請計畫書"
             ],
-            "lastVerifiedAt": "2026-10-28 23:28:53"
+            "lastVerifiedAt": "2026-10-28 23:47:36"
       },
       {
             "id": "LOCAL-TAIPEI-SITI",
@@ -2185,7 +2184,7 @@
                   "臺北市地方產業創新研發計畫書（符合選定特色產業或數位轉型方向）",
                   "最近一期國稅與地方稅無欠稅證明、勞保投保人數資料表"
             ],
-            "lastVerifiedAt": "2026-10-28 23:28:53"
+            "lastVerifiedAt": "2026-10-28 23:47:36"
       },
       {
             "id": "LOCAL-NEW-TAIPEI-INNOV",
@@ -2230,7 +2229,7 @@
                   "新北市地方產業創新研發計畫書（符合選定特色產業或數位轉型方向）",
                   "最近一期國稅與地方稅無欠稅證明、勞保投保人數資料表"
             ],
-            "lastVerifiedAt": "2026-10-28 23:28:53"
+            "lastVerifiedAt": "2026-10-28 23:47:36"
       },
       {
             "id": "LOCAL-KEELUNG-SBIR",
@@ -2275,7 +2274,7 @@
                   "基隆市地方產業創新研發計畫書（符合選定特色產業或數位轉型方向）",
                   "最近一期國稅與地方稅無欠稅證明、勞保投保人數資料表"
             ],
-            "lastVerifiedAt": "2026-10-28 23:28:53"
+            "lastVerifiedAt": "2026-10-28 23:47:36"
       },
       {
             "id": "LOCAL-TAOYUAN-SBIR",
@@ -2320,7 +2319,7 @@
                   "桃園市地方產業創新研發計畫書（符合選定特色產業或數位轉型方向）",
                   "最近一期國稅與地方稅無欠稅證明、勞保投保人數資料表"
             ],
-            "lastVerifiedAt": "2026-10-28 23:28:53"
+            "lastVerifiedAt": "2026-10-28 23:47:36"
       },
       {
             "id": "LOCAL-HSINCHU-CITY-SBIR",
@@ -2365,7 +2364,7 @@
                   "新竹市地方產業創新研發計畫書（符合選定特色產業或數位轉型方向）",
                   "最近一期國稅與地方稅無欠稅證明、勞保投保人數資料表"
             ],
-            "lastVerifiedAt": "2026-10-28 23:28:53"
+            "lastVerifiedAt": "2026-10-28 23:47:36"
       },
       {
             "id": "LOCAL-HSINCHU-COUNTY-SBIR",
@@ -2410,7 +2409,7 @@
                   "新竹縣地方產業創新研發計畫書（符合選定特色產業或數位轉型方向）",
                   "最近一期國稅與地方稅無欠稅證明、勞保投保人數資料表"
             ],
-            "lastVerifiedAt": "2026-10-28 23:28:53"
+            "lastVerifiedAt": "2026-10-28 23:47:36"
       },
       {
             "id": "LOCAL-MIAOLI-SBIR",
@@ -2455,7 +2454,7 @@
                   "苗栗縣地方產業創新研發計畫書（符合選定特色產業或數位轉型方向）",
                   "最近一期國稅與地方稅無欠稅證明、勞保投保人數資料表"
             ],
-            "lastVerifiedAt": "2026-10-28 23:28:53"
+            "lastVerifiedAt": "2026-10-28 23:47:36"
       },
       {
             "id": "LOCAL-TAICHUNG-SBIR",
@@ -2500,7 +2499,7 @@
                   "臺中市地方產業創新研發計畫書（符合選定特色產業或數位轉型方向）",
                   "最近一期國稅與地方稅無欠稅證明、勞保投保人數資料表"
             ],
-            "lastVerifiedAt": "2026-10-28 23:28:53"
+            "lastVerifiedAt": "2026-10-28 23:47:36"
       },
       {
             "id": "LOCAL-CHANGHUA-SBIR",
@@ -2545,7 +2544,7 @@
                   "彰化縣地方產業創新研發計畫書（符合選定特色產業或數位轉型方向）",
                   "最近一期國稅與地方稅無欠稅證明、勞保投保人數資料表"
             ],
-            "lastVerifiedAt": "2026-10-28 23:28:53"
+            "lastVerifiedAt": "2026-10-28 23:47:36"
       },
       {
             "id": "LOCAL-NANTOU-SBIR",
@@ -2590,7 +2589,7 @@
                   "南投縣地方產業創新研發計畫書（符合選定特色產業或數位轉型方向）",
                   "最近一期國稅與地方稅無欠稅證明、勞保投保人數資料表"
             ],
-            "lastVerifiedAt": "2026-10-28 23:28:53"
+            "lastVerifiedAt": "2026-10-28 23:47:36"
       },
       {
             "id": "LOCAL-YUNLIN-SBIR",
@@ -2635,7 +2634,7 @@
                   "雲林縣地方產業創新研發計畫書（符合選定特色產業或數位轉型方向）",
                   "最近一期國稅與地方稅無欠稅證明、勞保投保人數資料表"
             ],
-            "lastVerifiedAt": "2026-10-28 23:28:53"
+            "lastVerifiedAt": "2026-10-28 23:47:36"
       },
       {
             "id": "LOCAL-CHIAYI-COUNTY-SBIR",
@@ -2680,7 +2679,7 @@
                   "嘉義縣地方產業創新研發計畫書（符合選定特色產業或數位轉型方向）",
                   "最近一期國稅與地方稅無欠稅證明、勞保投保人數資料表"
             ],
-            "lastVerifiedAt": "2026-10-28 23:28:53"
+            "lastVerifiedAt": "2026-10-28 23:47:36"
       },
       {
             "id": "LOCAL-CHIAYI-CITY-SBIR",
@@ -2725,7 +2724,7 @@
                   "嘉義市地方產業創新研發計畫書（符合選定特色產業或數位轉型方向）",
                   "最近一期國稅與地方稅無欠稅證明、勞保投保人數資料表"
             ],
-            "lastVerifiedAt": "2026-10-28 23:28:53"
+            "lastVerifiedAt": "2026-10-28 23:47:36"
       },
       {
             "id": "LOCAL-TAINAN-SBIR",
@@ -2770,7 +2769,7 @@
                   "臺南市地方產業創新研發計畫書（符合選定特色產業或數位轉型方向）",
                   "最近一期國稅與地方稅無欠稅證明、勞保投保人數資料表"
             ],
-            "lastVerifiedAt": "2026-10-28 23:28:53"
+            "lastVerifiedAt": "2026-10-28 23:47:36"
       },
       {
             "id": "LOCAL-KAOHSIUNG-SBIR",
@@ -2815,7 +2814,7 @@
                   "高雄市地方產業創新研發計畫書（符合選定特色產業或數位轉型方向）",
                   "最近一期國稅與地方稅無欠稅證明、勞保投保人數資料表"
             ],
-            "lastVerifiedAt": "2026-10-28 23:28:53"
+            "lastVerifiedAt": "2026-10-28 23:47:36"
       },
       {
             "id": "LOCAL-PINGTUNG-SBIR",
@@ -2860,7 +2859,7 @@
                   "屏東縣地方產業創新研發計畫書（符合選定特色產業或數位轉型方向）",
                   "最近一期國稅與地方稅無欠稅證明、勞保投保人數資料表"
             ],
-            "lastVerifiedAt": "2026-10-28 23:28:53"
+            "lastVerifiedAt": "2026-10-28 23:47:36"
       },
       {
             "id": "LOCAL-YILAN-SBIR",
@@ -2905,7 +2904,7 @@
                   "宜蘭縣地方產業創新研發計畫書（符合選定特色產業或數位轉型方向）",
                   "最近一期國稅與地方稅無欠稅證明、勞保投保人數資料表"
             ],
-            "lastVerifiedAt": "2026-10-28 23:28:53"
+            "lastVerifiedAt": "2026-10-28 23:47:36"
       },
       {
             "id": "LOCAL-HUALIEN-SBIR",
@@ -2950,7 +2949,7 @@
                   "花蓮縣地方產業創新研發計畫書（符合選定特色產業或數位轉型方向）",
                   "最近一期國稅與地方稅無欠稅證明、勞保投保人數資料表"
             ],
-            "lastVerifiedAt": "2026-10-28 23:28:53"
+            "lastVerifiedAt": "2026-10-28 23:47:36"
       },
       {
             "id": "LOCAL-TAITUNG-SBIR",
@@ -2995,7 +2994,7 @@
                   "臺東縣地方產業創新研發計畫書（符合選定特色產業或數位轉型方向）",
                   "最近一期國稅與地方稅無欠稅證明、勞保投保人數資料表"
             ],
-            "lastVerifiedAt": "2026-10-28 23:28:53"
+            "lastVerifiedAt": "2026-10-28 23:47:36"
       },
       {
             "id": "LOCAL-PENGHU-SBIR",
@@ -3040,7 +3039,7 @@
                   "澎湖縣地方產業創新研發計畫書（符合選定特色產業或數位轉型方向）",
                   "最近一期國稅與地方稅無欠稅證明、勞保投保人數資料表"
             ],
-            "lastVerifiedAt": "2026-10-28 23:28:53"
+            "lastVerifiedAt": "2026-10-28 23:47:36"
       },
       {
             "id": "LOCAL-KINMEN-SBIR",
@@ -3085,7 +3084,7 @@
                   "金門縣地方產業創新研發計畫書（符合選定特色產業或數位轉型方向）",
                   "最近一期國稅與地方稅無欠稅證明、勞保投保人數資料表"
             ],
-            "lastVerifiedAt": "2026-10-28 23:28:53"
+            "lastVerifiedAt": "2026-10-28 23:47:36"
       },
       {
             "id": "LOCAL-LIENCHIANG-SBIR",
@@ -3130,7 +3129,7 @@
                   "連江縣地方產業創新研發計畫書（符合選定特色產業或數位轉型方向）",
                   "最近一期國稅與地方稅無欠稅證明、勞保投保人數資料表"
             ],
-            "lastVerifiedAt": "2026-10-28 23:28:53"
+            "lastVerifiedAt": "2026-10-28 23:47:36"
       }
 ];
 
@@ -3148,84 +3147,111 @@
       "臺東縣", "澎湖縣", "金門縣", "連江縣"
     ];
 
-    // 6 座 Low-Poly 六角形轉型方向浮島定義（含地方型補助自動歸入對應轉型主題）
+    // 參考 HEART 政策島：緊密蜂巢狀拼接之 6 座六角形主島嶼（R=7.2，島間留出精緻水道由跨海橋樑與浮筒步道相連）
     const ISLAND_CONFIGS = [
       {
         id: "cloud_ai",
         code: "01",
-        name: "AI 與雲端島",
+        name: "AI 與雲端",
         fullName: "01 AI 與雲端工具導入",
-        pos: { x: -13, y: 0, z: -8 },
-        topColor: 0x3b82f6,
-        rimColor: 0x60a5fa,
-        baseColor: 0x64748b,
-        badgeBg: "bg-blue-600",
+        pos: { x: -6.8, y: 0, z: -4.2 },
+        topColor: 0xe5e0d5,     // 暖米白石板廣場
+        rimColorA: 0xfacc15,    // 黃黑工程警示條紋護欄（致敬政策島 01/03 區）
+        rimColorB: 0x1e293b,
+        baseColor: 0xd6cfc2,
         icon: "🤖"
       },
       {
         id: "rd_innov",
         code: "02",
-        name: "研發創新島",
+        name: "研發創新",
         fullName: "02 企業研發與創新 (含中央/地方SBIR)",
-        pos: { x: 0, y: 0.4, z: -12 },
-        topColor: 0x6366f1,
-        rimColor: 0x818cf8,
-        baseColor: 0x475569,
-        badgeBg: "bg-indigo-600",
+        pos: { x: 6.8, y: 0.25, z: -4.2 },
+        topColor: 0xf3e5ab,     // 暖沙金舞台廣場（致敬政策島 02 台北研究院/12 青年區）
+        rimColorA: 0xea580c,    // 橘白條紋與彩色方塊護欄
+        rimColorB: 0x38bdf8,
+        baseColor: 0xd6cfc2,
         icon: "🚀"
       },
       {
         id: "training",
         code: "03",
-        name: "人才培訓島",
+        name: "人才培訓",
         fullName: "03 員工數位培訓與人才",
-        pos: { x: 13, y: 0, z: -8 },
-        topColor: 0xf59e0b,
-        rimColor: 0xfbbf24,
-        baseColor: 0x78716c,
-        badgeBg: "bg-amber-600",
+        pos: { x: -13.6, y: 0.1, z: 6.8 },
+        topColor: 0xd9c39e,     // 溫潤木棧與校園磚地（致敬政策島 04 教育區）
+        rimColorA: 0xd97706,
+        rimColorB: 0xfef3c7,
+        baseColor: 0xcbbfa8,
         icon: "🎓"
       },
       {
         id: "smart_mfg",
         code: "04",
-        name: "智慧製造島",
+        name: "智慧製造",
         fullName: "04 智慧製造與產線升級",
-        pos: { x: -13, y: 0, z: 7 },
-        topColor: 0x0284c7,
-        rimColor: 0x38bdf8,
-        baseColor: 0x475569,
-        badgeBg: "bg-sky-600",
+        pos: { x: 0, y: 0, z: 7.4 },
+        topColor: 0xd4d8dd,     // 智慧園區淺灰鋪面（致敬政策島 09 運動/03 交通區）
+        rimColorA: 0xdc2626,    // 紅白相間護欄
+        rimColorB: 0xffffff,
+        baseColor: 0xc2c8ce,
         icon: "🏭"
       },
       {
         id: "carbon",
         code: "05",
-        name: "淨零節能島",
+        name: "淨零節能",
         fullName: "05 淨零與智慧節能轉型",
-        pos: { x: 0, y: 0.2, z: 11 },
-        topColor: 0x10b981,
-        rimColor: 0x34d399,
-        baseColor: 0x57534e,
-        badgeBg: "bg-emerald-600",
+        pos: { x: -0.2, y: 0.45, z: -15.2 },
+        topColor: 0xa3be8c,     // 翠綠草坡與都市微森林（致敬政策島 11 都市微森林）
+        rimColorA: 0x65a30d,
+        rimColorB: 0xd9f99d,
+        baseColor: 0xcbbfa8,
         icon: "🌱"
       },
       {
         id: "export_mkt",
         code: "06",
-        name: "行銷海外島",
+        name: "行銷海外",
         fullName: "06 數位行銷及海外拓展",
-        pos: { x: 13, y: 0, z: 7 },
-        topColor: 0x0d9488,
-        rimColor: 0x2dd4bf,
-        baseColor: 0x64748b,
-        badgeBg: "bg-teal-600",
+        pos: { x: 13.6, y: 0.1, z: 6.8 },
+        topColor: 0xe6ccb2,     // 跨海木棧碼頭與港灣廣場（致敬政策島 13 城市外交區）
+        rimColorA: 0x0d9488,
+        rimColorB: 0xfef08a,
+        baseColor: 0xd6cfc2,
         icon: "🚢"
       }
     ];
 
+    // 7 座跨島連接橋樑與地景步道（讓 6 座主島緊密串聯成一座相連的城市）
+    const BRIDGE_LINKS = [
+      { from: "cloud_ai", to: "rd_innov", type: "yellow_truss" },    // 01 ⇄ 02 黃色護欄行人天橋
+      { from: "cloud_ai", to: "smart_mfg", type: "cable_road" },     // 01 ⇄ 04 斜張車道橋
+      { from: "rd_innov", to: "smart_mfg", type: "colorful_pontoon" },// 02 ⇄ 04 彩色浮筒步道
+      { from: "cloud_ai", to: "training", type: "wood_pier" },       // 01 ⇄ 03 木棧拱橋
+      { from: "training", to: "smart_mfg", type: "yellow_truss" },   // 03 ⇄ 04 黃色護欄天橋
+      { from: "rd_innov", to: "export_mkt", type: "cable_road" },    // 02 ⇄ 06 跨海斜張大橋
+      { from: "smart_mfg", to: "export_mkt", type: "colorful_pontoon" }, // 04 ⇄ 06 彩色貨櫃浮橋
+      { from: "cloud_ai", to: "carbon", type: "wood_pier" },         // 01 ⇄ 05 森林木棧道
+      { from: "rd_innov", to: "carbon", type: "wood_pier" }          // 02 ⇄ 05 山林步道橋
+    ];
+
+    // 10 種不同穿著與外觀特徵的 Q 版小人偶造型庫
+    const CHARACTER_STYLES = [
+      { name: "Puma橘背心捲髮導覽員", shirt: 0xea580c, pants: 0x1e293b, hair: 0x1c1917, hairStyle: "curly", glasses: true, hat: null, bag: 0xfacc15 },
+      { name: "藍西裝企業代表", shirt: 0x2563eb, pants: 0x0f172a, hair: 0x27272a, hairStyle: "short", glasses: true, hat: null, bag: null },
+      { name: "白袍研發工程師", shirt: 0xffffff, pants: 0x334155, hair: 0x451a03, hairStyle: "bun", glasses: true, hat: null, bag: 0x38bdf8 },
+      { name: "黃安全帽智慧廠長", shirt: 0x0284c7, pants: 0x1e3a8a, hair: 0x1c1917, hairStyle: "short", glasses: false, hat: 0xfacc15, bag: null },
+      { name: "紅帽T新創設計師", shirt: 0xe11d48, pants: 0x1f2937, hair: 0x78350f, hairStyle: "curly", glasses: false, hat: 0xef4444, bag: 0xfef08a },
+      { name: "綠背心淨零永續師", shirt: 0x16a34a, pants: 0x3f6212, hair: 0x1c1917, hairStyle: "bun", glasses: false, hat: null, bag: 0xa3e635 },
+      { name: "黃襯衫行銷總監", shirt: 0xf59e0b, pants: 0x374151, hair: 0x451a03, hairStyle: "short", glasses: true, hat: null, bag: 0xf97316 },
+      { name: "紫洋裝文創店長", shirt: 0x9333ea, pants: 0x4c1d95, hair: 0x27272a, hairStyle: "bun", glasses: false, hat: 0xfde047, bag: null },
+      { name: "青色POLO衫外貿專員", shirt: 0x0d9488, pants: 0x1e293b, hair: 0x1c1917, hairStyle: "short", glasses: false, hat: null, bag: 0x2dd4bf },
+      { name: "粉紅針織衫培訓講師", shirt: 0xec4899, pants: 0x334155, hair: 0x713f12, hairStyle: "curly", glasses: true, hat: null, bag: null }
+    ];
+
     const state = {
-      viewMode: "3d", // "3d" | "2d"
+      viewMode: "3d",
       ubn: "28458491",
       companyName: "哇寶國際資訊股份有限公司",
       orgType: "company",
@@ -3293,7 +3319,7 @@
       return { sector: "service", sectorLabel: "商業／專業服務業" };
     }
 
-    // ==================== 4. 遠端 185 萬筆全國統編 API 即時查詢（含公司、商號、社團法人/協會/財政部稅籍） ====================
+    // ==================== 4. 遠端 185 萬筆全國統編 API 即時查詢 ====================
     async function fetchFromRemoteG0vApi(ubn) {
       const controller = new AbortController();
       const timer = setTimeout(() => controller.abort(), 5500);
@@ -3508,109 +3534,652 @@
       };
     }
 
-    // ==================== 6. Three.js Low-Poly 6 座轉型浮島引擎 ====================
+    // ==================== 6. Three.js 政策島級精緻微縮景觀、跨島橋樑與 48+ 隨機漫步角色引擎 ====================
     let scene, camera, renderer, controls, raycaster, mouse;
     const islandMeshes = {};
     const islandGroups = {};
     const markerAnchors3D = [];
+    const walkingCharacters = [];
+    const rotatingBlades = [];
+    const driftingBoats = [];
     let scanRingMesh = null;
-    const camTargetPos = new THREE.Vector3(0, 32, 36);
-    const camLookAtTarget = new THREE.Vector3(0, 0, 0);
+    const camTargetPos = new THREE.Vector3(0, 29, 33);
+    const camLookAtTarget = new THREE.Vector3(0, 0, -1);
     let isCameraAnimating = false;
 
-    function createLowPolyDecoration(group, islandId) {
+    // 工具：建立政策島風格圓潤樹冠 Low-Poly 樹（多球體樹冠 + 樹幹）
+    function createPuffyTree(x, y, z, scale = 1.0, crownColor = 0x7a9e65) {
+      const treeGrp = new THREE.Group();
+      treeGrp.position.set(x, y, z);
+
+      const trunk = new THREE.Mesh(
+        new THREE.CylinderGeometry(0.14 * scale, 0.22 * scale, 0.95 * scale, 6),
+        new THREE.MeshLambertMaterial({ color: 0x6b4f35, flatShading: true })
+      );
+      trunk.position.y = 0.45 * scale;
+      trunk.castShadow = true;
+      treeGrp.add(trunk);
+
+      const crownMat = new THREE.MeshLambertMaterial({ color: crownColor, flatShading: true });
+      const crownMatLight = new THREE.MeshLambertMaterial({ color: 0x93b87c, flatShading: true });
+
+      const c1 = new THREE.Mesh(new THREE.DodecahedronGeometry(0.68 * scale, 1), crownMat);
+      c1.position.set(0, 1.15 * scale, 0);
+      c1.castShadow = true;
+      treeGrp.add(c1);
+
+      const c2 = new THREE.Mesh(new THREE.DodecahedronGeometry(0.5 * scale, 1), crownMatLight);
+      c2.position.set(0.35 * scale, 1.05 * scale, 0.25 * scale);
+      c2.castShadow = true;
+      treeGrp.add(c2);
+
+      const c3 = new THREE.Mesh(new THREE.DodecahedronGeometry(0.46 * scale, 1), crownMat);
+      c3.position.set(-0.32 * scale, 1.0 * scale, -0.2 * scale);
+      c3.castShadow = true;
+      treeGrp.add(c3);
+
+      return treeGrp;
+    }
+
+    // 工具：建立可愛小巴士／工程車（致敬政策島中間的橘色小巴）
+    function createMiniBus(x, y, z, rotY = 0, bodyColor = 0xea580c) {
+      const bus = new THREE.Group();
+      bus.position.set(x, y, z);
+      bus.rotation.y = rotY;
+
+      const lower = new THREE.Mesh(
+        new THREE.BoxGeometry(1.75, 0.55, 0.9),
+        new THREE.MeshLambertMaterial({ color: bodyColor, flatShading: true })
+      );
+      lower.position.y = 0.42;
+      lower.castShadow = true;
+      bus.add(lower);
+
+      const upper = new THREE.Mesh(
+        new THREE.BoxGeometry(1.65, 0.42, 0.84),
+        new THREE.MeshLambertMaterial({ color: 0xf8fafc, flatShading: true })
+      );
+      upper.position.y = 0.85;
+      upper.castShadow = true;
+      bus.add(upper);
+
+      const wheelGeo = new THREE.CylinderGeometry(0.18, 0.18, 0.14, 8);
+      const wheelMat = new THREE.MeshLambertMaterial({ color: 0x1e293b });
+      [[-0.5, 0.46], [0.5, 0.46], [-0.5, -0.46], [0.5, -0.46]].forEach(([wx, wz]) => {
+        const w = new THREE.Mesh(wheelGeo, wheelMat);
+        w.rotation.x = Math.PI / 2;
+        w.position.set(wx, 0.18, wz);
+        bus.add(w);
+      });
+      return bus;
+    }
+
+    // 工具：建立六角形雙色條紋護欄邊框（重現政策島的紅白、黃黑、彩色積木圍欄）
+    function createStripedHexRim(radius, yPos, colorA, colorB) {
+      const rimGrp = new THREE.Group();
+      const sides = 6;
+      const segsPerSide = 6;
+
+      for (let s = 0; s < sides; s++) {
+        const a1 = (s * Math.PI) / 3 + Math.PI / 6;
+        const a2 = ((s + 1) * Math.PI) / 3 + Math.PI / 6;
+        const p1 = new THREE.Vector3(Math.cos(a1) * radius, yPos, Math.sin(a1) * radius);
+        const p2 = new THREE.Vector3(Math.cos(a2) * radius, yPos, Math.sin(a2) * radius);
+
+        for (let k = 0; k < segsPerSide; k++) {
+          const t1 = k / segsPerSide;
+          const t2 = (k + 1) / segsPerSide;
+          const mid = new THREE.Vector3().lerpVectors(p1, p2, (t1 + t2) * 0.5);
+          const segLen = p1.distanceTo(p2) / segsPerSide;
+          const angle = Math.atan2(p2.z - p1.z, p2.x - p1.x);
+
+          const blk = new THREE.Mesh(
+            new THREE.BoxGeometry(segLen * 0.96, 0.42, 0.36),
+            new THREE.MeshLambertMaterial({ color: (k % 2 === 0) ? colorA : colorB, flatShading: true })
+          );
+          blk.position.copy(mid);
+          blk.rotation.y = -angle;
+          blk.receiveShadow = true;
+          rimGrp.add(blk);
+        }
+      }
+      return rimGrp;
+    }
+
+    // 工具：建立不同穿著與外觀特徵的 3D Q 版人偶（含頭、髮型、眼鏡/安全帽、上衣、背包、雙手雙腳關節）
+    function createChibiCharacterMesh(style) {
+      const charGrp = new THREE.Group();
+
+      // 腿部（左、右腳可前後擺動）
+      const legGeo = new THREE.BoxGeometry(0.13, 0.28, 0.13);
+      const legMat = new THREE.MeshLambertMaterial({ color: style.pants });
+      const leftLeg = new THREE.Mesh(legGeo, legMat);
+      leftLeg.position.set(-0.08, 0.14, 0);
+      const rightLeg = new THREE.Mesh(legGeo, legMat);
+      rightLeg.position.set(0.08, 0.14, 0);
+      charGrp.add(leftLeg);
+      charGrp.add(rightLeg);
+
+      // 身體上衣
+      const torso = new THREE.Mesh(
+        new THREE.BoxGeometry(0.32, 0.36, 0.2),
+        new THREE.MeshLambertMaterial({ color: style.shirt, flatShading: true })
+      );
+      torso.position.y = 0.44;
+      torso.castShadow = true;
+      charGrp.add(torso);
+
+      // 手臂（左、右手可隨步伐擺動）
+      const armGeo = new THREE.BoxGeometry(0.1, 0.28, 0.1);
+      const armMat = new THREE.MeshLambertMaterial({ color: style.shirt });
+      const leftArm = new THREE.Mesh(armGeo, armMat);
+      leftArm.position.set(-0.22, 0.44, 0);
+      const rightArm = new THREE.Mesh(armGeo, armMat);
+      rightArm.position.set(0.22, 0.44, 0);
+      charGrp.add(leftArm);
+      charGrp.add(rightArm);
+
+      // 後背包（若有設定）
+      if (style.bag) {
+        const bag = new THREE.Mesh(
+          new THREE.BoxGeometry(0.22, 0.24, 0.12),
+          new THREE.MeshLambertMaterial({ color: style.bag })
+        );
+        bag.position.set(0, 0.45, -0.15);
+        charGrp.add(bag);
+      }
+
+      // 頭部（Q版大頭）
+      const head = new THREE.Mesh(
+        new THREE.SphereGeometry(0.22, 10, 10),
+        new THREE.MeshLambertMaterial({ color: 0xfde68a })
+      );
+      head.position.y = 0.82;
+      head.castShadow = true;
+      charGrp.add(head);
+
+      // 髮型或帽子
+      const hairMat = new THREE.MeshLambertMaterial({ color: style.hair, flatShading: true });
+      if (style.hat) {
+        const hatDome = new THREE.Mesh(
+          new THREE.SphereGeometry(0.235, 8, 8, 0, Math.PI * 2, 0, Math.PI * 0.55),
+          new THREE.MeshLambertMaterial({ color: style.hat })
+        );
+        hatDome.position.y = 0.85;
+        charGrp.add(hatDome);
+      } else if (style.hairStyle === "curly") {
+        // 蓬鬆捲髮（Puma 招牌捲髮風）
+        const hairMain = new THREE.Mesh(new THREE.DodecahedronGeometry(0.25, 1), hairMat);
+        hairMain.position.set(0, 0.89, -0.03);
+        charGrp.add(hairMain);
+      } else if (style.hairStyle === "bun") {
+        const hairCap = new THREE.Mesh(new THREE.SphereGeometry(0.23, 8, 8, 0, Math.PI * 2, 0, Math.PI * 0.55), hairMat);
+        hairCap.position.y = 0.84;
+        charGrp.add(hairCap);
+        const bun = new THREE.Mesh(new THREE.SphereGeometry(0.1, 6, 6), hairMat);
+        bun.position.set(0, 1.05, -0.1);
+        charGrp.add(bun);
+      } else {
+        const hairShort = new THREE.Mesh(new THREE.SphereGeometry(0.23, 8, 8, 0, Math.PI * 2, 0, Math.PI * 0.52), hairMat);
+        hairShort.position.y = 0.85;
+        charGrp.add(hairShort);
+      }
+
+      // 圓框眼鏡（若有設定）
+      if (style.glasses) {
+        const glassMat = new THREE.MeshBasicMaterial({ color: 0x1e293b });
+        const gLeft = new THREE.Mesh(new THREE.BoxGeometry(0.09, 0.06, 0.04), glassMat);
+        gLeft.position.set(-0.07, 0.83, 0.2);
+        const gRight = new THREE.Mesh(new THREE.BoxGeometry(0.09, 0.06, 0.04), glassMat);
+        gRight.position.set(0.07, 0.83, 0.2);
+        charGrp.add(gLeft);
+        charGrp.add(gRight);
+      }
+
+      charGrp.userData = { leftLeg, rightLeg, leftArm, rightArm };
+      return charGrp;
+    }
+
+    // 在每座島嶼上生成 7～8 位不同穿著外觀並隨機走動的角色（全島共 46+ 位動態小人）
+    function spawnWalkingCharactersOnIsland(islandGroup, cfg, count = 8) {
+      for (let i = 0; i < count; i++) {
+        const style = CHARACTER_STYLES[(i + cfg.code.charCodeAt(1)) % CHARACTER_STYLES.length];
+        const charMesh = createChibiCharacterMesh(style);
+
+        const angle = (i / count) * Math.PI * 2 + Math.random() * 0.5;
+        const dist = 1.2 + Math.random() * 3.1;
+        const startX = Math.cos(angle) * dist;
+        const startZ = Math.sin(angle) * dist;
+        const yTop = 1.32;
+
+        charMesh.position.set(startX, yTop, startZ);
+        islandGroup.add(charMesh);
+
+        const targetAngle = Math.random() * Math.PI * 2;
+        const targetDist = 1.0 + Math.random() * 3.3;
+
+        walkingCharacters.push({
+          mesh: charMesh,
+          mode: "island",
+          yBase: yTop,
+          maxRadius: 4.1,
+          targetX: Math.cos(targetAngle) * targetDist,
+          targetZ: Math.sin(targetAngle) * targetDist,
+          speed: 0.75 + Math.random() * 0.65,
+          phase: Math.random() * Math.PI * 2,
+          pauseTimer: 0
+        });
+      }
+    }
+
+    // 建立每座島嶼上的精緻微縮景觀建築、樹木、攤位與巴士
+    function createIslandMiniatureDiorama(group, islandId) {
+      const ySurface = 1.3;
+
       if (islandId === "cloud_ai") {
-        // AI 資料塔與發光晶體
-        const towerGeo = new THREE.BoxGeometry(1.6, 3.8, 1.6);
-        const towerMat = new THREE.MeshLambertMaterial({ color: 0x1e3a8a, flatShading: true });
-        const tower = new THREE.Mesh(towerGeo, towerMat);
-        tower.position.set(-1.5, 2.5, -0.8);
-        group.add(tower);
-
-        const crystalGeo = new THREE.OctahedronGeometry(1.4, 0);
-        const crystalMat = new THREE.MeshLambertMaterial({ color: 0x38bdf8, emissive: 0x0284c7, emissiveIntensity: 0.35, flatShading: true });
-        const crystal = new THREE.Mesh(crystalGeo, crystalMat);
-        crystal.position.set(1.4, 3.2, 0.6);
-        crystal.userData.isFloatingCrystal = true;
-        group.add(crystal);
-      } else if (islandId === "rd_innov") {
-        // 研發中心圓頂與創新火箭塔
-        const domeGeo = new THREE.DodecahedronGeometry(2.0, 0);
-        const domeMat = new THREE.MeshLambertMaterial({ color: 0xe0e7ff, flatShading: true });
-        const dome = new THREE.Mesh(domeGeo, domeMat);
-        dome.position.set(-1.4, 2.0, 0.5);
-        group.add(dome);
-
-        const rocketBody = new THREE.Mesh(
-          new THREE.CylinderGeometry(0.6, 0.9, 3.2, 6),
-          new THREE.MeshLambertMaterial({ color: 0xf43f5e, flatShading: true })
+        // 01 AI 與雲端島：鐘樓核心大樓、橘色小巴、AI 雲端資料塔、林蔭單車棚
+        const mainHall = new THREE.Mesh(
+          new THREE.BoxGeometry(2.8, 2.2, 1.8),
+          new THREE.MeshLambertMaterial({ color: 0xf5f5f4, flatShading: true })
         );
-        rocketBody.position.set(1.6, 2.4, -0.6);
-        group.add(rocketBody);
-      } else if (islandId === "training") {
-        // 數位學院建築與林木
-        const hall = new THREE.Mesh(
-          new THREE.BoxGeometry(3.2, 2.0, 2.2),
-          new THREE.MeshLambertMaterial({ color: 0xfef3c7, flatShading: true })
-        );
-        hall.position.set(0, 1.6, 0);
-        group.add(hall);
+        mainHall.position.set(-0.8, ySurface + 1.1, -1.2);
+        mainHall.castShadow = true;
+        group.add(mainHall);
 
-        const roof = new THREE.Mesh(
-          new THREE.ConeGeometry(2.6, 1.6, 4),
-          new THREE.MeshLambertMaterial({ color: 0xd97706, flatShading: true })
+        const clockTower = new THREE.Mesh(
+          new THREE.BoxGeometry(0.85, 3.6, 0.85),
+          new THREE.MeshLambertMaterial({ color: 0xdc2626, flatShading: true })
         );
-        roof.position.set(0, 3.4, 0);
-        roof.rotation.y = Math.PI / 4;
-        group.add(roof);
-      } else if (islandId === "smart_mfg") {
-        // 智慧工廠與煙囪
-        const factory = new THREE.Mesh(
-          new THREE.BoxGeometry(3.4, 2.2, 2.4),
-          new THREE.MeshLambertMaterial({ color: 0xe2e8f0, flatShading: true })
-        );
-        factory.position.set(-0.5, 1.7, 0.3);
-        group.add(factory);
+        clockTower.position.set(0.9, ySurface + 1.8, -1.2);
+        clockTower.castShadow = true;
+        group.add(clockTower);
 
-        const stack = new THREE.Mesh(
-          new THREE.CylinderGeometry(0.45, 0.65, 3.8, 6),
+        const spire = new THREE.Mesh(
+          new THREE.ConeGeometry(0.65, 1.2, 4),
+          new THREE.MeshLambertMaterial({ color: 0x334155, flatShading: true })
+        );
+        spire.position.set(0.9, ySurface + 4.2, -1.2);
+        spire.rotation.y = Math.PI / 4;
+        group.add(spire);
+
+        // 橘色小巴士與候車亭
+        group.add(createMiniBus(-0.3, ySurface, 1.5, 0.25, 0xea580c));
+
+        const booth = new THREE.Mesh(
+          new THREE.BoxGeometry(1.3, 0.9, 0.8),
           new THREE.MeshLambertMaterial({ color: 0x0284c7, flatShading: true })
         );
-        stack.position.set(1.8, 2.5, -1.0);
-        group.add(stack);
-      } else if (islandId === "carbon") {
-        // 綠能風機與低多邊形森林
-        const pole = new THREE.Mesh(
-          new THREE.CylinderGeometry(0.22, 0.35, 4.2, 6),
+        booth.position.set(2.2, ySurface + 0.45, 1.2);
+        group.add(booth);
+
+        group.add(createPuffyTree(-3.2, ySurface, 0.8, 1.05, 0x789c64));
+        group.add(createPuffyTree(2.8, ySurface, -0.8, 0.95, 0x8fb379));
+        group.add(createPuffyTree(-2.2, ySurface, 2.8, 0.85, 0x789c64));
+
+      } else if (islandId === "rd_innov") {
+        // 02 研發創新島：白色天文/研發圓頂、放大鏡地標、戶外展演舞台、樹木
+        const dome = new THREE.Mesh(
+          new THREE.SphereGeometry(1.65, 12, 10, 0, Math.PI * 2, 0, Math.PI * 0.55),
           new THREE.MeshLambertMaterial({ color: 0xf8fafc, flatShading: true })
         );
-        pole.position.set(0, 2.7, -0.5);
-        group.add(pole);
+        dome.position.set(-1.3, ySurface, -1.0);
+        dome.castShadow = true;
+        group.add(dome);
 
-        for (let i = 0; i < 3; i++) {
-          const tree = new THREE.Mesh(
-            new THREE.ConeGeometry(1.0, 2.5, 5),
-            new THREE.MeshLambertMaterial({ color: 0x059669, flatShading: true })
+        // 展演舞台（黃黑背板）
+        const stageBack = new THREE.Mesh(
+          new THREE.BoxGeometry(2.4, 1.6, 0.35),
+          new THREE.MeshLambertMaterial({ color: 0xfacc15, flatShading: true })
+        );
+        stageBack.position.set(1.5, ySurface + 0.8, -1.2);
+        stageBack.rotation.y = -0.35;
+        stageBack.castShadow = true;
+        group.add(stageBack);
+
+        const labWing = new THREE.Mesh(
+          new THREE.BoxGeometry(1.8, 1.4, 1.3),
+          new THREE.MeshLambertMaterial({ color: 0x38bdf8, flatShading: true })
+        );
+        labWing.position.set(-1.8, ySurface + 0.7, 1.5);
+        labWing.castShadow = true;
+        group.add(labWing);
+
+        group.add(createPuffyTree(2.8, ySurface, 1.4, 1.0, 0x789c64));
+        group.add(createPuffyTree(-0.2, ySurface, 2.9, 0.9, 0x8fb379));
+        group.add(createPuffyTree(-3.3, ySurface, -0.4, 0.95, 0x789c64));
+
+      } else if (islandId === "training") {
+        // 03 人才培訓島：橘頂學院建築群、林蔭講堂廣場、白色帳篷市集
+        const schoolMain = new THREE.Mesh(
+          new THREE.BoxGeometry(2.8, 1.5, 1.6),
+          new THREE.MeshLambertMaterial({ color: 0xfef3c7, flatShading: true })
+        );
+        schoolMain.position.set(-0.6, ySurface + 0.75, -1.2);
+        schoolMain.castShadow = true;
+        group.add(schoolMain);
+
+        const schoolRoof = new THREE.Mesh(
+          new THREE.ConeGeometry(2.1, 1.1, 4),
+          new THREE.MeshLambertMaterial({ color: 0xea580c, flatShading: true })
+        );
+        schoolRoof.position.set(-0.6, ySurface + 2.05, -1.2);
+        schoolRoof.rotation.y = Math.PI / 4;
+        group.add(schoolRoof);
+
+        // 戶外培訓帳篷攤位
+        [[-2.2, 1.4], [1.8, 1.2]].forEach(([tx, tz]) => {
+          const stall = new THREE.Mesh(
+            new THREE.BoxGeometry(1.1, 0.9, 1.1),
+            new THREE.MeshLambertMaterial({ color: 0xffffff, flatShading: true })
           );
-          tree.position.set(-2.0 + i * 2.0, 2.0, 1.4);
-          group.add(tree);
-        }
-      } else if (islandId === "export_mkt") {
-        // 跨海貿易燈塔與貨櫃
-        const lighthouse = new THREE.Mesh(
-          new THREE.CylinderGeometry(0.5, 0.95, 4.0, 6),
-          new THREE.MeshLambertMaterial({ color: 0xf97316, flatShading: true })
-        );
-        lighthouse.position.set(-1.4, 2.6, -0.6);
-        group.add(lighthouse);
+          stall.position.set(tx, ySurface + 0.45, tz);
+          group.add(stall);
+          const canopy = new THREE.Mesh(
+            new THREE.ConeGeometry(0.95, 0.55, 4),
+            new THREE.MeshLambertMaterial({ color: 0xf97316, flatShading: true })
+          );
+          canopy.position.set(tx, ySurface + 1.15, tz);
+          canopy.rotation.y = Math.PI / 4;
+          group.add(canopy);
+        });
 
-        const container1 = new THREE.Mesh(
-          new THREE.BoxGeometry(2.2, 1.2, 1.2),
-          new THREE.MeshLambertMaterial({ color: 0x0d9488, flatShading: true })
+        group.add(createPuffyTree(2.3, ySurface, -1.1, 1.1, 0x789c64));
+        group.add(createPuffyTree(-3.1, ySurface, -0.6, 0.95, 0x8fb379));
+        group.add(createPuffyTree(0.2, ySurface, 2.8, 1.0, 0x789c64));
+
+      } else if (islandId === "smart_mfg") {
+        // 04 智慧製造島：綠地測試場／智慧產線館、看台階梯、橘頂控制站
+        const court = new THREE.Mesh(
+          new THREE.BoxGeometry(3.2, 0.12, 2.1),
+          new THREE.MeshLambertMaterial({ color: 0x84cc16, flatShading: true })
         );
-        container1.position.set(1.2, 1.2, 0.8);
-        group.add(container1);
+        court.position.set(-0.4, ySurface + 0.06, -0.8);
+        group.add(court);
+
+        const stand = new THREE.Mesh(
+          new THREE.BoxGeometry(3.0, 0.9, 0.8),
+          new THREE.MeshLambertMaterial({ color: 0xd6d3d1, flatShading: true })
+        );
+        stand.position.set(-0.4, ySurface + 0.45, -2.2);
+        stand.castShadow = true;
+        group.add(stand);
+
+        const ctrlBooth = new THREE.Mesh(
+          new THREE.BoxGeometry(1.4, 1.2, 1.2),
+          new THREE.MeshLambertMaterial({ color: 0xf8fafc, flatShading: true })
+        );
+        ctrlBooth.position.set(2.1, ySurface + 0.6, 1.1);
+        group.add(ctrlBooth);
+
+        const ctrlRoof = new THREE.Mesh(
+          new THREE.BoxGeometry(1.55, 0.25, 1.35),
+          new THREE.MeshLambertMaterial({ color: 0xea580c, flatShading: true })
+        );
+        ctrlRoof.position.set(2.1, ySurface + 1.3, 1.1);
+        group.add(ctrlRoof);
+
+        group.add(createPuffyTree(-3.2, ySurface, -1.2, 1.1, 0x789c64));
+        group.add(createPuffyTree(2.6, ySurface, -1.0, 1.05, 0x8fb379));
+        group.add(createPuffyTree(-2.4, ySurface, 2.2, 0.95, 0x789c64));
+
+      } else if (islandId === "carbon") {
+        // 05 淨零節能島：層疊綠丘、離岸風力發電機、太陽能板陣列與濃密微森林
+        const hill = new THREE.Mesh(
+          new THREE.CylinderGeometry(2.6, 3.8, 1.1, 7),
+          new THREE.MeshLambertMaterial({ color: 0x84a96c, flatShading: true })
+        );
+        hill.position.set(-0.6, ySurface + 0.55, -0.5);
+        group.add(hill);
+
+        // 白色風力發電機（帶旋轉葉片）
+        const tower = new THREE.Mesh(
+          new THREE.CylinderGeometry(0.12, 0.24, 3.6, 8),
+          new THREE.MeshLambertMaterial({ color: 0xffffff })
+        );
+        tower.position.set(2.1, ySurface + 1.8, -1.2);
+        group.add(tower);
+
+        const rotorHub = new THREE.Group();
+        rotorHub.position.set(2.1, ySurface + 3.5, -0.98);
+        for (let b = 0; b < 3; b++) {
+          const blade = new THREE.Mesh(
+            new THREE.BoxGeometry(0.14, 1.45, 0.05),
+            new THREE.MeshLambertMaterial({ color: 0xf8fafc })
+          );
+          blade.position.y = 0.65;
+          const bPivot = new THREE.Group();
+          bPivot.rotation.z = (b * Math.PI * 2) / 3;
+          bPivot.add(blade);
+          rotorHub.add(bPivot);
+        }
+        group.add(rotorHub);
+        rotatingBlades.push(rotorHub);
+
+        // 森林樹群
+        [[-2.2, -1.2, 1.15], [-0.5, -1.6, 1.25], [0.8, -0.4, 1.0], [-2.8, 1.4, 0.95], [1.6, 1.8, 1.05]].forEach(([tx, tz, sc]) => {
+          group.add(createPuffyTree(tx, ySurface + (tx < 1 && tz < 0.5 ? 0.8 : 0), tz, sc, 0x6b9358));
+        });
+
+      } else if (islandId === "export_mkt") {
+        // 06 行銷海外島：跨海貿易港、彩色貨櫃堆場、木棧延伸碼頭與地球儀拱門
+        const warehouse = new THREE.Mesh(
+          new THREE.BoxGeometry(2.4, 1.5, 1.6),
+          new THREE.MeshLambertMaterial({ color: 0xfef3c7, flatShading: true })
+        );
+        warehouse.position.set(-1.1, ySurface + 0.75, -1.1);
+        warehouse.castShadow = true;
+        group.add(warehouse);
+
+        // 彩色貨櫃堆疊
+        const cColors = [0xea580c, 0x0284c7, 0x16a34a];
+        cColors.forEach((col, idx) => {
+          const box = new THREE.Mesh(
+            new THREE.BoxGeometry(1.4, 0.65, 0.75),
+            new THREE.MeshLambertMaterial({ color: col, flatShading: true })
+          );
+          box.position.set(1.7, ySurface + 0.35 + (idx === 2 ? 0.65 : 0), -0.8 + (idx % 2) * 0.85);
+          box.castShadow = true;
+          group.add(box);
+        });
+
+        // 延伸木棧道與小籃球場地標
+        const pier = new THREE.Mesh(
+          new THREE.BoxGeometry(3.2, 0.35, 1.6),
+          new THREE.MeshLambertMaterial({ color: 0xb48a60, flatShading: true })
+        );
+        pier.position.set(4.8, ySurface - 0.55, -1.5);
+        group.add(pier);
+
+        group.add(createPuffyTree(-2.8, ySurface, 1.3, 1.0, 0x789c64));
+        group.add(createPuffyTree(1.9, ySurface, 2.1, 0.95, 0x8fb379));
       }
+    }
+
+    // 建立島與島之間的跨海橋樑／斜張橋／彩色浮筒步道，並在橋上配置來回走動的行人
+    function createBridgeBetweenIslands(cfgA, cfgB, bridgeType) {
+      const pA = new THREE.Vector3(cfgA.pos.x, 1.15, cfgA.pos.z);
+      const pB = new THREE.Vector3(cfgB.pos.x, 1.15, cfgB.pos.z);
+      const dir = new THREE.Vector3().subVectors(pB, pA).normalize();
+
+      // 連接兩座六角島邊緣（距島心約 4.8 處起算）
+      const startPt = pA.clone().addScaledVector(dir, 4.7);
+      const endPt = pB.clone().addScaledVector(dir, -4.7);
+      const midPt = new THREE.Vector3().addVectors(startPt, endPt).multiplyScalar(0.5);
+      const spanLen = Math.max(1.8, startPt.distanceTo(endPt));
+      const angle = Math.atan2(endPt.z - startPt.z, endPt.x - startPt.x);
+
+      const bridgeGrp = new THREE.Group();
+      bridgeGrp.position.copy(midPt);
+      bridgeGrp.rotation.y = -angle;
+
+      if (bridgeType === "yellow_truss") {
+        // 黃色護欄跨海行人天橋（如政策島 01 與 09 之間的黃色橋）
+        const deck = new THREE.Mesh(
+          new THREE.BoxGeometry(spanLen, 0.25, 1.6),
+          new THREE.MeshLambertMaterial({ color: 0x64748b, flatShading: true })
+        );
+        bridgeGrp.add(deck);
+
+        [-0.72, 0.72].forEach((rz) => {
+          const rail = new THREE.Mesh(
+            new THREE.BoxGeometry(spanLen, 0.45, 0.12),
+            new THREE.MeshLambertMaterial({ color: 0xfacc15, flatShading: true })
+          );
+          rail.position.set(0, 0.32, rz);
+          bridgeGrp.add(rail);
+        });
+      } else if (bridgeType === "cable_road") {
+        // 斜張橋塔與雙向車道橋（如政策島下方的白色斜張橋塔與道路）
+        const road = new THREE.Mesh(
+          new THREE.BoxGeometry(spanLen, 0.3, 2.1),
+          new THREE.MeshLambertMaterial({ color: 0x475569, flatShading: true })
+        );
+        bridgeGrp.add(road);
+
+        const line = new THREE.Mesh(
+          new THREE.BoxGeometry(spanLen * 0.85, 0.32, 0.12),
+          new THREE.MeshBasicMaterial({ color: 0xffffff })
+        );
+        bridgeGrp.add(line);
+
+        const pylon = new THREE.Mesh(
+          new THREE.BoxGeometry(0.45, 3.2, 0.45),
+          new THREE.MeshLambertMaterial({ color: 0xe2e8f0, flatShading: true })
+        );
+        pylon.position.set(0, 1.5, -0.95);
+        bridgeGrp.add(pylon);
+      } else if (bridgeType === "colorful_pontoon") {
+        // 彩色方塊浮筒步道（如政策島 12 青年區右側的橘、白、藍、褐彩色浮橋）
+        const segCount = 7;
+        const segLen = spanLen / segCount;
+        const palette = [0xea580c, 0xf8fafc, 0x0284c7, 0xd97706, 0x1e293b];
+        for (let i = 0; i < segCount; i++) {
+          const seg = new THREE.Mesh(
+            new THREE.BoxGeometry(segLen * 0.92, 0.45, 1.45),
+            new THREE.MeshLambertMaterial({ color: palette[i % palette.length], flatShading: true })
+          );
+          seg.position.set(-spanLen * 0.5 + (i + 0.5) * segLen, -0.1, 0);
+          bridgeGrp.add(seg);
+        }
+      } else {
+        // 溫潤木棧跨島步道橋
+        const woodDeck = new THREE.Mesh(
+          new THREE.BoxGeometry(spanLen, 0.26, 1.5),
+          new THREE.MeshLambertMaterial({ color: 0xb48a60, flatShading: true })
+        );
+        bridgeGrp.add(woodDeck);
+      }
+
+      scene.add(bridgeGrp);
+
+      // 在每座橋樑上安排 1～2 位來回走動跨島交流的小人偶
+      for (let c = 0; c < 2; c++) {
+        const style = CHARACTER_STYLES[(c * 3 + Math.floor(Math.abs(midPt.x))) % CHARACTER_STYLES.length];
+        const walker = createChibiCharacterMesh(style);
+        const startT = Math.random();
+        walker.position.lerpVectors(startPt, endPt, startT);
+        walker.position.y = 1.32;
+        scene.add(walker);
+
+        walkingCharacters.push({
+          mesh: walker,
+          mode: "bridge",
+          ptA: startPt.clone(),
+          ptB: endPt.clone(),
+          t: startT,
+          dir: c % 2 === 0 ? 1 : -1,
+          speed: 0.22 + Math.random() * 0.14,
+          phase: Math.random() * Math.PI * 2
+        });
+      }
+    }
+
+    // 建立政策島外圍的 4 座可愛裝飾衛星小沙洲（紅白燈塔島、雙風車沙洲、彩色陽傘沙灘島、紅磚小屋島）與海面帆船
+    function createSurroundingSatelliteIsletsAndBoats() {
+      // 1. 右側紅白條紋燈塔小島
+      const lhIsland = new THREE.Group();
+      lhIsland.position.set(24.5, -0.2, 4.5);
+      const sand1 = new THREE.Mesh(
+        new THREE.CylinderGeometry(3.4, 4.2, 1.1, 12),
+        new THREE.MeshLambertMaterial({ color: 0xe6dec8, flatShading: true })
+      );
+      lhIsland.add(sand1);
+      const grass1 = new THREE.Mesh(
+        new THREE.CylinderGeometry(2.6, 3.0, 0.35, 12),
+        new THREE.MeshLambertMaterial({ color: 0xa3be8c, flatShading: true })
+      );
+      grass1.position.y = 0.65;
+      lhIsland.add(grass1);
+      for (let s = 0; s < 5; s++) {
+        const ring = new THREE.Mesh(
+          new THREE.CylinderGeometry(0.55 - s * 0.05, 0.6 - s * 0.05, 0.75, 10),
+          new THREE.MeshLambertMaterial({ color: s % 2 === 0 ? 0xdc2626 : 0xffffff })
+        );
+        ring.position.set(0.6, 1.1 + s * 0.75, 0);
+        lhIsland.add(ring);
+      }
+      scene.add(lhIsland);
+
+      // 2. 右下角雙色陽傘沙灘小島
+      const beachIsland = new THREE.Group();
+      beachIsland.position.set(14.5, -0.35, 18.2);
+      const sand2 = new THREE.Mesh(
+        new THREE.CylinderGeometry(2.8, 3.4, 0.9, 12),
+        new THREE.MeshLambertMaterial({ color: 0xede0c8, flatShading: true })
+      );
+      beachIsland.add(sand2);
+      [[ -0.7, 0xf97316 ], [ 0.8, 0xfacc15 ]].forEach(([ux, ucol]) => {
+        const pole = new THREE.Mesh(new THREE.CylinderGeometry(0.05, 0.05, 1.3, 6), new THREE.MeshLambertMaterial({ color: 0xffffff }));
+        pole.position.set(ux, 1.0, 0);
+        beachIsland.add(pole);
+        const top = new THREE.Mesh(new THREE.ConeGeometry(0.85, 0.45, 8), new THREE.MeshLambertMaterial({ color: ucol, flatShading: true }));
+        top.position.set(ux, 1.65, 0);
+        beachIsland.add(top);
+      });
+      scene.add(beachIsland);
+
+      // 3. 左上角雙風車綠丘小島
+      const windIsland = new THREE.Group();
+      windIsland.position.set(-22.5, -0.25, -13.5);
+      const sand3 = new THREE.Mesh(
+        new THREE.CylinderGeometry(3.8, 4.5, 1.0, 12),
+        new THREE.MeshLambertMaterial({ color: 0xe6dec8, flatShading: true })
+      );
+      windIsland.add(sand3);
+      const grass3 = new THREE.Mesh(
+        new THREE.CylinderGeometry(3.1, 3.5, 0.45, 12),
+        new THREE.MeshLambertMaterial({ color: 0xb5c99a, flatShading: true })
+      );
+      grass3.position.y = 0.65;
+      windIsland.add(grass3);
+      scene.add(windIsland);
+
+      // 4. 海面漂浮的橘底座白色風帆小船（致敬政策島海面上的多艘橘白小帆船）
+      const boatCoords = [
+        { x: 4.5, z: 16.5 },
+        { x: 18.5, z: -2.0 },
+        { x: -16.5, z: 16.0 },
+        { x: -19.5, z: -3.5 },
+        { x: 11.5, z: -13.5 },
+        { x: 21.5, z: 12.5 }
+      ];
+      boatCoords.forEach((bc, idx) => {
+        const boat = new THREE.Group();
+        boat.position.set(bc.x, -0.35, bc.z);
+        const hull = new THREE.Mesh(
+          new THREE.BoxGeometry(0.95, 0.28, 0.48),
+          new THREE.MeshLambertMaterial({ color: 0xea580c, flatShading: true })
+        );
+        boat.add(hull);
+        const sail = new THREE.Mesh(
+          new THREE.BoxGeometry(0.12, 1.15, 0.36),
+          new THREE.MeshLambertMaterial({ color: 0xf8fafc, flatShading: true })
+        );
+        sail.position.y = 0.68;
+        boat.add(sail);
+        scene.add(boat);
+        driftingBoats.push({ mesh: boat, baseX: bc.x, baseZ: bc.z, phase: idx * 1.1 });
+      });
     }
 
     function initThreeJSIslandScene() {
@@ -3618,101 +4187,120 @@
       if (!container || typeof THREE === "undefined") return;
 
       const width = container.clientWidth || 960;
-      const height = container.clientHeight || 580;
+      const height = container.clientHeight || 620;
 
       scene = new THREE.Scene();
-      scene.fog = new THREE.FogExp2(0xdbeafe, 0.011);
+      scene.background = new THREE.Color(0x5caab9); // 政策島招牌粉藍綠海面色
+      scene.fog = new THREE.FogExp2(0x5caab9, 0.0075);
 
-      camera = new THREE.PerspectiveCamera(42, width / height, 0.1, 300);
-      camera.position.set(0, 32, 36);
+      camera = new THREE.PerspectiveCamera(38, width / height, 0.1, 300);
+      camera.position.set(0, 29, 33);
 
-      renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+      renderer = new THREE.WebGLRenderer({ antialias: true });
       renderer.setSize(width, height);
       renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+      renderer.shadowMap.enabled = true;
+      renderer.shadowMap.type = THREE.PCFSoftShadowMap;
       container.innerHTML = "";
       container.appendChild(renderer.domElement);
 
       controls = new THREE.OrbitControls(camera, renderer.domElement);
       controls.enableDamping = true;
       controls.dampingFactor = 0.07;
-      controls.maxPolarAngle = Math.PI / 2.15;
-      controls.minDistance = 12;
-      controls.maxDistance = 68;
-      controls.target.set(0, 0, 0);
+      controls.maxPolarAngle = Math.PI / 2.22;
+      controls.minDistance = 11;
+      controls.maxDistance = 64;
+      controls.target.set(0, 0, -1);
 
-      // 明亮柔和光影
-      const ambientLight = new THREE.AmbientLight(0xffffff, 0.78);
-      scene.add(ambientLight);
+      // 明亮柔和玩具模型光影（Warm Tabletop Miniature Lighting）
+      const hemiLight = new THREE.HemisphereLight(0xffffff, 0x5caab9, 0.82);
+      scene.add(hemiLight);
 
-      const dirLight = new THREE.DirectionalLight(0xfffbeb, 0.85);
-      dirLight.position.set(22, 40, 24);
-      scene.add(dirLight);
+      const sunLight = new THREE.DirectionalLight(0xfffbeb, 0.78);
+      sunLight.position.set(24, 42, 26);
+      sunLight.castShadow = true;
+      sunLight.shadow.mapSize.width = 2048;
+      sunLight.shadow.mapSize.height = 2048;
+      sunLight.shadow.camera.near = 5;
+      sunLight.shadow.camera.far = 110;
+      const d = 32;
+      sunLight.shadow.camera.left = -d;
+      sunLight.shadow.camera.right = d;
+      sunLight.shadow.camera.top = d;
+      sunLight.shadow.camera.bottom = -d;
+      scene.add(sunLight);
 
-      const backLight = new THREE.DirectionalLight(0x93c5fd, 0.4);
-      backLight.position.set(-25, 20, -20);
-      scene.add(backLight);
-
-      // 低多邊形海面
-      const waterGeo = new THREE.CylinderGeometry(65, 65, 1.2, 32);
-      const waterMat = new THREE.MeshLambertMaterial({
-        color: 0x60a5fa,
-        transparent: true,
-        opacity: 0.55,
-        flatShading: true
-      });
-      const waterMesh = new THREE.Mesh(waterGeo, waterMat);
-      waterMesh.position.y = -2.2;
-      scene.add(waterMesh);
+      // 海面底板
+      const seaGeo = new THREE.PlaneGeometry(240, 240);
+      const seaMat = new THREE.MeshLambertMaterial({ color: 0x5caab9 });
+      const seaMesh = new THREE.Mesh(seaGeo, seaMat);
+      seaMesh.rotation.x = -Math.PI / 2;
+      seaMesh.position.y = -0.5;
+      seaMesh.receiveShadow = true;
+      scene.add(seaMesh);
 
       // 3.5 秒雷達掃描波紋環
-      const ringGeo = new THREE.RingGeometry(1.5, 2.3, 32);
+      const ringGeo = new THREE.RingGeometry(1.5, 2.4, 40);
       const ringMat = new THREE.MeshBasicMaterial({
-        color: 0x2dd4bf,
+        color: 0xfef08a,
         side: THREE.DoubleSide,
         transparent: true,
         opacity: 0.0
       });
       scanRingMesh = new THREE.Mesh(ringGeo, ringMat);
       scanRingMesh.rotation.x = -Math.PI / 2;
-      scanRingMesh.position.y = 0.2;
+      scanRingMesh.position.y = 0.25;
       scene.add(scanRingMesh);
 
-      // 建立 6 座六角形 Low-Poly 轉型方向浮島
+      // 1. 建立 6 座緊密相連的六角形主題島嶼
       ISLAND_CONFIGS.forEach((cfg, idx) => {
         const group = new THREE.Group();
         group.position.set(cfg.pos.x, cfg.pos.y, cfg.pos.z);
-        group.userData = { islandId: cfg.id, basePosY: cfg.pos.y, phase: idx * 0.9 };
+        group.userData = { islandId: cfg.id, basePosY: cfg.pos.y, phase: idx * 0.85 };
 
-        // 上層六角草地/主題平台
-        const topGeo = new THREE.CylinderGeometry(6.2, 5.6, 1.3, 6);
-        const topMat = new THREE.MeshLambertMaterial({ color: cfg.topColor, flatShading: true });
-        const topMesh = new THREE.Mesh(topGeo, topMat);
-        topMesh.position.y = 0.65;
-        topMesh.userData = { islandId: cfg.id };
-        group.add(topMesh);
-
-        // 中層亮邊環
-        const rimGeo = new THREE.CylinderGeometry(6.35, 6.1, 0.35, 6);
-        const rimMat = new THREE.MeshLambertMaterial({ color: cfg.rimColor, flatShading: true });
-        const rimMesh = new THREE.Mesh(rimGeo, rimMat);
-        rimMesh.position.y = 1.25;
-        rimMesh.userData = { islandId: cfg.id };
-        group.add(rimMesh);
-
-        // 下層倒錐形 Low-Poly 岩石島底
-        const baseGeo = new THREE.CylinderGeometry(5.5, 1.8, 3.6, 6);
+        // 下層米白/淺灰斜坡石材島座（如政策島的淺米色斜切底座）
+        const baseGeo = new THREE.CylinderGeometry(6.3, 6.8, 1.35, 6);
         const baseMat = new THREE.MeshLambertMaterial({ color: cfg.baseColor, flatShading: true });
         const baseMesh = new THREE.Mesh(baseGeo, baseMat);
-        baseMesh.position.y = -1.7;
+        baseMesh.position.y = 0.2;
+        baseMesh.receiveShadow = true;
         baseMesh.userData = { islandId: cfg.id };
         group.add(baseMesh);
 
-        createLowPolyDecoration(group, cfg.id);
+        // 上層六角形主題地面平台
+        const topGeo = new THREE.CylinderGeometry(5.85, 6.2, 0.55, 6);
+        const topMat = new THREE.MeshLambertMaterial({ color: cfg.topColor, flatShading: true });
+        const topMesh = new THREE.Mesh(topGeo, topMat);
+        topMesh.position.y = 1.02;
+        topMesh.receiveShadow = true;
+        topMesh.userData = { islandId: cfg.id };
+        group.add(topMesh);
+
+        // 六角形雙色條紋圍欄護欄（紅白、黃黑、橘藍）
+        group.add(createStripedHexRim(5.65, 1.38, cfg.rimColorA, cfg.rimColorB));
+
+        // 島上微縮建築、樹木與車輛地景
+        createIslandMiniatureDiorama(group, cfg.id);
+
+        // 每座島上配置 8 位不同穿著外觀並隨機走動的角色
+        spawnWalkingCharactersOnIsland(group, cfg, 8);
 
         scene.add(group);
         islandGroups[cfg.id] = group;
         islandMeshes[cfg.id] = topMesh;
       });
+
+      // 2. 建立跨島連接橋樑與浮筒步道
+      BRIDGE_LINKS.forEach((link) => {
+        const cfgA = ISLAND_CONFIGS.find(c => c.id === link.from);
+        const cfgB = ISLAND_CONFIGS.find(c => c.id === link.to);
+        if (cfgA && cfgB) {
+          createBridgeBetweenIslands(cfgA, cfgB, link.type);
+        }
+      });
+
+      // 3. 建立外圍裝飾小沙洲與海面帆船
+      createSurroundingSatelliteIsletsAndBoats();
 
       // 點擊 3D 島嶼判定
       raycaster = new THREE.Raycaster();
@@ -3745,43 +4333,110 @@
       window.addEventListener("resize", () => {
         if (!container || !renderer || !camera) return;
         const w = container.clientWidth || 960;
-        const h = container.clientHeight || 580;
+        const h = container.clientHeight || 620;
         camera.aspect = w / h;
         camera.updateProjectionMatrix();
         renderer.setSize(w, h);
       });
 
-      // 啟動動畫迴圈
+      // 動畫主迴圈（更新 48+ 位角色隨機走動擺臂、風車旋轉、帆船搖曳與鏡頭平滑移動）
       const clock = new THREE.Clock();
       function animate() {
         requestAnimationFrame(animate);
+        const dt = Math.min(clock.getDelta(), 0.05);
         const elapsed = clock.getElapsedTime();
 
-        // 浮島微幅上下呼吸漂浮
-        ISLAND_CONFIGS.forEach((cfg) => {
-          const grp = islandGroups[cfg.id];
-          if (grp) {
-            grp.position.y = grp.userData.basePosY + Math.sin(elapsed * 1.6 + grp.userData.phase) * 0.22;
+        // 1. 更新島上與橋上 48+ 位 Q 版角色的隨機漫步與手腳擺動動畫
+        walkingCharacters.forEach((ch) => {
+          const m = ch.mesh;
+          const joints = m.userData;
+
+          if (ch.mode === "island") {
+            if (ch.pauseTimer > 0) {
+              ch.pauseTimer -= dt;
+              if (joints.leftLeg) {
+                joints.leftLeg.rotation.x = 0;
+                joints.rightLeg.rotation.x = 0;
+              }
+              return;
+            }
+            const dx = ch.targetX - m.position.x;
+            const dz = ch.targetZ - m.position.z;
+            const dist = Math.hypot(dx, dz);
+
+            if (dist < 0.22) {
+              // 抵達目標點，短暫停留後隨機挑選下一個島內散步點
+              ch.pauseTimer = 0.4 + Math.random() * 1.1;
+              const nextAngle = Math.random() * Math.PI * 2;
+              const nextRadius = 0.8 + Math.random() * ch.maxRadius;
+              ch.targetX = Math.cos(nextAngle) * nextRadius;
+              ch.targetZ = Math.sin(nextAngle) * nextRadius;
+            } else {
+              const step = ch.speed * dt;
+              m.position.x += (dx / dist) * step;
+              m.position.z += (dz / dist) * step;
+              m.rotation.y = Math.atan2(dx, dz);
+
+              // 走路輕快彈跳與手腳前後擺動
+              const walkCycle = elapsed * 10.5 + ch.phase;
+              m.position.y = ch.yBase + Math.abs(Math.sin(walkCycle)) * 0.07;
+              if (joints.leftLeg) {
+                joints.leftLeg.rotation.x = Math.sin(walkCycle) * 0.55;
+                joints.rightLeg.rotation.x = -Math.sin(walkCycle) * 0.55;
+                joints.leftArm.rotation.x = -Math.sin(walkCycle) * 0.45;
+                joints.rightArm.rotation.x = Math.sin(walkCycle) * 0.45;
+              }
+            }
+          } else if (ch.mode === "bridge") {
+            ch.t += ch.dir * ch.speed * dt;
+            if (ch.t >= 1) {
+              ch.t = 1;
+              ch.dir = -1;
+            } else if (ch.t <= 0) {
+              ch.t = 0;
+              ch.dir = 1;
+            }
+            m.position.lerpVectors(ch.ptA, ch.ptB, ch.t);
+            const lookTarget = ch.dir > 0 ? ch.ptB : ch.ptA;
+            m.rotation.y = Math.atan2(lookTarget.x - m.position.x, lookTarget.z - m.position.z);
+
+            const walkCycle = elapsed * 9.5 + ch.phase;
+            m.position.y = 1.32 + Math.abs(Math.sin(walkCycle)) * 0.06;
+            if (joints.leftLeg) {
+              joints.leftLeg.rotation.x = Math.sin(walkCycle) * 0.5;
+              joints.rightLeg.rotation.x = -Math.sin(walkCycle) * 0.5;
+            }
           }
         });
 
-        // 3.5 秒篩選期間雷達波紋擴散演出
+        // 2. 綠能風車葉片旋轉
+        rotatingBlades.forEach((hub) => {
+          hub.rotation.z -= dt * 1.8;
+        });
+
+        // 3. 海面小帆船微幅搖曳
+        driftingBoats.forEach((b) => {
+          b.mesh.position.x = b.baseX + Math.sin(elapsed * 0.7 + b.phase) * 0.35;
+          b.mesh.rotation.z = Math.sin(elapsed * 1.5 + b.phase) * 0.06;
+        });
+
+        // 4. 3.5 秒篩選期間雷達波紋擴散演出
         if (scanRingMesh) {
           if (state.isScreening) {
             const p = (elapsed * 0.85) % 1;
-            const scale = 1 + p * 14;
+            const scale = 1 + p * 12;
             scanRingMesh.scale.set(scale, scale, 1);
-            scanRingMesh.material.opacity = (1 - p) * 0.65;
+            scanRingMesh.material.opacity = (1 - p) * 0.7;
           } else {
             scanRingMesh.material.opacity = 0;
           }
         }
 
-        // 平滑運鏡補間
+        // 5. 鏡頭平滑飛近補間
         if (isCameraAnimating) {
-          camera.position.lerp(camTargetPos, 0.08);
-          controls.target.lerp(camLookAtTarget, 0.08);
-          if (camera.position.distanceTo(camTargetPos) < 0.15 && controls.target.distanceTo(camLookAtTarget) < 0.15) {
+          camera.position.lerp(camTargetPos, 0.085);
+          controls.target.lerp(camLookAtTarget, 0.085);
+          if (camera.position.distanceTo(camTargetPos) < 0.12 && controls.target.distanceTo(camLookAtTarget) < 0.12) {
             isCameraAnimating = false;
           }
         }
@@ -3793,7 +4448,7 @@
       animate();
     }
 
-    // 將 3D 島嶼與地標座標投影為 2D 螢幕座標，保持文字 100% 銳利可點選
+    // 將 3D 島嶼與地標座標投影為 2D 螢幕座標
     function updateProjectedHTMLMarkers() {
       if (!camera || !renderer || state.viewMode !== "3d") return;
       const container = document.getElementById("threeCanvasContainer");
@@ -3805,10 +4460,6 @@
         const el = item.el;
         if (!el) return;
         const worldVec = item.worldPos.clone();
-        const grp = islandGroups[item.islandId];
-        if (grp) {
-          worldVec.y += (grp.position.y - grp.userData.basePosY);
-        }
         worldVec.project(camera);
 
         if (worldVec.z > 1) {
@@ -3833,7 +4484,7 @@
     window.resetCameraPanorama = function() {
       state.focusedIslandId = null;
       document.getElementById("islandSideDrawer").classList.add("hidden");
-      flyCameraTo({ x: 0, y: 32, z: 36 }, { x: 0, y: 0, z: 0 });
+      flyCameraTo({ x: 0, y: 29, z: 33 }, { x: 0, y: 0, z: -1 });
       highlightIslandMeshes("all");
     };
 
@@ -3853,7 +4504,7 @@
       highlightIslandMeshes(islandId);
 
       flyCameraTo(
-        { x: cfg.pos.x * 0.85, y: 14.5, z: cfg.pos.z + 15.5 },
+        { x: cfg.pos.x + 2.5, y: 12.5, z: cfg.pos.z + 13.5 },
         { x: cfg.pos.x, y: 1.5, z: cfg.pos.z }
       );
 
@@ -3867,8 +4518,8 @@
       const cfg = ISLAND_CONFIGS.find(c => c.id === islandId);
       if (cfg) {
         flyCameraTo(
-          { x: cfg.pos.x * 0.9, y: 12.5, z: cfg.pos.z + 13.5 },
-          { x: cfg.pos.x, y: 2.0, z: cfg.pos.z }
+          { x: cfg.pos.x + 1.8, y: 11.2, z: cfg.pos.z + 11.8 },
+          { x: cfg.pos.x, y: 1.8, z: cfg.pos.z }
         );
       }
       openIslandSideDrawer(islandId, grantId);
@@ -3884,7 +4535,6 @@
       const ev = state.lastEvaluation;
       if (!cfg || !ev) return;
 
-      // 取出該島嶼分類下所有符合該統編資格的補助案
       const allEligibleForIsland = GRANTS_DB.map(evaluateGrant)
         .filter(e => e.eligible && e.grant.category === islandId)
         .sort((a, b) => b.rankScore - a.rankScore);
@@ -3898,12 +4548,12 @@
           titleEl.textContent = g.title;
           bodyEl.innerHTML = `
             <div class="space-y-3 text-sm">
-              <div class="p-3.5 rounded-2xl bg-blue-50 border border-blue-200 flex items-center justify-between">
+              <div class="p-3.5 rounded-2xl bg-orange-50 border border-orange-200 flex items-center justify-between">
                 <div>
-                  <div class="text-xs font-bold text-blue-700">${g.authority}</div>
+                  <div class="text-xs font-bold text-orange-700">${g.authority}</div>
                   <div class="text-xl font-extrabold text-emerald-700 font-mono mt-0.5">最高補助 NT$ ${targetItem.dynamicMaxMan.toLocaleString()} 萬元</div>
                 </div>
-                <span class="px-2.5 py-1 rounded-lg bg-white text-blue-800 font-mono text-xs font-bold border border-blue-200">
+                <span class="px-2.5 py-1 rounded-lg bg-white text-orange-800 font-mono text-xs font-bold border border-orange-200">
                   期望值 ${targetItem.expectedValueMan} 萬
                 </span>
               </div>
@@ -3936,7 +4586,7 @@
                   href="${g.officialUrl}"
                   target="_blank"
                   rel="noopener noreferrer"
-                  class="w-full py-2.5 px-4 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-extrabold text-center shadow-md transition"
+                  class="w-full py-2.5 px-4 rounded-xl bg-orange-600 hover:bg-orange-700 text-white font-extrabold text-center shadow-md transition"
                 >
                   🔗 前往計畫申辦主要入口 ↗
                 </a>
@@ -3965,9 +4615,9 @@
         bodyEl.innerHTML = allEligibleForIsland.map((item, i) => {
           const g = item.grant;
           return `
-            <div class="p-3.5 rounded-2xl bg-slate-50 hover:bg-blue-50/50 border border-slate-200 transition space-y-2">
+            <div class="p-3.5 rounded-2xl bg-slate-50 hover:bg-orange-50/50 border border-slate-200 transition space-y-2">
               <div class="flex items-center justify-between gap-2">
-                <span class="text-xs font-bold px-2 py-0.5 rounded bg-blue-100 text-blue-800">${g.authority}</span>
+                <span class="text-xs font-bold px-2 py-0.5 rounded bg-orange-100 text-orange-800">${g.authority}</span>
                 <span class="text-base font-extrabold text-emerald-700 font-mono">最高 ${item.dynamicMaxMan.toLocaleString()} 萬</span>
               </div>
               <div class="font-extrabold text-slate-900 text-sm leading-snug">${i + 1}. ${g.title}</div>
@@ -3975,7 +4625,7 @@
               <div class="pt-2 border-t border-slate-200/80 flex items-center justify-between gap-2">
                 <button
                   onclick="focusOnGrantMarker('${islandId}', '${g.id}', event)"
-                  class="text-xs font-bold text-blue-700 hover:underline"
+                  class="text-xs font-bold text-orange-700 hover:underline"
                 >
                   查看條件與文件明細 ➔
                 </button>
@@ -3996,7 +4646,7 @@
       drawer.classList.remove("hidden");
     }
 
-    // 渲染 3D 島嶼上的浮動標籤與瀑布流彈出之補助地標 (Markers)
+    // 渲染 HEART 政策島風格白色圓角膠囊島名牌 + 島上代表補助地標 (Markers)
     function render3DIslandMarkers() {
       const overlay = document.getElementById("islandMarkersOverlay");
       if (!overlay) return;
@@ -4015,47 +4665,45 @@
         const totalIslandMax = Math.round(islandEligible.reduce((s, x) => s + x.dynamicMaxMan, 0));
         const isDimmed = state.goal !== "all" && state.goal !== cfg.id;
 
-        // 1. 島嶼主標牌
+        // 1. 政策島風格「純白圓角膠囊主標牌」（橘紅編號 + 粗黑島名 + 符合案數副標）
         const islandEl = document.createElement("div");
-        islandEl.className = `island-label-marker cursor-pointer ${isDimmed ? 'opacity-45' : 'opacity-100'}`;
+        islandEl.className = `heart-island-pill cursor-pointer ${isDimmed ? 'opacity-40' : 'opacity-100'}`;
         islandEl.innerHTML = `
           <div
             onclick="focusOnIsland('${cfg.id}', true)"
-            class="px-3 py-1.5 rounded-2xl bg-slate-900/90 hover:bg-blue-900 text-white border-2 border-white/80 shadow-xl flex items-center gap-2 whitespace-nowrap"
+            class="px-4 py-1.5 rounded-full bg-white hover:bg-orange-50 text-slate-900 shadow-xl border border-slate-200/90 flex items-center gap-2 whitespace-nowrap"
           >
-            <span class="text-base">${cfg.icon}</span>
-            <div class="text-left">
-              <div class="text-xs sm:text-sm font-extrabold leading-tight">${cfg.code} ${cfg.name}</div>
-              <div class="text-[11px] text-emerald-300 font-mono font-bold">
-                符合 ${islandEligible.length} 案 · 最高 ${totalIslandMax.toLocaleString()} 萬
-              </div>
-            </div>
+            <span class="text-sm sm:text-base font-extrabold text-orange-600 font-mono">${cfg.code}</span>
+            <span class="text-sm sm:text-base font-extrabold text-slate-900 tracking-tight">${cfg.name}</span>
+            <span class="ml-1 px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-800 font-mono font-extrabold text-xs">
+              ${islandEligible.length}案 · ${totalIslandMax.toLocaleString()}萬
+            </span>
           </div>
         `;
         overlay.appendChild(islandEl);
         markerAnchors3D.push({
           islandId: cfg.id,
-          worldPos: new THREE.Vector3(cfg.pos.x, cfg.pos.y + 4.8, cfg.pos.z + 2.2),
+          worldPos: new THREE.Vector3(cfg.pos.x, cfg.pos.y + 4.3, cfg.pos.z + 1.2),
           el: islandEl
         });
 
-        // 2. 島上符合資格的代表補助地標 Pins（每座島顯示前 2 大高價值代表地標，若選中該島則顯示前 4 大）
+        // 2. 島上符合資格的代表補助地標 Pins
         if (isDimmed) return;
         const pinLimit = (state.goal === cfg.id) ? 4 : 2;
         const topPins = islandEligible.slice(0, pinLimit);
 
         const offsets = [
-          { dx: -2.6, dy: 6.8, dz: -1.4 },
-          { dx: 2.6, dy: 7.4, dz: -1.0 },
-          { dx: -2.2, dy: 8.2, dz: 1.5 },
-          { dx: 2.4, dy: 8.6, dz: 1.5 }
+          { dx: -2.3, dy: 2.9, dz: -1.6 },
+          { dx: 2.4, dy: 3.1, dz: -1.2 },
+          { dx: -2.1, dy: 2.7, dz: 1.8 },
+          { dx: 2.2, dy: 2.9, dz: 1.8 }
         ];
 
         topPins.forEach((item, pIdx) => {
           const g = item.grant;
           const off = offsets[pIdx % offsets.length];
-          const shortTitle = g.title.replace(/^.*?「/, "").replace(/」.*$/, "").slice(0, 9);
-          const delayMs = (islandIdx * 110) + (pIdx * 140);
+          const shortTitle = g.title.replace(/^.*?「/, "").replace(/」.*$/, "").slice(0, 8);
+          const delayMs = (islandIdx * 100) + (pIdx * 130);
 
           const pinEl = document.createElement("div");
           pinEl.className = "grant-pin-marker island-pin-anim cursor-pointer";
@@ -4063,13 +4711,13 @@
           pinEl.innerHTML = `
             <div
               onclick="focusOnGrantMarker('${cfg.id}', '${g.id}', event)"
-              class="px-2.5 py-1 rounded-xl bg-white/95 hover:bg-amber-50 text-slate-900 border-2 border-blue-500 shadow-lg flex items-center gap-1.5 whitespace-nowrap"
+              class="px-2.5 py-1 rounded-full bg-slate-900/90 hover:bg-orange-600 text-white border border-white/80 shadow-md flex items-center gap-1.5 whitespace-nowrap transition"
               title="${g.title}（點擊查看詳情）"
             >
-              <span class="px-1.5 py-0.5 rounded bg-emerald-600 text-white font-mono font-extrabold text-[11px]">
+              <span class="px-1.5 py-0.2 rounded-full bg-amber-400 text-slate-950 font-mono font-extrabold text-[11px]">
                 💰${item.dynamicMaxMan}萬
               </span>
-              <span class="text-xs font-extrabold text-slate-800">${shortTitle}</span>
+              <span class="text-xs font-bold">${shortTitle}</span>
             </div>
           `;
           overlay.appendChild(pinEl);
@@ -4199,7 +4847,7 @@
           class="cursor-pointer p-3.5 rounded-2xl bg-white/10 hover:bg-white/15 border border-white/15 transition flex flex-col justify-between gap-2"
         >
           <div class="space-y-1">
-            <div class="text-xs font-extrabold text-teal-300 tracking-wide">${stepTitles[idx] || "推薦組合"}</div>
+            <div class="text-xs font-extrabold text-orange-300 tracking-wide">${stepTitles[idx] || "推薦組合"}</div>
             <div class="text-base font-extrabold text-white leading-snug">${item.grant.title}</div>
             <div class="text-xs text-blue-200">${item.grant.authority}</div>
           </div>
@@ -4686,7 +5334,6 @@
 
       initThreeJSIslandScene();
 
-      // 3D 群島 / 2D 清單切換
       document.getElementById("btnMode3D").addEventListener("click", () => setViewMode("3d"));
       document.getElementById("btnMode2D").addEventListener("click", () => setViewMode("2d"));
       document.getElementById("btnResetCamera").addEventListener("click", () => window.resetCameraPanorama());
@@ -4694,7 +5341,6 @@
         document.getElementById("islandSideDrawer").classList.add("hidden");
       });
 
-      // 統編查詢按鈕與即時 8 碼檢核
       document.getElementById("btnLookupUbn").addEventListener("click", handleUbnLookup);
 
       const ubnInputEl = document.getElementById("ubnInput");
@@ -4726,7 +5372,6 @@
         }
       });
 
-      // 工商、人數與進階條件手風琴切換
       document.getElementById("btnToggleCompanyDrawer").addEventListener("click", () => {
         const drawer = document.getElementById("companyDetailDrawer");
         const isHidden = drawer.classList.toggle("hidden");
@@ -4765,7 +5410,6 @@
         });
       });
 
-      // 單行轉型方向過濾鈕（點擊後自動飛往對應 3D 島嶼並篩選）
       document.querySelectorAll(".goal-btn").forEach(btn => {
         btn.addEventListener("click", () => {
           document.querySelectorAll(".goal-btn").forEach(b => b.classList.remove("pill-active"));
