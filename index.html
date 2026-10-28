@@ -57,6 +57,27 @@
       -ms-overflow-style: none;
       scrollbar-width: none;
     }
+    .goal-count-badge {
+      position: absolute;
+      top: -8px;
+      right: -7px;
+      min-width: 20px;
+      height: 20px;
+      padding: 0 5px;
+      border-radius: 9999px;
+      background-color: #ef4444;
+      color: #ffffff;
+      font-size: 11px;
+      font-weight: 800;
+      line-height: 17px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border: 1.5px solid #ffffff;
+      box-shadow: 0 2px 5px rgba(239, 68, 68, 0.4);
+      font-family: 'Inter', monospace;
+      pointer-events: none;
+    }
   </style>
 </head>
 <body class="min-h-screen flex flex-col">
@@ -65,12 +86,11 @@
   <header class="bg-slate-900 text-white border-b border-slate-800 sticky top-0 z-30 shadow-md">
     <div class="max-w-5xl mx-auto px-4 sm:px-6 py-2.5 flex flex-wrap items-center justify-between gap-2">
       <div class="flex items-center gap-3">
-        <div class="w-9 h-9 rounded-xl bg-gradient-to-tr from-blue-600 to-teal-400 flex items-center justify-center font-extrabold text-base shadow-md">
-          DX
+        <div class="w-10 h-9 px-2 rounded-xl bg-sky-200 text-sky-900 border border-sky-300 flex items-center justify-center font-extrabold text-sm tracking-tight shadow-sm">
+          DTI
         </div>
         <div>
           <h1 class="text-lg sm:text-xl font-extrabold tracking-tight">數位轉型學院｜政府補助統編一鍵快選</h1>
-          <p class="text-xs sm:text-sm text-slate-300">輸入 8 碼統編即時檢索 · 涵蓋中央跨部會 ＋ 全台 22 縣市共 48 案</p>
         </div>
       </div>
       <div class="flex items-center gap-2">
@@ -113,7 +133,7 @@
             inputmode="numeric"
             maxlength="8"
             autocomplete="off"
-            value="28458491"
+            value="00651251"
             placeholder="請輸入 8 碼統一編號（例如：28458491）"
             class="flex-1 px-4 py-2.5 rounded-2xl border-2 border-slate-300 focus:border-blue-600 focus:ring-4 focus:ring-blue-100 outline-none text-lg sm:text-xl font-mono font-bold tracking-wider text-slate-900"
           />
@@ -251,30 +271,37 @@
       </div>
 
       <!-- 1C. 單行轉型方向過濾鈕（緊接在工商條件摘要列下方，單行水平排列） -->
-      <div class="flex items-center gap-2 overflow-x-auto no-scrollbar pt-0.5" id="goalGroup">
+      <div class="flex items-center gap-2.5 overflow-x-auto no-scrollbar pt-2.5 pb-1 pr-2" id="goalGroup">
         <span class="text-sm font-extrabold text-slate-700 whitespace-nowrap shrink-0 flex items-center gap-1">
           🎯 轉型方向：
         </span>
-        <button data-goal="all" class="goal-btn pill-active text-sm px-3 py-1.5 rounded-xl border border-slate-300 bg-white font-bold whitespace-nowrap shrink-0 transition">
-          全部需求
+        <button data-goal="all" class="goal-btn relative pill-active text-sm px-3.5 py-1.5 rounded-xl border border-slate-300 bg-white font-bold whitespace-nowrap shrink-0 transition">
+          <span>全部需求</span>
+          <span id="goalBadge-all" class="goal-count-badge">0</span>
         </button>
-        <button data-goal="cloud_ai" class="goal-btn text-sm px-3 py-1.5 rounded-xl border border-slate-300 bg-white text-slate-700 hover:bg-slate-50 font-semibold whitespace-nowrap shrink-0 transition">
-          01 AI 與雲端
+        <button data-goal="cloud_ai" class="goal-btn relative text-sm px-3.5 py-1.5 rounded-xl border border-slate-300 bg-white text-slate-700 hover:bg-slate-50 font-semibold whitespace-nowrap shrink-0 transition">
+          <span>01 AI 與雲端</span>
+          <span id="goalBadge-cloud_ai" class="goal-count-badge">0</span>
         </button>
-        <button data-goal="rd_innov" class="goal-btn text-sm px-3 py-1.5 rounded-xl border border-slate-300 bg-white text-slate-700 hover:bg-slate-50 font-semibold whitespace-nowrap shrink-0 transition">
-          02 研發創新
+        <button data-goal="rd_innov" class="goal-btn relative text-sm px-3.5 py-1.5 rounded-xl border border-slate-300 bg-white text-slate-700 hover:bg-slate-50 font-semibold whitespace-nowrap shrink-0 transition">
+          <span>02 研發創新</span>
+          <span id="goalBadge-rd_innov" class="goal-count-badge">0</span>
         </button>
-        <button data-goal="training" class="goal-btn text-sm px-3 py-1.5 rounded-xl border border-slate-300 bg-white text-slate-700 hover:bg-slate-50 font-semibold whitespace-nowrap shrink-0 transition">
-          03 人才培訓
+        <button data-goal="training" class="goal-btn relative text-sm px-3.5 py-1.5 rounded-xl border border-slate-300 bg-white text-slate-700 hover:bg-slate-50 font-semibold whitespace-nowrap shrink-0 transition">
+          <span>03 人才培訓</span>
+          <span id="goalBadge-training" class="goal-count-badge">0</span>
         </button>
-        <button data-goal="smart_mfg" class="goal-btn text-sm px-3 py-1.5 rounded-xl border border-slate-300 bg-white text-slate-700 hover:bg-slate-50 font-semibold whitespace-nowrap shrink-0 transition">
-          04 智慧製造
+        <button data-goal="smart_mfg" class="goal-btn relative text-sm px-3.5 py-1.5 rounded-xl border border-slate-300 bg-white text-slate-700 hover:bg-slate-50 font-semibold whitespace-nowrap shrink-0 transition">
+          <span>04 智慧製造</span>
+          <span id="goalBadge-smart_mfg" class="goal-count-badge">0</span>
         </button>
-        <button data-goal="carbon" class="goal-btn text-sm px-3 py-1.5 rounded-xl border border-slate-300 bg-white text-slate-700 hover:bg-slate-50 font-semibold whitespace-nowrap shrink-0 transition">
-          05 淨零節能
+        <button data-goal="carbon" class="goal-btn relative text-sm px-3.5 py-1.5 rounded-xl border border-slate-300 bg-white text-slate-700 hover:bg-slate-50 font-semibold whitespace-nowrap shrink-0 transition">
+          <span>05 淨零節能</span>
+          <span id="goalBadge-carbon" class="goal-count-badge">0</span>
         </button>
-        <button data-goal="export_mkt" class="goal-btn text-sm px-3 py-1.5 rounded-xl border border-slate-300 bg-white text-slate-700 hover:bg-slate-50 font-semibold whitespace-nowrap shrink-0 transition">
-          06 行銷海外
+        <button data-goal="export_mkt" class="goal-btn relative text-sm px-3.5 py-1.5 rounded-xl border border-slate-300 bg-white text-slate-700 hover:bg-slate-50 font-semibold whitespace-nowrap shrink-0 transition">
+          <span>06 行銷海外</span>
+          <span id="goalBadge-export_mkt" class="goal-count-badge">0</span>
         </button>
       </div>
 
@@ -909,7 +936,7 @@
                   "於雲市集工業館挑選「AI 工具庫」上架方案並完成線上點數折抵合約",
                   "切結同年度未重複領取低碳化／智慧化升級轉型等互斥補助"
             ],
-            "lastVerifiedAt": "2026-10-28 23:47:36"
+            "lastVerifiedAt": "2026-10-28 23:59:32"
       },
       {
             "id": "MOEA-SMESA-CLOUDSME",
@@ -953,7 +980,7 @@
                   "公司登記、商業登記或稅籍登記證明文件",
                   "數位轉型需求盤點表與預計導入之雲端工具類別勾選"
             ],
-            "lastVerifiedAt": "2026-10-28 23:47:36"
+            "lastVerifiedAt": "2026-10-28 23:59:32"
       },
       {
             "id": "MOEA-DOC-SMART-SERV",
@@ -997,7 +1024,7 @@
                   "數位轉型與 AI 應用導入計畫書",
                   "資訊服務供應商報價單與系統架構說明"
             ],
-            "lastVerifiedAt": "2026-10-28 23:47:36"
+            "lastVerifiedAt": "2026-10-28 23:59:32"
       },
       {
             "id": "MOEA-DOC-OP-RESILIENCE",
@@ -1041,7 +1068,7 @@
                   "提升營運效能數位系統導入計畫書與前後績效對照表",
                   "最近一期營業稅申報書與無欠稅證明"
             ],
-            "lastVerifiedAt": "2026-10-28 23:47:36"
+            "lastVerifiedAt": "2026-10-28 23:59:32"
       },
       {
             "id": "MOEA-DOC-ROBOT-DATA",
@@ -1084,7 +1111,7 @@
                   "營業場域證明與公司／商業登記文件",
                   "服務型機器人或數據平台導入規劃書與減少人力工時估算表"
             ],
-            "lastVerifiedAt": "2026-10-28 23:47:36"
+            "lastVerifiedAt": "2026-10-28 23:59:32"
       },
       {
             "id": "MODA-ADI-DIGIPLUS",
@@ -1128,7 +1155,7 @@
                   "AI 或數位創新服務商業化驗證（PoC/PoB）計畫書",
                   "資安防護與個資保護聲明書"
             ],
-            "lastVerifiedAt": "2026-10-28 23:47:36"
+            "lastVerifiedAt": "2026-10-28 23:59:32"
       },
       {
             "id": "MOEA-IDA-CLOUD-SOL-EXPIRED",
@@ -1170,7 +1197,7 @@
             "checklist": [
                   "本梯次已截止，請勿送件"
             ],
-            "lastVerifiedAt": "2026-10-28 23:47:36"
+            "lastVerifiedAt": "2026-10-28 23:59:32"
       },
       {
             "id": "MOEA-SMESA-SBIR-CENTRAL",
@@ -1216,7 +1243,7 @@
                   "SBIR 計畫申請表與研發計畫書（技術／服務創新性說明、研發團隊學經歷、經費編列）",
                   "最近一期勞保局投保單位被保險人名冊"
             ],
-            "lastVerifiedAt": "2026-10-28 23:47:36"
+            "lastVerifiedAt": "2026-10-28 23:59:32"
       },
       {
             "id": "MOEA-SMESA-SBIR-CROSS",
@@ -1260,7 +1287,7 @@
                   "跨域研發合作協議書與深科技應用計畫書",
                   "最近一期勞保局投保人數名冊"
             ],
-            "lastVerifiedAt": "2026-10-28 23:47:36"
+            "lastVerifiedAt": "2026-10-28 23:59:32"
       },
       {
             "id": "MOEA-DOC-SIIR",
@@ -1304,7 +1331,7 @@
                   "SIIR 服務業創新研發計畫書（聚焦智慧化 AI 應用或低碳商業模式）",
                   "最近一年營所稅申報書與最近一期營業稅 401 表、無欠稅證明"
             ],
-            "lastVerifiedAt": "2026-10-28 23:47:36"
+            "lastVerifiedAt": "2026-10-28 23:59:32"
       },
       {
             "id": "MOEA-IDA-TIIP",
@@ -1349,7 +1376,7 @@
                   "TIIP 計畫書（主題式研發／產業高值／服務創新研發計畫書）",
                   "簡報審查文件與財務健全切結書"
             ],
-            "lastVerifiedAt": "2026-10-28 23:47:36"
+            "lastVerifiedAt": "2026-10-28 23:59:32"
       },
       {
             "id": "MOEA-IDA-COMP-SUPPORT",
@@ -1392,7 +1419,7 @@
                   "提升產業競爭力研發轉型支持計畫書",
                   "近三年財務報表與無欠稅證明"
             ],
-            "lastVerifiedAt": "2026-10-28 23:47:36"
+            "lastVerifiedAt": "2026-10-28 23:59:32"
       },
       {
             "id": "MOEA-DOC-30SERV",
@@ -1438,7 +1465,7 @@
                   "培訓月份之勞保局核發投保單位被保險人名冊",
                   "申請事業指定匯款之金融機構存摺封面影本"
             ],
-            "lastVerifiedAt": "2026-10-28 23:47:36"
+            "lastVerifiedAt": "2026-10-28 23:59:32"
       },
       {
             "id": "MOEA-SMESA-30MFG",
@@ -1483,7 +1510,7 @@
                   "課程及搭配軟體之統一發票／收據（須於補助期間內開立）",
                   "培訓月份勞保投保名冊與撥款存摺影本"
             ],
-            "lastVerifiedAt": "2026-10-28 23:47:36"
+            "lastVerifiedAt": "2026-10-28 23:59:32"
       },
       {
             "id": "MOL-WDA-HR-UPGRADE",
@@ -1528,7 +1555,7 @@
                   "年度員工數位 AI 工具應用與專業職能訓練計畫表",
                   "無欠繳勞保費或滯納金證明"
             ],
-            "lastVerifiedAt": "2026-10-28 23:47:36"
+            "lastVerifiedAt": "2026-10-28 23:59:32"
       },
       {
             "id": "MOEA-DOC-TALENT-RESILIENCE",
@@ -1571,7 +1598,7 @@
                   "公司或商業登記統編與派訓員工名單",
                   "數位轉型職能需求自評表"
             ],
-            "lastVerifiedAt": "2026-10-28 23:47:36"
+            "lastVerifiedAt": "2026-10-28 23:59:32"
       },
       {
             "id": "MOEA-IDA-MFG-LEAP",
@@ -1615,7 +1642,7 @@
                   "近三年會計師簽證或營所稅申報核定通知書",
                   "合作資服業者或生態系成員之共同執行意向書"
             ],
-            "lastVerifiedAt": "2026-10-28 23:47:36"
+            "lastVerifiedAt": "2026-10-28 23:59:32"
       },
       {
             "id": "MOEA-IDA-SUCCESSION-AI",
@@ -1658,7 +1685,7 @@
                   "接班傳承團隊說明與 AI 數位轉型應用計畫書",
                   "最近一期無欠稅證明與勞保投保清單"
             ],
-            "lastVerifiedAt": "2026-10-28 23:47:36"
+            "lastVerifiedAt": "2026-10-28 23:59:32"
       },
       {
             "id": "MOEA-IDA-DATA-MFG",
@@ -1700,7 +1727,7 @@
                   "公司登記與工廠登記證明文件",
                   "產線數據收集現況與 AI 製造導入需求申請表"
             ],
-            "lastVerifiedAt": "2026-10-28 23:47:36"
+            "lastVerifiedAt": "2026-10-28 23:59:32"
       },
       {
             "id": "MOEA-DOC-SMART-CARBON",
@@ -1745,7 +1772,7 @@
                   "最近一期營業稅申報書（401/403表）與無欠稅證明",
                   "資訊服務廠商報價單與規格書"
             ],
-            "lastVerifiedAt": "2026-10-28 23:47:36"
+            "lastVerifiedAt": "2026-10-28 23:59:32"
       },
       {
             "id": "MOEA-EA-ENERGY",
@@ -1789,7 +1816,7 @@
                   "台電公司最近一期電費單影本（核對用電地址）",
                   "一級能效空調／冷凍冷藏設備購買發票與回收證明，或 BEMS 能源管理系統建置計畫"
             ],
-            "lastVerifiedAt": "2026-10-28 23:47:36"
+            "lastVerifiedAt": "2026-10-28 23:59:32"
       },
       {
             "id": "MOEA-EA-MOTOR-EQUIP",
@@ -1833,7 +1860,7 @@
                   "能源署高效率動力設備登錄型號證明與統一發票影本",
                   "設備安裝現場照片與撥款帳戶存摺影本"
             ],
-            "lastVerifiedAt": "2026-10-28 23:47:36"
+            "lastVerifiedAt": "2026-10-28 23:59:32"
       },
       {
             "id": "MOEA-IDA-LOWCARBON-ICT",
@@ -1876,7 +1903,7 @@
                   "公司或商業登記證明與合法工廠登記證（或免辦工廠登記證明）",
                   "115年度中小型製造業低碳輔導計畫申請表"
             ],
-            "lastVerifiedAt": "2026-10-28 23:47:36"
+            "lastVerifiedAt": "2026-10-28 23:59:32"
       },
       {
             "id": "MOENV-RECA-CIRCULAR",
@@ -1919,7 +1946,7 @@
                   "資源循環創新或製程減廢示範計畫書（含數位物料流追蹤架構）",
                   "過去三年環保合規無重大裁罰切結書"
             ],
-            "lastVerifiedAt": "2026-10-28 23:47:36"
+            "lastVerifiedAt": "2026-10-28 23:59:32"
       },
       {
             "id": "MOEA-TITA-EXPORT",
@@ -1963,7 +1990,7 @@
                   "國際市場開發與數位精準行銷計畫書",
                   "無欠稅證明與過去執行貿易署計畫未遭停權切結"
             ],
-            "lastVerifiedAt": "2026-10-28 23:47:36"
+            "lastVerifiedAt": "2026-10-28 23:59:32"
       },
       {
             "id": "MOEA-DOC-BRAND-DIST",
@@ -2007,7 +2034,7 @@
                   "公司或商業登記證明文件",
                   "品牌數位行銷與通路拓展申請計畫書"
             ],
-            "lastVerifiedAt": "2026-10-28 23:47:36"
+            "lastVerifiedAt": "2026-10-28 23:59:32"
       },
       {
             "id": "LOCAL-TAIPEI-SITI",
@@ -2052,7 +2079,7 @@
                   "臺北市地方產業創新研發計畫書（符合選定特色產業或數位轉型方向）",
                   "最近一期國稅與地方稅無欠稅證明、勞保投保人數資料表"
             ],
-            "lastVerifiedAt": "2026-10-28 23:47:36"
+            "lastVerifiedAt": "2026-10-28 23:59:32"
       },
       {
             "id": "LOCAL-NEW-TAIPEI-INNOV",
@@ -2097,7 +2124,7 @@
                   "新北市地方產業創新研發計畫書（符合選定特色產業或數位轉型方向）",
                   "最近一期國稅與地方稅無欠稅證明、勞保投保人數資料表"
             ],
-            "lastVerifiedAt": "2026-10-28 23:47:36"
+            "lastVerifiedAt": "2026-10-28 23:59:32"
       },
       {
             "id": "LOCAL-KEELUNG-SBIR",
@@ -2142,7 +2169,7 @@
                   "基隆市地方產業創新研發計畫書（符合選定特色產業或數位轉型方向）",
                   "最近一期國稅與地方稅無欠稅證明、勞保投保人數資料表"
             ],
-            "lastVerifiedAt": "2026-10-28 23:47:36"
+            "lastVerifiedAt": "2026-10-28 23:59:32"
       },
       {
             "id": "LOCAL-TAOYUAN-SBIR",
@@ -2187,7 +2214,7 @@
                   "桃園市地方產業創新研發計畫書（符合選定特色產業或數位轉型方向）",
                   "最近一期國稅與地方稅無欠稅證明、勞保投保人數資料表"
             ],
-            "lastVerifiedAt": "2026-10-28 23:47:36"
+            "lastVerifiedAt": "2026-10-28 23:59:32"
       },
       {
             "id": "LOCAL-HSINCHU-CITY-SBIR",
@@ -2232,7 +2259,7 @@
                   "新竹市地方產業創新研發計畫書（符合選定特色產業或數位轉型方向）",
                   "最近一期國稅與地方稅無欠稅證明、勞保投保人數資料表"
             ],
-            "lastVerifiedAt": "2026-10-28 23:47:36"
+            "lastVerifiedAt": "2026-10-28 23:59:32"
       },
       {
             "id": "LOCAL-HSINCHU-COUNTY-SBIR",
@@ -2277,7 +2304,7 @@
                   "新竹縣地方產業創新研發計畫書（符合選定特色產業或數位轉型方向）",
                   "最近一期國稅與地方稅無欠稅證明、勞保投保人數資料表"
             ],
-            "lastVerifiedAt": "2026-10-28 23:47:36"
+            "lastVerifiedAt": "2026-10-28 23:59:32"
       },
       {
             "id": "LOCAL-MIAOLI-SBIR",
@@ -2322,7 +2349,7 @@
                   "苗栗縣地方產業創新研發計畫書（符合選定特色產業或數位轉型方向）",
                   "最近一期國稅與地方稅無欠稅證明、勞保投保人數資料表"
             ],
-            "lastVerifiedAt": "2026-10-28 23:47:36"
+            "lastVerifiedAt": "2026-10-28 23:59:32"
       },
       {
             "id": "LOCAL-TAICHUNG-SBIR",
@@ -2367,7 +2394,7 @@
                   "臺中市地方產業創新研發計畫書（符合選定特色產業或數位轉型方向）",
                   "最近一期國稅與地方稅無欠稅證明、勞保投保人數資料表"
             ],
-            "lastVerifiedAt": "2026-10-28 23:47:36"
+            "lastVerifiedAt": "2026-10-28 23:59:32"
       },
       {
             "id": "LOCAL-CHANGHUA-SBIR",
@@ -2412,7 +2439,7 @@
                   "彰化縣地方產業創新研發計畫書（符合選定特色產業或數位轉型方向）",
                   "最近一期國稅與地方稅無欠稅證明、勞保投保人數資料表"
             ],
-            "lastVerifiedAt": "2026-10-28 23:47:36"
+            "lastVerifiedAt": "2026-10-28 23:59:32"
       },
       {
             "id": "LOCAL-NANTOU-SBIR",
@@ -2457,7 +2484,7 @@
                   "南投縣地方產業創新研發計畫書（符合選定特色產業或數位轉型方向）",
                   "最近一期國稅與地方稅無欠稅證明、勞保投保人數資料表"
             ],
-            "lastVerifiedAt": "2026-10-28 23:47:36"
+            "lastVerifiedAt": "2026-10-28 23:59:32"
       },
       {
             "id": "LOCAL-YUNLIN-SBIR",
@@ -2502,7 +2529,7 @@
                   "雲林縣地方產業創新研發計畫書（符合選定特色產業或數位轉型方向）",
                   "最近一期國稅與地方稅無欠稅證明、勞保投保人數資料表"
             ],
-            "lastVerifiedAt": "2026-10-28 23:47:36"
+            "lastVerifiedAt": "2026-10-28 23:59:32"
       },
       {
             "id": "LOCAL-CHIAYI-COUNTY-SBIR",
@@ -2547,7 +2574,7 @@
                   "嘉義縣地方產業創新研發計畫書（符合選定特色產業或數位轉型方向）",
                   "最近一期國稅與地方稅無欠稅證明、勞保投保人數資料表"
             ],
-            "lastVerifiedAt": "2026-10-28 23:47:36"
+            "lastVerifiedAt": "2026-10-28 23:59:32"
       },
       {
             "id": "LOCAL-CHIAYI-CITY-SBIR",
@@ -2592,7 +2619,7 @@
                   "嘉義市地方產業創新研發計畫書（符合選定特色產業或數位轉型方向）",
                   "最近一期國稅與地方稅無欠稅證明、勞保投保人數資料表"
             ],
-            "lastVerifiedAt": "2026-10-28 23:47:36"
+            "lastVerifiedAt": "2026-10-28 23:59:32"
       },
       {
             "id": "LOCAL-TAINAN-SBIR",
@@ -2637,7 +2664,7 @@
                   "臺南市地方產業創新研發計畫書（符合選定特色產業或數位轉型方向）",
                   "最近一期國稅與地方稅無欠稅證明、勞保投保人數資料表"
             ],
-            "lastVerifiedAt": "2026-10-28 23:47:36"
+            "lastVerifiedAt": "2026-10-28 23:59:32"
       },
       {
             "id": "LOCAL-KAOHSIUNG-SBIR",
@@ -2682,7 +2709,7 @@
                   "高雄市地方產業創新研發計畫書（符合選定特色產業或數位轉型方向）",
                   "最近一期國稅與地方稅無欠稅證明、勞保投保人數資料表"
             ],
-            "lastVerifiedAt": "2026-10-28 23:47:36"
+            "lastVerifiedAt": "2026-10-28 23:59:32"
       },
       {
             "id": "LOCAL-PINGTUNG-SBIR",
@@ -2727,7 +2754,7 @@
                   "屏東縣地方產業創新研發計畫書（符合選定特色產業或數位轉型方向）",
                   "最近一期國稅與地方稅無欠稅證明、勞保投保人數資料表"
             ],
-            "lastVerifiedAt": "2026-10-28 23:47:36"
+            "lastVerifiedAt": "2026-10-28 23:59:32"
       },
       {
             "id": "LOCAL-YILAN-SBIR",
@@ -2772,7 +2799,7 @@
                   "宜蘭縣地方產業創新研發計畫書（符合選定特色產業或數位轉型方向）",
                   "最近一期國稅與地方稅無欠稅證明、勞保投保人數資料表"
             ],
-            "lastVerifiedAt": "2026-10-28 23:47:36"
+            "lastVerifiedAt": "2026-10-28 23:59:32"
       },
       {
             "id": "LOCAL-HUALIEN-SBIR",
@@ -2817,7 +2844,7 @@
                   "花蓮縣地方產業創新研發計畫書（符合選定特色產業或數位轉型方向）",
                   "最近一期國稅與地方稅無欠稅證明、勞保投保人數資料表"
             ],
-            "lastVerifiedAt": "2026-10-28 23:47:36"
+            "lastVerifiedAt": "2026-10-28 23:59:32"
       },
       {
             "id": "LOCAL-TAITUNG-SBIR",
@@ -2862,7 +2889,7 @@
                   "臺東縣地方產業創新研發計畫書（符合選定特色產業或數位轉型方向）",
                   "最近一期國稅與地方稅無欠稅證明、勞保投保人數資料表"
             ],
-            "lastVerifiedAt": "2026-10-28 23:47:36"
+            "lastVerifiedAt": "2026-10-28 23:59:32"
       },
       {
             "id": "LOCAL-PENGHU-SBIR",
@@ -2907,7 +2934,7 @@
                   "澎湖縣地方產業創新研發計畫書（符合選定特色產業或數位轉型方向）",
                   "最近一期國稅與地方稅無欠稅證明、勞保投保人數資料表"
             ],
-            "lastVerifiedAt": "2026-10-28 23:47:36"
+            "lastVerifiedAt": "2026-10-28 23:59:32"
       },
       {
             "id": "LOCAL-KINMEN-SBIR",
@@ -2952,7 +2979,7 @@
                   "金門縣地方產業創新研發計畫書（符合選定特色產業或數位轉型方向）",
                   "最近一期國稅與地方稅無欠稅證明、勞保投保人數資料表"
             ],
-            "lastVerifiedAt": "2026-10-28 23:47:36"
+            "lastVerifiedAt": "2026-10-28 23:59:32"
       },
       {
             "id": "LOCAL-LIENCHIANG-SBIR",
@@ -2997,7 +3024,7 @@
                   "連江縣地方產業創新研發計畫書（符合選定特色產業或數位轉型方向）",
                   "最近一期國稅與地方稅無欠稅證明、勞保投保人數資料表"
             ],
-            "lastVerifiedAt": "2026-10-28 23:47:36"
+            "lastVerifiedAt": "2026-10-28 23:59:32"
       }
 ];
 
@@ -3016,8 +3043,8 @@
     ];
 
     const state = {
-      ubn: "28458491",
-      companyName: "哇寶國際資訊股份有限公司",
+      ubn: "00651251",
+      companyName: "社團法人台灣數位轉型協會",
       orgType: "company",
       orgTypeLabel: "公司法人（g0v 開放資料同步）",
       county: "臺北市",
@@ -3613,6 +3640,17 @@
       renderCompanySummaryBar();
 
       const evaluations = GRANTS_DB.map(evaluateGrant);
+      const allEligibleEval = evaluations.filter(e => e.eligible);
+      const goalKeys = ["all", "cloud_ai", "rd_innov", "training", "smart_mfg", "carbon", "export_mkt"];
+      goalKeys.forEach(gk => {
+        const bEl = document.getElementById(`goalBadge-${gk}`);
+        if (bEl) {
+          const cnt = gk === "all"
+            ? allEligibleEval.length
+            : allEligibleEval.filter(e => e.grant.category === gk).length;
+          bEl.textContent = String(cnt);
+        }
+      });
       const shownEligible = evaluations
         .filter(e => e.eligible && e.goalMatches)
         .sort((a, b) => b.rankScore - a.rankScore);
@@ -4022,16 +4060,16 @@
         document.querySelectorAll(".goal-btn").forEach(b => {
           b.classList.toggle("pill-active", b.dataset.goal === "all");
         });
-        if (COMPANIES_DB["28458491"]) {
-          applyCompanyRecord(COMPANIES_DB["28458491"], "已重設為預設統編與全部需求");
+        if (COMPANIES_DB["00651251"]) {
+          applyCompanyRecord(COMPANIES_DB["00651251"], "已重設為預設統編與全部需求");
         } else {
           renderAll(true);
         }
       });
 
       // 初始載入預設統編 28458491
-      if (COMPANIES_DB["28458491"]) {
-        applyCompanyRecord(COMPANIES_DB["28458491"], "");
+      if (COMPANIES_DB["00651251"]) {
+        applyCompanyRecord(COMPANIES_DB["00651251"], "");
       } else {
         renderAll(true);
       }
