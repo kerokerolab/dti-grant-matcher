@@ -12,6 +12,18 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Sans+TC:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <style>
+    :root {
+      --font-scale: 1;
+      --touch-min-height: 44px;
+    }
+    body.large-text-mode {
+      --font-scale: 1.25;
+      font-size: 20px !important;
+    }
+    body.large-text-mode .text-xs { font-size: 16.5px !important; }
+    body.large-text-mode .text-sm { font-size: 18.5px !important; }
+    body.large-text-mode .text-base { font-size: 20px !important; }
+    body.large-text-mode .text-lg { font-size: 22.5px !important; }
     body {
       font-family: 'Inter', 'Noto Sans TC', -apple-system, BlinkMacSystemFont, sans-serif;
       background-color: #f1f5f9;
@@ -187,6 +199,7 @@
         </div>
 
         <a
+          id="linkTo2DVersion"
           href="./taiwan_grant_matcher.html"
           class="px-3 py-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-amber-300 text-xs sm:text-sm font-semibold border border-slate-700 transition"
           title="開啟獨立 2D 清單版網頁"
@@ -194,6 +207,7 @@
           ↗ 獨立 2D 版連結
         </a>
 
+        <button id="btn-large-text" type="button" class="px-3 py-1.5 rounded-xl bg-amber-500/20 hover:bg-amber-500/30 text-amber-200 text-xs sm:text-sm font-bold border border-amber-400/40 transition">🔠 長輩大字模式</button>
         <button id="btnResetAll" class="px-3 py-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs sm:text-sm font-semibold border border-slate-700 transition">
           ↺ 重設
         </button>
@@ -214,9 +228,7 @@
             <span class="px-2.5 py-0.5 rounded-lg bg-orange-600 text-white text-xs sm:text-sm font-bold">STEP 1</span>
             請輸入公司、商號或法人協會 8 碼統一編號
           </label>
-          <span id="ubnChecksumTag" class="text-xs sm:text-sm px-3 py-0.5 rounded-full bg-emerald-50 text-emerald-700 font-semibold border border-emerald-200">
-            ✓ 統編邏輯檢核通過
-          </span>
+          <span id="ubnChecksumTag" class="text-xs sm:text-sm px-3 py-0.5 rounded-full bg-emerald-50 text-emerald-700 font-semibold border border-emerald-200">請輸入 8 碼統編 或 公司名稱</span>
         </div>
 
         <div class="flex flex-col sm:flex-row gap-2.5">
@@ -226,7 +238,7 @@
             inputmode="numeric"
             maxlength="8"
             autocomplete="off"
-            value="00651251"
+            value=""
             placeholder="請輸入 8 碼統一編號（例如：28458491、00651251）"
             class="flex-1 px-4 py-2 rounded-2xl border-2 border-slate-300 focus:border-orange-500 focus:ring-4 focus:ring-orange-100 outline-none text-lg sm:text-xl font-mono font-bold tracking-wider text-slate-900"
           />
@@ -406,7 +418,7 @@
             符合資格共 <span id="countUpCases" class="text-amber-300 underline font-mono">0</span> 案｜最高可申請總額 NT$ <span id="countUpMaxMan" class="text-emerald-300 font-mono">0</span> 萬元
           </h2>
           <span class="text-xs sm:text-sm text-slate-300">
-            （權重期望值約 <strong id="countUpExpectedMan" class="font-mono text-white">0</strong> 萬元）
+            （🎯 依歷史過件率折算・預估入袋約 <strong id="countUpExpectedMan" class="font-mono text-amber-300">0</strong> 萬元）
           </span>
         </div>
 
@@ -416,6 +428,13 @@
             class="px-3.5 py-1.5 rounded-xl bg-white/10 hover:bg-white/20 text-white font-bold text-xs sm:text-sm border border-white/20 transition"
           >
             🧭 全景視角
+          </button>
+          <button
+            id="btnShareAssistant3D"
+            type="button"
+            class="px-3.5 py-1.5 rounded-xl bg-[#06C755] hover:bg-[#05b34c] text-white font-extrabold text-xs sm:text-sm transition shadow-md flex items-center gap-1 whitespace-nowrap"
+          >
+            <span>📤</span> LINE分享
           </button>
           <button
             id="btnExportChecklist"
@@ -564,6 +583,54 @@
     </section>
 
   </main>
+
+  <!-- LINE 分享專屬互動視窗 Modal（支援電腦版 LINE App 喚起、一鍵貼上、網頁版無錯分享與手機 QR Code） -->
+  <div id="lineShareModal" class="hidden fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4">
+    <div class="bg-white rounded-3xl max-w-xl w-full p-6 sm:p-7 shadow-2xl border border-slate-200 space-y-4">
+      <div class="flex items-start justify-between gap-3">
+        <div class="flex items-center gap-2.5">
+          <div class="w-10 h-10 rounded-2xl bg-[#06C755] text-white flex items-center justify-center font-extrabold text-xl shadow-sm">
+            L
+          </div>
+          <div>
+            <h3 class="text-xl font-extrabold text-slate-900">📤 LINE 分享補助快篩結果</h3>
+            <p class="text-xs sm:text-sm text-emerald-700 font-bold">✓ 已自動將下方完整摘要複製到您的剪貼簿！</p>
+          </div>
+        </div>
+        <button type="button" onclick="closeLineShareModal()" class="px-3 py-1.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-sm" style="min-height:36px;">✕ 關閉</button>
+      </div>
+
+      <div class="space-y-1.5">
+        <div class="flex items-center justify-between text-xs sm:text-sm font-bold text-slate-600">
+          <span>📋 分享摘要內容（可直接於電腦版 LINE 按 Cmd+V / Ctrl+V 貼上）：</span>
+          <button type="button" onclick="copyLineShareTextAgain()" class="text-blue-600 hover:underline font-extrabold" style="min-height:28px;">🔄 重新複製文字</button>
+        </div>
+        <textarea
+          id="lineSharePreviewText"
+          rows="7"
+          readonly
+          class="w-full p-3.5 rounded-2xl bg-slate-50 border border-slate-300 text-slate-800 text-xs sm:text-sm font-mono leading-relaxed focus:outline-none"
+        ></textarea>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5 pt-1">
+        <button
+          id="btnLaunchLineApp"
+          type="button"
+          class="py-3 px-4 rounded-2xl bg-[#06C755] hover:bg-[#05b34c] text-white font-extrabold text-sm sm:text-base shadow-md transition flex items-center justify-center gap-2"
+        >
+          <span>💬</span> 喚起電腦／手機 LINE App 傳送
+        </button>
+        <button
+          id="btnOpenLineWebPlugin"
+          type="button"
+          class="py-3 px-4 rounded-2xl bg-slate-900 hover:bg-slate-800 text-white font-extrabold text-sm sm:text-base shadow-md transition flex items-center justify-center gap-2"
+        >
+          <span>🌐</span> LINE 網頁版分享連結
+        </button>
+      </div>
+    </div>
+  </div>
 
   <!-- 頁尾 -->
   <footer class="bg-white border-t border-slate-200 mt-6 py-4">
@@ -1065,7 +1132,7 @@
                   "於雲市集工業館挑選「AI 工具庫」上架方案並完成線上點數折抵合約",
                   "切結同年度未重複領取低碳化／智慧化升級轉型等互斥補助"
             ],
-            "lastVerifiedAt": "2026-10-28 23:59:32"
+            "lastVerifiedAt": "2026-10-31 12:05:08"
       },
       {
             "id": "MOEA-SMESA-CLOUDSME",
@@ -1109,7 +1176,7 @@
                   "公司登記、商業登記或稅籍登記證明文件",
                   "數位轉型需求盤點表與預計導入之雲端工具類別勾選"
             ],
-            "lastVerifiedAt": "2026-10-28 23:59:32"
+            "lastVerifiedAt": "2026-10-31 12:05:08"
       },
       {
             "id": "MOEA-DOC-SMART-SERV",
@@ -1153,7 +1220,7 @@
                   "數位轉型與 AI 應用導入計畫書",
                   "資訊服務供應商報價單與系統架構說明"
             ],
-            "lastVerifiedAt": "2026-10-28 23:59:32"
+            "lastVerifiedAt": "2026-10-31 12:05:08"
       },
       {
             "id": "MOEA-DOC-OP-RESILIENCE",
@@ -1197,7 +1264,7 @@
                   "提升營運效能數位系統導入計畫書與前後績效對照表",
                   "最近一期營業稅申報書與無欠稅證明"
             ],
-            "lastVerifiedAt": "2026-10-28 23:59:32"
+            "lastVerifiedAt": "2026-10-31 12:05:08"
       },
       {
             "id": "MOEA-DOC-ROBOT-DATA",
@@ -1240,7 +1307,7 @@
                   "營業場域證明與公司／商業登記文件",
                   "服務型機器人或數據平台導入規劃書與減少人力工時估算表"
             ],
-            "lastVerifiedAt": "2026-10-28 23:59:32"
+            "lastVerifiedAt": "2026-10-31 12:05:08"
       },
       {
             "id": "MODA-ADI-DIGIPLUS",
@@ -1284,7 +1351,7 @@
                   "AI 或數位創新服務商業化驗證（PoC/PoB）計畫書",
                   "資安防護與個資保護聲明書"
             ],
-            "lastVerifiedAt": "2026-10-28 23:59:32"
+            "lastVerifiedAt": "2026-10-31 12:05:08"
       },
       {
             "id": "MOEA-IDA-CLOUD-SOL-EXPIRED",
@@ -1326,7 +1393,7 @@
             "checklist": [
                   "本梯次已截止，請勿送件"
             ],
-            "lastVerifiedAt": "2026-10-28 23:59:32"
+            "lastVerifiedAt": "2026-10-31 12:05:08"
       },
       {
             "id": "MOEA-SMESA-SBIR-CENTRAL",
@@ -1372,7 +1439,7 @@
                   "SBIR 計畫申請表與研發計畫書（技術／服務創新性說明、研發團隊學經歷、經費編列）",
                   "最近一期勞保局投保單位被保險人名冊"
             ],
-            "lastVerifiedAt": "2026-10-28 23:59:32"
+            "lastVerifiedAt": "2026-10-31 12:05:08"
       },
       {
             "id": "MOEA-SMESA-SBIR-CROSS",
@@ -1416,7 +1483,7 @@
                   "跨域研發合作協議書與深科技應用計畫書",
                   "最近一期勞保局投保人數名冊"
             ],
-            "lastVerifiedAt": "2026-10-28 23:59:32"
+            "lastVerifiedAt": "2026-10-31 12:05:08"
       },
       {
             "id": "MOEA-DOC-SIIR",
@@ -1460,7 +1527,7 @@
                   "SIIR 服務業創新研發計畫書（聚焦智慧化 AI 應用或低碳商業模式）",
                   "最近一年營所稅申報書與最近一期營業稅 401 表、無欠稅證明"
             ],
-            "lastVerifiedAt": "2026-10-28 23:59:32"
+            "lastVerifiedAt": "2026-10-31 12:05:08"
       },
       {
             "id": "MOEA-IDA-TIIP",
@@ -1505,7 +1572,7 @@
                   "TIIP 計畫書（主題式研發／產業高值／服務創新研發計畫書）",
                   "簡報審查文件與財務健全切結書"
             ],
-            "lastVerifiedAt": "2026-10-28 23:59:32"
+            "lastVerifiedAt": "2026-10-31 12:05:08"
       },
       {
             "id": "MOEA-IDA-COMP-SUPPORT",
@@ -1548,7 +1615,7 @@
                   "提升產業競爭力研發轉型支持計畫書",
                   "近三年財務報表與無欠稅證明"
             ],
-            "lastVerifiedAt": "2026-10-28 23:59:32"
+            "lastVerifiedAt": "2026-10-31 12:05:08"
       },
       {
             "id": "MOEA-DOC-30SERV",
@@ -1594,7 +1661,7 @@
                   "培訓月份之勞保局核發投保單位被保險人名冊",
                   "申請事業指定匯款之金融機構存摺封面影本"
             ],
-            "lastVerifiedAt": "2026-10-28 23:59:32"
+            "lastVerifiedAt": "2026-10-31 12:05:08"
       },
       {
             "id": "MOEA-SMESA-30MFG",
@@ -1639,7 +1706,7 @@
                   "課程及搭配軟體之統一發票／收據（須於補助期間內開立）",
                   "培訓月份勞保投保名冊與撥款存摺影本"
             ],
-            "lastVerifiedAt": "2026-10-28 23:59:32"
+            "lastVerifiedAt": "2026-10-31 12:05:08"
       },
       {
             "id": "MOL-WDA-HR-UPGRADE",
@@ -1684,7 +1751,7 @@
                   "年度員工數位 AI 工具應用與專業職能訓練計畫表",
                   "無欠繳勞保費或滯納金證明"
             ],
-            "lastVerifiedAt": "2026-10-28 23:59:32"
+            "lastVerifiedAt": "2026-10-31 12:05:08"
       },
       {
             "id": "MOEA-DOC-TALENT-RESILIENCE",
@@ -1727,7 +1794,7 @@
                   "公司或商業登記統編與派訓員工名單",
                   "數位轉型職能需求自評表"
             ],
-            "lastVerifiedAt": "2026-10-28 23:59:32"
+            "lastVerifiedAt": "2026-10-31 12:05:08"
       },
       {
             "id": "MOEA-IDA-MFG-LEAP",
@@ -1771,7 +1838,7 @@
                   "近三年會計師簽證或營所稅申報核定通知書",
                   "合作資服業者或生態系成員之共同執行意向書"
             ],
-            "lastVerifiedAt": "2026-10-28 23:59:32"
+            "lastVerifiedAt": "2026-10-31 12:05:08"
       },
       {
             "id": "MOEA-IDA-SUCCESSION-AI",
@@ -1814,7 +1881,7 @@
                   "接班傳承團隊說明與 AI 數位轉型應用計畫書",
                   "最近一期無欠稅證明與勞保投保清單"
             ],
-            "lastVerifiedAt": "2026-10-28 23:59:32"
+            "lastVerifiedAt": "2026-10-31 12:05:08"
       },
       {
             "id": "MOEA-IDA-DATA-MFG",
@@ -1856,7 +1923,7 @@
                   "公司登記與工廠登記證明文件",
                   "產線數據收集現況與 AI 製造導入需求申請表"
             ],
-            "lastVerifiedAt": "2026-10-28 23:59:32"
+            "lastVerifiedAt": "2026-10-31 12:05:08"
       },
       {
             "id": "MOEA-DOC-SMART-CARBON",
@@ -1901,7 +1968,7 @@
                   "最近一期營業稅申報書（401/403表）與無欠稅證明",
                   "資訊服務廠商報價單與規格書"
             ],
-            "lastVerifiedAt": "2026-10-28 23:59:32"
+            "lastVerifiedAt": "2026-10-31 12:05:08"
       },
       {
             "id": "MOEA-EA-ENERGY",
@@ -1945,7 +2012,7 @@
                   "台電公司最近一期電費單影本（核對用電地址）",
                   "一級能效空調／冷凍冷藏設備購買發票與回收證明，或 BEMS 能源管理系統建置計畫"
             ],
-            "lastVerifiedAt": "2026-10-28 23:59:32"
+            "lastVerifiedAt": "2026-10-31 12:05:08"
       },
       {
             "id": "MOEA-EA-MOTOR-EQUIP",
@@ -1989,7 +2056,7 @@
                   "能源署高效率動力設備登錄型號證明與統一發票影本",
                   "設備安裝現場照片與撥款帳戶存摺影本"
             ],
-            "lastVerifiedAt": "2026-10-28 23:59:32"
+            "lastVerifiedAt": "2026-10-31 12:05:08"
       },
       {
             "id": "MOEA-IDA-LOWCARBON-ICT",
@@ -2032,7 +2099,7 @@
                   "公司或商業登記證明與合法工廠登記證（或免辦工廠登記證明）",
                   "115年度中小型製造業低碳輔導計畫申請表"
             ],
-            "lastVerifiedAt": "2026-10-28 23:59:32"
+            "lastVerifiedAt": "2026-10-31 12:05:08"
       },
       {
             "id": "MOENV-RECA-CIRCULAR",
@@ -2075,7 +2142,7 @@
                   "資源循環創新或製程減廢示範計畫書（含數位物料流追蹤架構）",
                   "過去三年環保合規無重大裁罰切結書"
             ],
-            "lastVerifiedAt": "2026-10-28 23:59:32"
+            "lastVerifiedAt": "2026-10-31 12:05:08"
       },
       {
             "id": "MOEA-TITA-EXPORT",
@@ -2119,7 +2186,7 @@
                   "國際市場開發與數位精準行銷計畫書",
                   "無欠稅證明與過去執行貿易署計畫未遭停權切結"
             ],
-            "lastVerifiedAt": "2026-10-28 23:59:32"
+            "lastVerifiedAt": "2026-10-31 12:05:08"
       },
       {
             "id": "MOEA-DOC-BRAND-DIST",
@@ -2163,7 +2230,7 @@
                   "公司或商業登記證明文件",
                   "品牌數位行銷與通路拓展申請計畫書"
             ],
-            "lastVerifiedAt": "2026-10-28 23:59:32"
+            "lastVerifiedAt": "2026-10-31 12:05:08"
       },
       {
             "id": "LOCAL-TAIPEI-SITI",
@@ -2208,7 +2275,7 @@
                   "臺北市地方產業創新研發計畫書（符合選定特色產業或數位轉型方向）",
                   "最近一期國稅與地方稅無欠稅證明、勞保投保人數資料表"
             ],
-            "lastVerifiedAt": "2026-10-28 23:59:32"
+            "lastVerifiedAt": "2026-10-31 12:05:08"
       },
       {
             "id": "LOCAL-NEW-TAIPEI-INNOV",
@@ -2253,7 +2320,7 @@
                   "新北市地方產業創新研發計畫書（符合選定特色產業或數位轉型方向）",
                   "最近一期國稅與地方稅無欠稅證明、勞保投保人數資料表"
             ],
-            "lastVerifiedAt": "2026-10-28 23:59:32"
+            "lastVerifiedAt": "2026-10-31 12:05:08"
       },
       {
             "id": "LOCAL-KEELUNG-SBIR",
@@ -2298,7 +2365,7 @@
                   "基隆市地方產業創新研發計畫書（符合選定特色產業或數位轉型方向）",
                   "最近一期國稅與地方稅無欠稅證明、勞保投保人數資料表"
             ],
-            "lastVerifiedAt": "2026-10-28 23:59:32"
+            "lastVerifiedAt": "2026-10-31 12:05:08"
       },
       {
             "id": "LOCAL-TAOYUAN-SBIR",
@@ -2343,7 +2410,7 @@
                   "桃園市地方產業創新研發計畫書（符合選定特色產業或數位轉型方向）",
                   "最近一期國稅與地方稅無欠稅證明、勞保投保人數資料表"
             ],
-            "lastVerifiedAt": "2026-10-28 23:59:32"
+            "lastVerifiedAt": "2026-10-31 12:05:08"
       },
       {
             "id": "LOCAL-HSINCHU-CITY-SBIR",
@@ -2388,7 +2455,7 @@
                   "新竹市地方產業創新研發計畫書（符合選定特色產業或數位轉型方向）",
                   "最近一期國稅與地方稅無欠稅證明、勞保投保人數資料表"
             ],
-            "lastVerifiedAt": "2026-10-28 23:59:32"
+            "lastVerifiedAt": "2026-10-31 12:05:08"
       },
       {
             "id": "LOCAL-HSINCHU-COUNTY-SBIR",
@@ -2433,7 +2500,7 @@
                   "新竹縣地方產業創新研發計畫書（符合選定特色產業或數位轉型方向）",
                   "最近一期國稅與地方稅無欠稅證明、勞保投保人數資料表"
             ],
-            "lastVerifiedAt": "2026-10-28 23:59:32"
+            "lastVerifiedAt": "2026-10-31 12:05:08"
       },
       {
             "id": "LOCAL-MIAOLI-SBIR",
@@ -2478,7 +2545,7 @@
                   "苗栗縣地方產業創新研發計畫書（符合選定特色產業或數位轉型方向）",
                   "最近一期國稅與地方稅無欠稅證明、勞保投保人數資料表"
             ],
-            "lastVerifiedAt": "2026-10-28 23:59:32"
+            "lastVerifiedAt": "2026-10-31 12:05:08"
       },
       {
             "id": "LOCAL-TAICHUNG-SBIR",
@@ -2523,7 +2590,7 @@
                   "臺中市地方產業創新研發計畫書（符合選定特色產業或數位轉型方向）",
                   "最近一期國稅與地方稅無欠稅證明、勞保投保人數資料表"
             ],
-            "lastVerifiedAt": "2026-10-28 23:59:32"
+            "lastVerifiedAt": "2026-10-31 12:05:08"
       },
       {
             "id": "LOCAL-CHANGHUA-SBIR",
@@ -2568,7 +2635,7 @@
                   "彰化縣地方產業創新研發計畫書（符合選定特色產業或數位轉型方向）",
                   "最近一期國稅與地方稅無欠稅證明、勞保投保人數資料表"
             ],
-            "lastVerifiedAt": "2026-10-28 23:59:32"
+            "lastVerifiedAt": "2026-10-31 12:05:08"
       },
       {
             "id": "LOCAL-NANTOU-SBIR",
@@ -2613,7 +2680,7 @@
                   "南投縣地方產業創新研發計畫書（符合選定特色產業或數位轉型方向）",
                   "最近一期國稅與地方稅無欠稅證明、勞保投保人數資料表"
             ],
-            "lastVerifiedAt": "2026-10-28 23:59:32"
+            "lastVerifiedAt": "2026-10-31 12:05:08"
       },
       {
             "id": "LOCAL-YUNLIN-SBIR",
@@ -2658,7 +2725,7 @@
                   "雲林縣地方產業創新研發計畫書（符合選定特色產業或數位轉型方向）",
                   "最近一期國稅與地方稅無欠稅證明、勞保投保人數資料表"
             ],
-            "lastVerifiedAt": "2026-10-28 23:59:32"
+            "lastVerifiedAt": "2026-10-31 12:05:08"
       },
       {
             "id": "LOCAL-CHIAYI-COUNTY-SBIR",
@@ -2703,7 +2770,7 @@
                   "嘉義縣地方產業創新研發計畫書（符合選定特色產業或數位轉型方向）",
                   "最近一期國稅與地方稅無欠稅證明、勞保投保人數資料表"
             ],
-            "lastVerifiedAt": "2026-10-28 23:59:32"
+            "lastVerifiedAt": "2026-10-31 12:05:08"
       },
       {
             "id": "LOCAL-CHIAYI-CITY-SBIR",
@@ -2748,7 +2815,7 @@
                   "嘉義市地方產業創新研發計畫書（符合選定特色產業或數位轉型方向）",
                   "最近一期國稅與地方稅無欠稅證明、勞保投保人數資料表"
             ],
-            "lastVerifiedAt": "2026-10-28 23:59:32"
+            "lastVerifiedAt": "2026-10-31 12:05:08"
       },
       {
             "id": "LOCAL-TAINAN-SBIR",
@@ -2793,7 +2860,7 @@
                   "臺南市地方產業創新研發計畫書（符合選定特色產業或數位轉型方向）",
                   "最近一期國稅與地方稅無欠稅證明、勞保投保人數資料表"
             ],
-            "lastVerifiedAt": "2026-10-28 23:59:32"
+            "lastVerifiedAt": "2026-10-31 12:05:08"
       },
       {
             "id": "LOCAL-KAOHSIUNG-SBIR",
@@ -2838,7 +2905,7 @@
                   "高雄市地方產業創新研發計畫書（符合選定特色產業或數位轉型方向）",
                   "最近一期國稅與地方稅無欠稅證明、勞保投保人數資料表"
             ],
-            "lastVerifiedAt": "2026-10-28 23:59:32"
+            "lastVerifiedAt": "2026-10-31 12:05:08"
       },
       {
             "id": "LOCAL-PINGTUNG-SBIR",
@@ -2883,7 +2950,7 @@
                   "屏東縣地方產業創新研發計畫書（符合選定特色產業或數位轉型方向）",
                   "最近一期國稅與地方稅無欠稅證明、勞保投保人數資料表"
             ],
-            "lastVerifiedAt": "2026-10-28 23:59:32"
+            "lastVerifiedAt": "2026-10-31 12:05:08"
       },
       {
             "id": "LOCAL-YILAN-SBIR",
@@ -2928,7 +2995,7 @@
                   "宜蘭縣地方產業創新研發計畫書（符合選定特色產業或數位轉型方向）",
                   "最近一期國稅與地方稅無欠稅證明、勞保投保人數資料表"
             ],
-            "lastVerifiedAt": "2026-10-28 23:59:32"
+            "lastVerifiedAt": "2026-10-31 12:05:08"
       },
       {
             "id": "LOCAL-HUALIEN-SBIR",
@@ -2973,7 +3040,7 @@
                   "花蓮縣地方產業創新研發計畫書（符合選定特色產業或數位轉型方向）",
                   "最近一期國稅與地方稅無欠稅證明、勞保投保人數資料表"
             ],
-            "lastVerifiedAt": "2026-10-28 23:59:32"
+            "lastVerifiedAt": "2026-10-31 12:05:08"
       },
       {
             "id": "LOCAL-TAITUNG-SBIR",
@@ -3018,7 +3085,7 @@
                   "臺東縣地方產業創新研發計畫書（符合選定特色產業或數位轉型方向）",
                   "最近一期國稅與地方稅無欠稅證明、勞保投保人數資料表"
             ],
-            "lastVerifiedAt": "2026-10-28 23:59:32"
+            "lastVerifiedAt": "2026-10-31 12:05:08"
       },
       {
             "id": "LOCAL-PENGHU-SBIR",
@@ -3063,7 +3130,7 @@
                   "澎湖縣地方產業創新研發計畫書（符合選定特色產業或數位轉型方向）",
                   "最近一期國稅與地方稅無欠稅證明、勞保投保人數資料表"
             ],
-            "lastVerifiedAt": "2026-10-28 23:59:32"
+            "lastVerifiedAt": "2026-10-31 12:05:08"
       },
       {
             "id": "LOCAL-KINMEN-SBIR",
@@ -3108,7 +3175,7 @@
                   "金門縣地方產業創新研發計畫書（符合選定特色產業或數位轉型方向）",
                   "最近一期國稅與地方稅無欠稅證明、勞保投保人數資料表"
             ],
-            "lastVerifiedAt": "2026-10-28 23:59:32"
+            "lastVerifiedAt": "2026-10-31 12:05:08"
       },
       {
             "id": "LOCAL-LIENCHIANG-SBIR",
@@ -3153,7 +3220,7 @@
                   "連江縣地方產業創新研發計畫書（符合選定特色產業或數位轉型方向）",
                   "最近一期國稅與地方稅無欠稅證明、勞保投保人數資料表"
             ],
-            "lastVerifiedAt": "2026-10-28 23:59:32"
+            "lastVerifiedAt": "2026-10-31 12:05:08"
       }
 ];
 
@@ -3276,8 +3343,8 @@
 
     const state = {
       viewMode: "3d",
-      ubn: "00651251",
-      companyName: "社團法人台灣數位轉型協會",
+      ubn: "",
+      companyName: "尚未輸入統編（通用條件預覽）",
       orgType: "company",
       orgTypeLabel: "公司法人（g0v 開放資料同步）",
       county: "臺北市",
@@ -4578,7 +4645,7 @@
                   <div class="text-xl font-extrabold text-emerald-700 font-mono mt-0.5">最高補助 NT$ ${targetItem.dynamicMaxMan.toLocaleString()} 萬元</div>
                 </div>
                 <span class="px-2.5 py-1 rounded-lg bg-white text-orange-800 font-mono text-xs font-bold border border-orange-200">
-                  期望值 ${targetItem.expectedValueMan} 萬
+                  🎯 預估入袋 ${targetItem.expectedValueMan} 萬
                 </span>
               </div>
 
@@ -4800,6 +4867,8 @@
 
     function renderCompanySummaryBar() {
       const pillsEl = document.getElementById("companySummaryPills");
+      const link2D = document.getElementById("linkTo2DVersion");
+      if (link2D) link2D.href = state.ubn ? `./taiwan_grant_matcher.html?taxId=${encodeURIComponent(state.ubn)}` : `./taiwan_grant_matcher.html`;
       const metaEl = document.getElementById("companyFullMeta");
 
       const sectorBadge = state.sector === "manufacturing"
@@ -4808,7 +4877,7 @@
 
       pillsEl.innerHTML = `
         <span class="font-extrabold text-slate-900 text-sm sm:text-base">🏢 ${state.companyName}</span>
-        <span class="px-2 py-0.5 rounded-md bg-white border border-slate-200 text-slate-700 font-mono text-xs sm:text-sm">統編 ${state.ubn}</span>
+        <span class="px-2 py-0.5 rounded-md bg-white border border-slate-200 text-slate-700 font-mono text-xs sm:text-sm">${state.ubn ? "統編 " + state.ubn : "未指定統編"}</span>
         <span class="px-2.5 py-0.5 rounded-lg bg-blue-100 text-blue-800 font-bold text-xs sm:text-sm">📍 ${state.county}</span>
         <span class="px-2.5 py-0.5 rounded-lg bg-emerald-100 text-emerald-800 font-bold text-xs sm:text-sm">💰 資本額 ${state.paidInCapitalMan.toLocaleString()} 萬</span>
         ${sectorBadge}
@@ -4880,7 +4949,7 @@
               <span class="text-xs text-blue-200">最高補助</span>
               <span class="text-lg sm:text-xl font-extrabold text-amber-300 font-mono ml-1">${item.dynamicMaxMan.toLocaleString()} 萬</span>
             </div>
-            <span class="text-xs font-semibold text-emerald-300">期望值 ${item.expectedValueMan} 萬 ➔</span>
+            <span class="text-xs font-semibold text-emerald-300">🎯 預估入袋 ${item.expectedValueMan} 萬 ➔</span>
           </div>
         </div>
       `).join("");
@@ -5304,6 +5373,116 @@
       window.__toastTimer = setTimeout(() => box.classList.add("hidden"), 2800);
     }
 
+
+    function toggleLargeTextMode3D() {
+      const isLarge = document.body.classList.toggle("large-text-mode");
+      try { localStorage.setItem("dti_large_text_mode", isLarge ? "1" : "0"); } catch (_) {}
+      const btn = document.getElementById("btn-large-text");
+      if (btn) btn.textContent = isLarge ? "🔠 標準字體" : "🔠 長輩大字模式";
+      showToast(isLarge ? "已開啟「長輩大字模式」" : "已恢復「標準字體」");
+    }
+
+    let __lastLineShareMessage = "";
+    let __lastLineShareUrl = "";
+
+    window.closeLineShareModal = function() {
+      const m = document.getElementById("lineShareModal");
+      if (m) m.classList.add("hidden");
+    };
+
+    window.copyLineShareTextAgain = function() {
+      const ta = document.getElementById("lineSharePreviewText");
+      const txt = ta ? ta.value : __lastLineShareMessage;
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(txt).catch(() => {});
+      }
+      if (ta) {
+        ta.select();
+        try { document.execCommand("copy"); } catch (_) {}
+      }
+      showToast("✅ 已複製完整補助摘要！可直接於 LINE 對話視窗貼上 (Cmd+V / Ctrl+V)");
+    };
+
+    function triggerLineShareDialog(message, shareUrl) {
+      const fullTextWithUrl = `${message}\n${shareUrl}`;
+      __lastLineShareMessage = fullTextWithUrl;
+      __lastLineShareUrl = shareUrl;
+
+      // 1. 立即複製完整文字至剪貼簿
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(fullTextWithUrl).catch(() => {});
+      }
+
+      // 2. 行動裝置直接喚起 LINE App
+      const isMobile = /Android|iPhone|iPad|iPod|Mobile/i.test(navigator.userAgent || "");
+      if (isMobile) {
+        window.location.href = `https://line.me/R/msg/text/?${encodeURIComponent(fullTextWithUrl)}`;
+        return;
+      }
+
+      // 3. 桌機版開啟內建「LINE 分享」互動視窗（避免 social-plugins 因多行文字產生 HTTP 400）
+      const modal = document.getElementById("lineShareModal");
+      const previewEl = document.getElementById("lineSharePreviewText");
+      if (previewEl) previewEl.value = fullTextWithUrl;
+      if (modal) modal.classList.remove("hidden");
+
+      const btnApp = document.getElementById("btnLaunchLineApp");
+      if (btnApp) {
+        btnApp.onclick = () => {
+          // 喚起 macOS / Windows 電腦版 LINE App 並帶入完整文字
+          window.location.href = `line://msg/text/${encodeURIComponent(fullTextWithUrl)}`;
+          showToast("✅ 正在喚起電腦版 LINE App（亦已複製文字，可直接 Cmd+V 貼上）！");
+        };
+      }
+
+      const btnWeb = document.getElementById("btnOpenLineWebPlugin");
+      if (btnWeb) {
+        btnWeb.onclick = () => {
+          // LINE Social Plugins 僅傳遞乾淨的 url 參數（不帶多行換行文字，徹底避免 /lineit/login HTTP ERROR 400）
+          const cleanWebShareUrl = `https://social-plugins.line.me/lineit/share?url=${encodeURIComponent(shareUrl)}`;
+          const w = 580, h = 620;
+          const left = Math.max(0, (window.screen.width - w) / 2);
+          const top = Math.max(0, (window.screen.height - h) / 2);
+          window.open(cleanWebShareUrl, "line_share_window", `width=${w},height=${h},left=${left},top=${top},scrollbars=yes,resizable=yes`);
+        };
+      }
+
+      showToast("✅ 已複製分享摘要！可點選「喚起 LINE App」或直接於 LINE 貼上");
+    }
+
+    function getValidSharePageUrl(is3dPage) {
+      const pageFile = is3dPage ? "taiwan_grant_island_3d.html" : "taiwan_grant_matcher.html";
+      let baseUrl = `https://kerokerolab.github.io/dti-grant-matcher/${pageFile}`;
+      if (window.location && /^https?:$/i.test(window.location.protocol)) {
+        baseUrl = `${window.location.origin}${window.location.pathname}`;
+      }
+      return state.ubn ? `${baseUrl}?taxId=${encodeURIComponent(state.ubn)}` : baseUrl;
+    }
+
+    function shareToAssistant3D() {
+      const ev = state.lastEvaluation;
+      if (!ev) return;
+      const shownEligible = ev.shownEligible || [];
+      const totalMaxWan = Math.round(shownEligible.reduce((acc, x) => acc + x.dynamicMaxMan, 0) * 10) / 10;
+      const totalExpectedWan = Math.round(shownEligible.reduce((acc, x) => acc + x.expectedValueMan, 0) * 10) / 10;
+      const top3 = shownEligible.slice(0, 3);
+      const shareUrl = getValidSharePageUrl(true);
+      const top3Text = top3.map((item, idx) => `  ${idx + 1}. ${item.grant.title}（最高 ${item.dynamicMaxMan} 萬／預估入袋 ${item.expectedValueMan} 萬）`).join("\n");
+      const ubnDisplay = state.ubn ? `（統編：${state.ubn}）` : "";
+      const message = [
+        `【2026 政府補助 3D 群島快篩分享】`,
+        `🏢 評估單位：${state.companyName}${ubnDisplay}`,
+        `✅ 符合資格：共 ${shownEligible.length} 案`,
+        `💰 最高可申請總額：NT$ ${totalMaxWan.toLocaleString()} 萬元（預估入袋約 ${totalExpectedWan.toLocaleString()} 萬元）`,
+        ``,
+        `📌 優先評估「黃金 3 步組合包」：`,
+        top3Text,
+        ``,
+        `👉 點此查看 3D 補助群島與應備文件檢核表：`
+      ].join("\n");
+      triggerLineShareDialog(message, shareUrl);
+    }
+
     function exportChecklistTxt() {
       const ev = state.lastEvaluation;
       if (!ev) return;
@@ -5517,18 +5696,59 @@
           b.classList.toggle("pill-active", b.dataset.goal === "all");
         });
         window.resetCameraPanorama();
-        if (COMPANIES_DB["00651251"]) {
-          applyCompanyRecord(COMPANIES_DB["00651251"], "已重設為預設統編與 3D 群島全景");
-        } else {
-          renderAll(true);
-        }
+        state.ubn = "";
+        state.companyName = "尚未輸入統編（通用條件預覽）";
+        state.county = "臺北市";
+        state.paidInCapitalMan = 100;
+        state.sector = "service";
+        state.sectorLabel = "商業服務業";
+        state.hasFactoryReg = false;
+        state.empRange = "under30";
+        state.exactEmpCount = 15;
+        document.getElementById("ubnInput").value = "";
+        document.getElementById("simCounty").value = "臺北市";
+        document.getElementById("simCapital").value = 100;
+        document.getElementById("simSector").value = "service";
+        document.getElementById("simFactory").value = "false";
+        document.getElementById("exactEmpCount").value = 15;
+        renderAll(true);
+        showToast("已重設為空白統編與預設條件");
       });
 
-      if (COMPANIES_DB["00651251"]) {
-        applyCompanyRecord(COMPANIES_DB["00651251"], "");
-      } else {
+      try {
+        if (localStorage.getItem("dti_large_text_mode") === "1") {
+          document.body.classList.add("large-text-mode");
+          const bL = document.getElementById("btn-large-text");
+          if (bL) bL.textContent = "🔠 標準字體";
+        }
+      } catch (_) {}
+      const btnLarge3D = document.getElementById("btn-large-text");
+      if (btnLarge3D) btnLarge3D.addEventListener("click", toggleLargeTextMode3D);
+      const btnShare3D = document.getElementById("btnShareAssistant3D");
+      if (btnShare3D) btnShare3D.addEventListener("click", shareToAssistant3D);
+
+      const params = new URLSearchParams(window.location.search);
+      const sharedTaxId = params.get("taxId");
+      if (sharedTaxId && /^\d{8}$/.test(sharedTaxId.trim())) {
+        ubnInputEl.value = sharedTaxId.trim();
+        await handleUbnLookup();
+      } else state.ubn = "";
+        state.companyName = "尚未輸入統編（通用條件預覽）";
+        state.county = "臺北市";
+        state.paidInCapitalMan = 100;
+        state.sector = "service";
+        state.sectorLabel = "商業服務業";
+        state.hasFactoryReg = false;
+        state.empRange = "under30";
+        state.exactEmpCount = 15;
+        document.getElementById("ubnInput").value = "";
+        document.getElementById("simCounty").value = "臺北市";
+        document.getElementById("simCapital").value = 100;
+        document.getElementById("simSector").value = "service";
+        document.getElementById("simFactory").value = "false";
+        document.getElementById("exactEmpCount").value = 15;
         renderAll(true);
-      }
+        showToast("已重設為空白統編與預設條件");
     });
   </script>
 </body>

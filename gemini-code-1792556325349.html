@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>政府補助專區速查指南｜數位轉型學院</title>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              50: '#eff6ff',
+              100: '#dbeafe',
+              600: '#1d4ed8',
+              700: '#1e40af',
+              800: '#1e3a8a',
+              900: '#172554',
+            }
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    .filter-btn.active {
+      background-color: #1d4ed8;
+      color: #ffffff;
+      border-color: #1d4ed8;
+      box-shadow: 0 4px 6px -1px rgba(29, 78, 216, 0.2);
+    }
+  </style>
+</head>
+<body class="bg-slate-50 text-slate-800 min-h-screen flex flex-col font-sans antialiased">
+
+  <!-- 頂部導航列 -->
+  <header class="bg-white border-b border-slate-200 sticky top-0 z-40 shadow-sm">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+      <div class="flex items-center gap-3">
+        <div class="w-10 h-10 rounded-lg bg-gradient-to-tr from-blue-700 to-indigo-500 flex items-center justify-center text-white font-bold shadow-md">
+          DX
+        </div>
+        <div>
+          <span class="text-xl font-bold tracking-tight text-slate-900">數位轉型學院</span>
+          <span class="hidden sm:inline-block ml-2 px-2 py-0.5 text-xs bg-blue-100 text-blue-700 font-medium rounded-full">企業資源智庫</span>
+        </div>
+      </div>
+      <div class="flex items-center gap-4 text-sm">
+        <span class="text-slate-500 hidden md:inline">已收錄官方專案庫即時連線</span>
+        <button onclick="resetFilters()" class="text-blue-600 hover:text-blue-800 font-medium flex items-center gap-1 transition">
+          <i data-lucide="rotate-ccw" class="w-4 h-4"></i> 重設所有條件
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- 主視覺 Banner -->
+  <section class="bg-gradient-to-b from-blue-900 via-slate-900 to-slate-800 text-white py-12 px-4 sm:px-6 lg:px-8">
+    <div class="max-w-5xl mx-auto text-center space-y-4">
+      <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-500/20 text-blue-300 text-xs sm:text-sm font-medium border border-blue-400/30">
+        <i data-lucide="sparkles" class="w-4 h-4"></i> 一站式企業資源對策
+      </div>
+      <h1 class="text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight leading-tight">
+        政府補助與企業轉型資源速查庫
+      </h1>
+      <p class="text-slate-300 text-sm sm:text-base max-w-2xl mx-auto">
+        精選商業發展署、勞動力發展署、國際貿易署、能源署、資源循環署及地方縣市重點計畫，依據企業發展階段與需求快速媒合。
+      </p>
+
+      <!-- 關鍵字搜尋列 -->
+      <div class="max-w-2xl mx-auto pt-4">
+        <div class="relative">
+          <i data-lucide="search" class="w-5 h-5 absolute left-4 top-3.5 text-slate-400"></i>
+          <input 
+            type="text" 
+            id="searchInput" 
+            placeholder="搜尋計畫名稱、關鍵字、特定產業或補助內容..." 
+            class="w-full pl-12 pr-4 py-3 bg-white text-slate-900 rounded-xl shadow-lg border border-slate-200 focus:outline-none focus:ring-2 focus:ring-blue-500 transition text-sm sm:text-base"
+            oninput="handleSearch()"
+          >
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 篩選核心操作區 -->
+  <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 -mt-6 z-10 w-full mb-12 flex-1">
+    
+    <!-- 篩選卡片容器 -->
+    <div class="bg-white rounded-2xl shadow-xl border border-slate-200/80 p-6 space-y-6">
+      
+      <!-- 篩選維度 1: 需求類別 (6大需求) -->
+      <div>
+        <div class="flex items-center gap-2 mb-3">
+          <i data-lucide="layers" class="w-4 h-4 text-blue-600"></i>
+          <span class="text-sm font-bold text-slate-900 tracking-wider">依企業轉型需求挑選（可單選）</span>
+        </div>
+        <div class="flex flex-wrap gap-2" id="categoryFilterContainer">
+          <button onclick="setCategoryFilter('all')" class="filter-btn active px-4 py-2 text-xs sm:text-sm font-medium rounded-lg border border-slate-200 transition" data-category="all">
+            全部需求
+          </button>
+          <button onclick="setCategoryFilter('AI與數位轉型')" class="filter-btn px-4 py-2 text-xs sm:text-sm font-medium rounded-lg border border-slate-200 transition" data-category="AI與數位轉型">
+            01 AI 與數位轉型
+          </button>
+          <button onclick="setCategoryFilter('企業研發與創新')" class="filter-btn px-4 py-2 text-xs sm:text-sm font-medium rounded-lg border border-slate-200 transition" data-category="企業研發與創新">
+            02 企業研發與創新
+          </button>
+          <button onclick="setCategoryFilter('員工培訓與人才')" class="filter-btn px-4 py-2 text-xs sm:text-sm font-medium rounded-lg border border-slate-200 transition" data-category="員工培訓與人才">
+            03 員工培訓與人才
+          </button>
+          <button onclick="setCategoryFilter('智慧製造與升級')" class="filter-btn px-4 py-2 text-xs sm:text-sm font-medium rounded-lg border border-slate-200 transition" data-category="智慧製造與升級">
+            04 智慧製造與升級
+          </button>
+          <button onclick="setCategoryFilter('淨零與節能轉型')" class="filter-btn px-4 py-2 text-xs sm:text-sm font-medium rounded-lg border border-slate-200 transition" data-category="淨零與節能轉型">
+            05 淨零與節能轉型
+          </button>
+          <button onclick="setCategoryFilter('行銷及海外拓展')" class="filter-btn px-4 py-2 text-xs sm:text-sm font-medium rounded-lg border border-slate-200 transition" data-category="行銷及海外拓展">
+            06 行銷及海外拓展
+          </button>
+        </div>
+      </div>
+
+      <div class="border-t border-slate-100"></div>
+
+      <!-- 篩選維度 2: 資源主管機關 (6大來源) -->
+      <div>
+        <div class="flex items-center gap-2 mb-3">
+          <i data-lucide="landmark" class="w-4 h-4 text-blue-600"></i>
+          <span class="text-sm font-bold text-slate-900 tracking-wider">依計畫發布單位篩選</span>
+        </div>
+        <div class="flex flex-wrap gap-2" id="sourceFilterContainer">
+          <button onclick="setSourceFilter('all')" class="filter-btn active px-3.5 py-1.5 text-xs sm:text-sm font-medium rounded-lg border border-slate-200 transition" data-source="all">
+            所有單位
+          </button>
+          <button onclick="setSourceFilter('商業發展署')" class="filter-btn px-3.5 py-1.5 text-xs sm:text-sm font-medium rounded-lg border border-slate-200 transition" data-source="商業發展署">
+            商業發展署
+          </button>
+          <button onclick="setSourceFilter('勞動力發展署')" class="filter-btn px-3.5 py-1.5 text-xs sm:text-sm font-medium rounded-lg border border-slate-200 transition" data-source="勞動力發展署">
+            勞動力發展署
+          </button>
+          <button onclick="setSourceFilter('國際貿易署')" class="filter-btn px-3.5 py-1.5 text-xs sm:text-sm font-medium rounded-lg border border-slate-200 transition" data-source="國際貿易署">
+            國際貿易署
+          </button>
+          <button onclick="setSourceFilter('能源署')" class="filter-btn px-3.5 py-1.5 text-xs sm:text-sm font-medium rounded-lg border border-slate-200 transition" data-source="能源署">
+            能源署
+          </button>
+          <button onclick="setSourceFilter('資源循環署')" class="filter-btn px-3.5 py-1.5 text-xs sm:text-sm font-medium rounded-lg border border-slate-200 transition" data-source="資源循環署">
+            環境部資源循環署
+          </button>
+          <button onclick="setSourceFilter('各縣市政府')" class="filter-btn px-3.5 py-1.5 text-xs sm:text-sm font-medium rounded-lg border border-slate-200 transition" data-source="各縣市政府">
+            各縣市政府補助專區
+          </button>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- 結果資訊統計與狀態提示 -->
+    <div class="flex items-center justify-between mt-8 mb-4 px-1">
+      <div class="text-sm text-slate-600">
+        共符合 <span id="resultCount" class="font-bold text-blue-700 text-lg">0</span> 個專案計畫
+      </div>
+      <div class="flex items-center gap-3 text-xs text-slate-500">
+        <span class="inline-flex items-center gap-1"><span class="w-2.5 h-2.5 rounded-full bg-emerald-500 inline-block"></span> 受理申請中</span>
+        <span class="inline-flex items-center gap-1"><span class="w-2.5 h-2.5 rounded-full bg-amber-500 inline-block"></span> 常態受理 / 即將截止</span>
+      </div>
+    </div>
+
+    <!-- 方案卡片展示網格 Grid -->
+    <div id="subsidyGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <!-- 卡片內容將由 JavaScript 動態生成渲染 -->
+    </div>
+
+    <!-- 無結果時的空狀態展示 -->
+    <div id="emptyState" class="hidden bg-white rounded-2xl border border-dashed border-slate-300 p-12 text-center my-6">
+      <div class="w-16 h-16 rounded-full bg-slate-100 text-slate-400 mx-auto flex items-center justify-center mb-4">
+        <i data-lucide="inbox" class="w-8 h-8"></i>
+      </div>
+      <h3 class="text-base font-bold text-slate-800">查無符合條件的補助計畫</h3>
+      <p class="text-xs sm:text-sm text-slate-500 mt-1 max-w-sm mx-auto">
+        請嘗試調整類別或縮小關鍵字範圍，或點擊下方按鈕恢復全部項目。
+      </p>
+      <button onclick="resetFilters()" class="mt-4 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white text-xs sm:text-sm font-medium rounded-lg shadow transition">
+        重設所有條件
+      </button>
+    </div>
+
+  </main>
+
+  <!-- 詳細資訊彈窗 Modal -->
+  <div id="detailModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+    <div class="bg-white rounded-2xl shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto p-6 sm:p-8 relative">
+      <button onclick="closeModal()" class="absolute top-5 right-5 text-slate-400 hover:text-slate-600 p-1 rounded-lg">
+        <i data-lucide="x" class="w-6 h-6"></i>
+      </button>
+
+      <div id="modalContent">
+        <!-- 彈窗內容將動態填入 -->
+      </div>
+    </div>
+  </div>
+
+  <!-- 頁尾 -->
+  <footer class="bg-white border-t border-slate-200 mt-auto py-8">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 text-center text-xs text-slate-500 space-y-2">
+      <p>© 數位轉型學院 Digital Transformation Academy. 內容彙整自中央各部會署及地方政府公開資訊。</p>
+      <p class="text-slate-400">實際申請規定、期程及各年度配額，請以主管機關最新公告之作業要點為準。</p>
+    </div>
+  </footer>
+
+  <!-- 資料集與核心邏輯 -->
+  <script>
+    // 包含六大來源與六大需求的種子資料集
+    const subsidiesData = [
+      {
+        id: "sub-01",
+        title: "商業服務業智慧化與數位轉型推動計畫",
+        source: "商業發展署",
+        category: "AI與數位轉型",
+        status: "受理中",
+        statusColor: "emerald",
+        maxGrant: "最高 150 萬 - 500 萬元",
+        deadline: "2026 年第 3 梯次（以官方公告截止日為準）",
+        target: "依商業登記法設立之零售、餐飲、生活服務等中小企業，財務狀況健全者。",
+        summary: "導入生成式 AI 顧客服務、跨通路整合數據中台或智慧庫存預測系統，協助商業門市與品牌邁向數位自動化營運。",
+        officialUrl: "https://www.commercial.gov.tw"
+      },
+      {
+        id: "sub-02",
+        title: "企業研發創新前瞻補助計畫 (SBIR / SIIR)",
+        source: "各縣市政府",
+        category: "企業研發與創新",
+        status: "受理中",
+        statusColor: "emerald",
+        maxGrant: "最高 100 萬 - 1,000 萬元 (依個別縣市與組別而定)",
+        deadline: "隨到隨審 / 依各地方政府公告期程",
+        target: "依法設立之本國中小企業，具創新研發技術、商業服務模式或關鍵核心零組件研發能力。",
+        summary: "支援新產品原型開發、服務流程創新實驗與軟硬體試製專案，減輕企業自籌前期研發風險負擔。",
+        officialUrl: "https://www.sbir.org.tw"
+      },
+      {
+        id: "sub-03",
+        title: "企業人力資源提升計畫 (大人提 / 小人提)",
+        source: "勞動力發展署",
+        category: "員工培訓與人才",
+        status: "常態受理",
+        statusColor: "amber",
+        maxGrant: "最高 100 萬 - 200 萬元 (補助 50%~100% 內訓費用)",
+        deadline: "年度補助經費用罄為止（每年底前開放次年申請）",
+        target: "就業保險投保單位之民營企業，依法繳交就業保險費滿一定期間者。",
+        summary: "補助企業規劃內部在職員工之專業技能、數位AI工具應用、管理領導及國際法規教育訓練課程費用與講師費。",
+        officialUrl: "https://www.wda.gov.tw"
+      },
+      {
+        id: "sub-04",
+        title: "智慧機械與製造升級轉型補助方案",
+        source: "商業發展署",
+        category: "智慧製造與升級",
+        status: "受理中",
+        statusColor: "emerald",
+        maxGrant: "最高 500 萬元",
+        deadline: "依年度公告梯次辦理",
+        target: "國內設有廠房登記之製造業廠商，具導入智慧化產線與OT/IT融合需求者。",
+        summary: "補助產線導入IIoT感測聯網、精實生產管理戰情室、工業機器人與AI瑕疵視覺檢測，實現虛實整合產能提升。",
+        officialUrl: "https://www.commercial.gov.tw"
+      },
+      {
+        id: "sub-05",
+        title: "商業服務業節能設備汰換與系統節能補助",
+        source: "能源署",
+        category: "淨零與節能轉型",
+        status: "受理中",
+        statusColor: "emerald",
+        maxGrant: "設備最高 50 萬 / 系統案最高 500 萬元",
+        deadline: "至年度預算額度用罄為止",
+        target: "符合營業項目代碼登記之零售、批發、住宿、餐飲、倉儲物流等服務業門市與廠辦。",
+        summary: "鼓勵企業將老舊一級能效空調、冰水主機、冷凍冷藏櫃汰換，或建置智慧電能管理系統(BEMS)達成實質減碳。",
+        officialUrl: "https://www.moeaea.gov.tw"
+      },
+      {
+        id: "sub-06",
+        title: "資源循環創新研發與製程減廢示範推動計畫",
+        source: "資源循環署",
+        category: "淨零與節能轉型",
+        status: "即將截止",
+        statusColor: "amber",
+        maxGrant: "最高 300 萬 - 500 萬元",
+        deadline: "即日起至年度公告截件日",
+        target: "處理再利用機構、材料製造業、循環技術開發商及產業公協會聯合申請。",
+        summary: "協助工業廢棄物轉化為高值化再生原料、建立再生材料履歷系統，推進綠色封閉循環供應鏈技術驗證。",
+        officialUrl: "https://www.moenv.gov.tw"
+      },
+      {
+        id: "sub-07",
+        title: "中小企業國際市場拓展與數位行銷專案",
+        source: "國際貿易署",
+        category: "行銷及海外拓展",
+        status: "常態受理",
+        statusColor: "emerald",
+        maxGrant: "最高 100 萬 - 200 萬元",
+        deadline: "常年受件或分兩梯次公告",
+        target: "具備出進口廠商登記證明，且實質開拓海外市場意願之中小企業。",
+        summary: "提供跨境電商平台入駐輔導、海外Google/Meta社群精準行銷、B2B數位採購商務洽談與國際實體展會展位贊助。",
+        officialUrl: "https://www.trade.gov.tw"
+      },
+      {
+        id: "sub-08",
+        title: "地方型商圈特色振興與區域創生共好補助",
+        source: "各縣市政府",
+        category: "行銷及海外拓展",
+        status: "受理中",
+        statusColor: "emerald",
+        maxGrant: "最高 80 萬 - 150 萬元",
+        deadline: "依各縣市經發局/產發局公告期程",
+        target: "各縣市在地登記之商圈發展協會、中小微型特色店家或合作社組織。",
+        summary: "結合在地文化IP包裝、整合行動支付與數位集點導流，舉辦整合行銷活動帶動街區經濟與跨區消費轉化。",
+        officialUrl: "https://www.gov.tw"
+      }
+    ];
+
+    let currentCategory = "all";
+    let currentSource = "all";
+    let currentSearchTerm = "";
+
+    // 渲染卡片邏輯
+    function renderCards() {
+      const grid = document.getElementById("subsidyGrid");
+      const emptyState = document.getElementById("emptyState");
+      grid.innerHTML = "";
+
+      const filtered = subsidiesData.filter(item => {
+        const matchCategory = (currentCategory === "all") || (item.category === currentCategory);
+        const matchSource = (currentSource === "all") || (item.source === currentSource);
+        const matchSearch = currentSearchTerm === "" || 
+          item.title.toLowerCase().includes(currentSearchTerm) ||
+          item.summary.toLowerCase().includes(currentSearchTerm) ||
+          item.target.toLowerCase().includes(currentSearchTerm) ||
+          item.source.toLowerCase().includes(currentSearchTerm);
+
+        return matchCategory && matchSource && matchSearch;
+      });
+
+      document.getElementById("resultCount").textContent = filtered.length;
+
+      if (filtered.length === 0) {
+        emptyState.classList.remove("hidden");
+        return;
+      } else {
+        emptyState.classList.add("hidden");
+      }
+
+      filtered.forEach(sub => {
+        const card = document.createElement("div");
+        card.className = "bg-white rounded-xl border border-slate-200/90 hover:border-blue-400 hover:shadow-lg transition-all duration-200 flex flex-col justify-between overflow-hidden group";
+        
+        const badgeColor = sub.statusColor === 'emerald' 
+          ? 'bg-emerald-50 text-emerald-700 border-emerald-200' 
+          : 'bg-amber-50 text-amber-700 border-amber-200';
+
+        card.innerHTML = `
+          <div class="p-5 flex-1">
+            <!-- 標籤與狀態 -->
+            <div class="flex items-center justify-between gap-2 mb-3">
+              <span class="text-xs font-semibold px-2.5 py-1 rounded bg-blue-50 text-blue-700 border border-blue-100">
+                ${sub.source}
+              </span>
+              <span class="text-xs font-medium px-2 py-0.5 rounded-full border ${badgeColor} flex items-center gap-1">
+                <span class="w-1.5 h-1.5 rounded-full ${sub.statusColor === 'emerald' ? 'bg-emerald-500' : 'bg-amber-500'}"></span>
+                ${sub.status}
+              </span>
+            </div>
+
+            <!-- 計畫名稱 -->
+            <h3 class="text-lg font-bold text-slate-900 group-hover:text-blue-600 transition leading-snug mb-2">
+              ${sub.title}
+            </h3>
+
+            <!-- 需求分類標籤 -->
+            <div class="mb-3">
+              <span class="text-xs text-slate-500 inline-flex items-center gap-1 font-medium bg-slate-100 px-2 py-0.5 rounded">
+                <i data-lucide="tag" class="w-3 h-3 text-slate-400"></i> ${sub.category}
+              </span>
+            </div>
+
+            <!-- 核心亮點資訊列表 -->
+            <div class="space-y-2 mt-4 text-xs text-slate-600 border-t border-slate-100 pt-3">
+              <div>
+                <span class="font-bold text-slate-700">補助額度：</span>
+                <span class="text-rose-600 font-bold text-sm">${sub.maxGrant}</span>
+              </div>
+              <div>
+                <span class="font-bold text-slate-700">申請對象：</span>
+                <span class="text-slate-600 line-clamp-1">${sub.target}</span>
+              </div>
+              <div>
+                <span class="font-bold text-slate-700">申請期限：</span>
+                <span class="text-slate-600">${sub.deadline}</span>
+              </div>
+            </div>
+
+            <p class="mt-3 text-xs text-slate-500 line-clamp-2 leading-relaxed">
+              ${sub.summary}
+            </p>
+          </div>
+
+          <!-- 卡片操作按鈕列 -->
+          <div class="p-4 bg-slate-50/70 border-t border-slate-100 flex items-center justify-between gap-2">
+            <button onclick="openModal('${sub.id}')" class="text-xs font-semibold text-slate-700 hover:text-blue-700 py-2 px-3 rounded-lg hover:bg-white border border-transparent hover:border-slate-200 transition flex items-center gap-1">
+              查看完整細節 <i data-lucide="chevron-right" class="w-3.5 h-3.5"></i>
+            </button>
+            <a href="${sub.officialUrl}" target="_blank" rel="noopener noreferrer" class="text-xs font-semibold text-white bg-blue-600 hover:bg-blue-700 py-2 px-3.5 rounded-lg transition shadow-sm flex items-center gap-1">
+              官方連結 <i data-lucide="external-link" class="w-3.5 h-3.5"></i>
+            </a>
+          </div>
+        `;
+        grid.appendChild(card);
+      });
+
+      lucide.createIcons();
+    }
+
+    // 依需求分類過濾
+    function setCategoryFilter(category) {
+      currentCategory = category;
+      document.querySelectorAll('#categoryFilterContainer .filter-btn').forEach(btn => {
+        if (btn.dataset.category === category) {
+          btn.classList.add('active');
+        } else {
+          btn.classList.remove('active');
+        }
+      });
+      renderCards();
+    }
+
+    // 依主管機關過濾
+    function setSourceFilter(source) {
+      currentSource = source;
+      document.querySelectorAll('#sourceFilterContainer .filter-btn').forEach(btn => {
+        if (btn.dataset.source === source) {
+          btn.classList.add('active');
+        } else {
+          btn.classList.remove('active');
+        }
+      });
+      renderCards();
+    }
+
+    // 關鍵字搜尋處理
+    function handleSearch() {
+      currentSearchTerm = document.getElementById("searchInput").value.trim().toLowerCase();
+      renderCards();
+    }
+
+    // 重設條件
+    function resetFilters() {
+      currentCategory = "all";
+      currentSource = "all";
+      currentSearchTerm = "";
+      document.getElementById("searchInput").value = "";
+      setCategoryFilter('all');
+      setSourceFilter('all');
+    }
+
+    // 詳細資訊 Modal
+    function openModal(id) {
+      const sub = subsidiesData.find(item => item.id === id);
+      if (!sub) return;
+
+      const modalContent = document.getElementById("modalContent");
+      modalContent.innerHTML = `
+        <div class="space-y-4">
+          <div class="flex items-center gap-2">
+            <span class="text-xs font-semibold px-2.5 py-1 rounded bg-blue-100 text-blue-800">${sub.source}</span>
+            <span class="text-xs font-medium px-2 py-0.5 rounded-full bg-slate-100 text-slate-700">${sub.category}</span>
+          </div>
+
+          <h2 class="text-xl sm:text-2xl font-bold text-slate-900">${sub.title}</h2>
+          
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 bg-slate-50 p-4 rounded-xl border border-slate-100 text-sm">
+            <div>
+              <span class="text-slate-500 block text-xs">最高補助額度</span>
+              <span class="text-rose-600 font-bold text-base">${sub.maxGrant}</span>
+            </div>
+            <div>
+              <span class="text-slate-500 block text-xs">申請狀態</span>
+              <span class="font-bold text-emerald-700">${sub.status}</span>
+            </div>
+            <div class="sm:col-span-2">
+              <span class="text-slate-500 block text-xs">申請期程</span>
+              <span class="text-slate-800 font-medium">${sub.deadline}</span>
+            </div>
+          </div>
+
+          <div class="space-y-3 text-sm">
+            <div>
+              <h4 class="font-bold text-slate-800 flex items-center gap-1.5 mb-1">
+                <i data-lucide="check-circle" class="w-4 h-4 text-blue-600"></i> 申請對象資格
+              </h4>
+              <p class="text-slate-600 leading-relaxed bg-white border border-slate-100 p-3 rounded-lg">${sub.target}</p>
+            </div>
+
+            <div>
+              <h4 class="font-bold text-slate-800 flex items-center gap-1.5 mb-1">
+                <i data-lucide="info" class="w-4 h-4 text-blue-600"></i> 補助重點與輔導內容
+              </h4>
+              <p class="text-slate-600 leading-relaxed bg-white border border-slate-100 p-3 rounded-lg">${sub.summary}</p>
+            </div>
+          </div>
+
+          <div class="pt-4 flex items-center justify-end gap-3 border-t border-slate-100">
+            <button onclick="closeModal()" class="px-4 py-2 border border-slate-200 text-slate-600 hover:bg-slate-100 rounded-lg text-sm font-medium transition">
+              關閉
+            </button>
+            <a href="${sub.officialUrl}" target="_blank" rel="noopener noreferrer" class="px-5 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg text-sm font-medium transition flex items-center gap-2 shadow">
+              前往官方簡章與送件系統 <i data-lucide="external-link" class="w-4 h-4"></i>
+            </a>
+          </div>
+        </div>
+      `;
+      document.getElementById("detailModal").classList.remove("hidden");
+      lucide.createIcons();
+    }
+
+    function closeModal() {
+      document.getElementById("detailModal").classList.add("hidden");
+    }
+
+    // 初始化渲染
+    window.addEventListener("DOMContentLoaded", () => {
+      renderCards();
+    });
+  </script>
+</body>
+</html>
